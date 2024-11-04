@@ -1,0 +1,8 @@
+# File path: backend/companies/apps.py
+
+from django.apps import AppConfig
+
+
+class CompaniesConfig(AppConfig):
+    default_auto_field = 'django.db.models.BigAutoField'
+    name = 'backend.companies'  # Correct path based on your project structure

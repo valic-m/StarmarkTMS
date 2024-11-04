@@ -1,0 +1,19 @@
+<!-- File Path: C:\Users\valic\OneDrive\Documents\TMS\backend\carriers\templates\carriers\carrier_list.html -->
+
+{% extends 'base.html' %}
+
+{% block title %}Carrier List{% endblock %}
+
+{% block content %}
+<h2>Carriers</h2>
+
+<ul class="list-group">
+    {% for carrier in carriers %}
+    <li class="list-group-item">
+        <a href="{% url 'carrier_detail' carrier.id %}">{{ carrier.name }}</a> - {{ carrier.services_offered }}
+    </li>
+    {% endfor %}
+</ul>
+
+<a href="{% url 'create_carrier' %}" class="btn btn-primary mt-3">Add Carrier</a>
+{% endblock %}

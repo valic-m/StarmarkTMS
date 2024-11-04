@@ -1,0 +1,12 @@
+<!-- File: C:\Users\valic\OneDrive\Documents\TMS\backend\dispatch\templates\dispatch\dispatch.html -->
+
+{% extends 'base.html' %}
+
+{% block content %}
+  <h1>Available Loads for Dispatch</h1>
+  <ul>
+    {% for load in loads %}
+      <li>{{ load }}</li>
+    {% endfor %}
+  </ul>
+{% endblock %}

@@ -1,0 +1,66 @@
+<!-- File: C:\Users\valic\OneDrive\Documents\TMS\backend\templates\shared\list_base.html -->
+
+<div class="container mt-4">
+    <h2>{{ list_title }}</h2>
+
+    <!-- Total Count -->
+    <p>Total {{ item_type }}: {{ page_obj.paginator.count }}</p>
+
+    <!-- Search bar -->
+    <form method="GET" action="{{ search_action }}" class="row g-3 mb-3">
+        <div class="col-md-3">
+            <input type="text" name="q" class="form-control" placeholder="{{ search_placeholder }}" value="{{ query }}">
+        </div>
+        <div class="col-md-2">
+            <button type="submit" class="btn btn-primary">Search</button>
+        </div>
+        <div class="col-md-2">
+            <a href="{{ add_item_url }}" class="btn btn-success">Add New {{ item_type }}</a>
+        </div>
+    </form>
+
+    <!-- Table -->
+    <table class="table table-striped">
+        <thead>
+            <tr>
+                {% for header in table_headers %}
+                    <th>{{ header }}</th>
+                {% endfor %}
+                <th>Edit</th>
+                <th>Details</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for item in page_obj %}
+                <tr>
+                    {% for field in item_fields %}
+                        <td>{{ item|get_attr:field }}</td>
+                    {% endfor %}
+                    <td><a href="{% url edit_url_name item.id %}" class="btn btn-warning btn-sm">Edit</a></td>
+                    <td><a href="{% url detail_url_name item.id %}" class="btn btn-info btn-sm">View Details</a></td>
+                </tr>
+            {% empty %}
+                <tr>
+                    <td colspan="{{ table_headers|length|add:'2' }}" class="text-center">No {{ item_type }} found</td>
+                </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+
+    <!-- Pagination -->
+    <nav aria-label="Page navigation">
+        <ul class="pagination justify-content-center">
+            {% if page_obj.has_previous %}
+                <li class="page-item"><a class="page-link" href="?page={{ page_obj.previous_page_number }}&q={{ query }}">Previous</a></li>
+            {% endif %}
+            {% for num in page_obj.paginator.page_range %}
+                <li class="page-item {% if page_obj.number == num %}active{% endif %}">
+                    <a class="page-link" href="?page={{ num }}&q={{ query }}">{{ num }}</a>
+                </li>
+            {% endfor %}
+            {% if page_obj.has_next %}
+                <li class="page-item"><a class="page-link" href="?page={{ page_obj.next_page_number }}&q={{ query }}">Next</a></li>
+            {% endif %}
+        </ul>
+    </nav>
+</div>

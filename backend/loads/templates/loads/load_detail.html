@@ -1,0 +1,12 @@
+<!-- File: C:\Users\valic\OneDrive\Documents\TMS\backend\loads\templates\loads\load_detail.html -->
+
+{% extends 'base.html' %}
+
+{% block content %}
+    <h1>Load {{ load.id }}</h1>
+    <p><strong>Customer:</strong> {{ load.customer }}</p>
+    <p><strong>Pickup Location:</strong> {{ load.pickup_location }}</p>
+    <p><strong>Dropoff Location:</strong> {{ load.dropoff_location }}</p>
+    <p><strong>Status:</strong> {{ load.status }}</p>
+    <p><strong>Created on:</strong> {{ load.creation_date }}</p>
+{% endblock %}

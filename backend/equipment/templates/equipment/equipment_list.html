@@ -1,0 +1,46 @@
+<!-- File: C:\Users\valic\OneDrive\Documents\TMS\backend\equipment\templates\equipment\equipment_list.html -->
+
+{% extends 'base.html' %}
+
+{% block title %}Equipment List{% endblock %}
+
+{% block content %}
+<h1>Equipment List</h1>
+
+<!-- Add Truck Button -->
+<a href="{% url 'add_truck' %}" class="btn btn-primary mb-3">Add New Truck</a>
+<!-- Add Trailer Button -->
+<a href="{% url 'add_trailer' %}" class="btn btn-primary mb-3">Add New Trailer</a>
+
+<!-- Display Trucks -->
+<h2>Trucks</h2>
+{% if trucks %}
+    <ul class="list-group mb-3">
+        {% for truck in trucks %}
+            <li class="list-group-item">
+                <a href="{% url 'edit_truck' truck.id %}">
+                    <strong>{{ truck.name }}</strong> (License Plate: {{ truck.license_plate }})
+                </a>
+            </li>
+        {% endfor %}
+    </ul>
+{% else %}
+    <p>No trucks found.</p>
+{% endif %}
+
+<!-- Display Trailers -->
+<h2>Trailers</h2>
+{% if trailers %}
+    <ul class="list-group">
+        {% for trailer in trailers %}
+            <li class="list-group-item">
+                <a href="{% url 'edit_trailer' trailer.id %}">
+                    <strong>{{ trailer.name }}</strong> (License Plate: {{ trailer.license_plate }})
+                </a>
+            </li>
+        {% endfor %}
+    </ul>
+{% else %}
+    <p>No trailers found.</p>
+{% endif %}
+{% endblock %}

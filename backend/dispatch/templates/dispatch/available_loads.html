@@ -1,0 +1,56 @@
+<!-- File: C:\Users\valic\OneDrive\Documents\TMS\backend\dispatch\templates\dispatch\available_loads.html -->
+
+{% extends 'base.html' %}
+
+{% block title %}Available Loads{% endblock %}
+
+{% block content %}
+<div class="container my-4">
+    <!-- Title bar with search functionality -->
+    <div class="d-flex justify-content-between align-items-center mb-4">
+        <h2>Available Loads</h2>
+        <!-- Search bar (optional) -->
+        <form class="d-flex">
+            <input class="form-control me-2" type="search" placeholder="Search Loads" aria-label="Search">
+            <button class="btn btn-outline-success" type="submit">Search</button>
+        </form>
+    </div>
+
+    <!-- Table for displaying load information -->
+    {% if loads %}
+        <table class="table table-striped">
+            <thead>
+                <tr>
+                    <th>Load #</th>
+                    <th>Origin</th>
+                    <th>Destination</th>
+                    <th>Status</th>
+                    <th>Actions</th>
+                </tr>
+            </thead>
+            <tbody>
+                <!-- Loop through the loads and display each -->
+                {% for load in loads %}
+                <tr>
+                    <td>{{ load.id }}</td>
+                    <td>{{ load.pickup_location }}</td>
+                    <td>{{ load.dropoff_location }}</td>
+                    <td>{{ load.status }}</td>
+                    <td>
+                        <!-- Dispatch button -->
+                        <a href="{% url 'dispatch_load' load.id %}" class="btn btn-primary btn-sm">Dispatch</a>
+                        <!-- Edit button -->
+                        <a href="{% url 'edit_load' load.id %}" class="btn btn-warning btn-sm">Edit</a>
+                        <!-- Delete button -->
+                        <a href="{% url 'delete_load' load.id %}" class="btn btn-danger btn-sm">Delete</a>
+                    </td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    {% else %}
+        <!-- Message when no loads are available -->
+        <p>No available loads at the moment.</p>
+    {% endif %}
+</div>
+{% endblock %}

@@ -1,0 +1,595 @@
+{% extends 'base.html' %}
+
+{% block title %}Create Load{% endblock %}
+
+{% block content %}
+<div class="container-fluid mt-4">
+    <div class="border border-primary p-4 rounded mb-4" style="border-width: 2px; max-width: 100%;">
+        <h2>Create Load</h2>
+        <form method="POST" enctype="multipart/form-data" id="loadForm">
+            {% csrf_token %}
+
+            <!-- Error handling block -->
+            {% if form.errors %}
+            <div class="alert alert-danger">
+                Please fix the errors below.
+            </div>
+            {% endif %}
+
+            <!-- Customer Information Section -->
+            <div class="mb-4 border border-primary p-3 rounded" style="border-width: 2px;">
+                <h4>Customer Information</h4>
+                <div class="row">
+                    <div class="col-md-6 mb-3">
+                        <label for="id_customer" class="form-label">Customer</label>
+                        {{ form.customer }}
+                        <button type="button" class="btn btn-primary mt-2" data-bs-toggle="modal" data-bs-target="#customerModal">
+                            Add New Customer
+                        </button>
+                    </div>
+                    <div class="col-md-6 mb-3">
+                        <label for="id_reference_number" class="form-label">Reference #</label>
+                        {{ form.reference_number }}
+                    </div>
+                </div>
+            </div>
+
+            <!-- Load Details Section -->
+            <div class="mb-4 border border-primary p-4 rounded" style="border-width: 2px;">
+                <h4>Load Details</h4>
+                <div class="row">
+                    <div class="col-md-4 mb-3">
+                        <label for="id_rate" class="form-label">Rate ($)</label>
+                        {{ form.rate }}
+                    </div>
+                    <div class="col-md-4 mb-3">
+                        <label for="id_trailer_type" class="form-label">Trailer Type</label>
+                        {{ form.trailer_type }}
+                    </div>
+                    <div class="col-md-4 mb-3">
+                        <label for="id_load_type" class="form-label">Load Type (Full or LTL)</label>
+                        {{ form.load_type }}
+                    </div>
+                </div>
+
+                <!-- Temperature Control (visible if "Reefer" is selected) -->
+                <div id="temperatureControl" class="row mb-3" style="display: none;">
+                    <div class="col-md-6">
+                        <label for="id_temperature_min" class="form-label">Min Temperature (°F)</label>
+                        <input type="number" class="form-control" id="id_temperature_min" name="temperature_min" required>
+                    </div>
+                    <div class="col-md-6">
+                        <label for="id_temperature_max" class="form-label">Max Temperature (°F)</label>
+                        <input type="number" class="form-control" id="id_temperature_max" name="temperature_max" required>
+                    </div>
+                </div>
+
+                <!-- Reefer Mode (visible if "Reefer" is selected) -->
+                <div id="reeferMode" class="mb-3" style="display: none;">
+                    <label for="id_reefer_mode" class="form-label">Reefer Mode</label>
+                    <select class="form-select" id="id_reefer_mode" name="reefer_mode">
+                        <option value="">Select Mode</option>
+                        <option value="continuous">Continuous</option>
+                        <option value="cycle">Cycle</option>
+                    </select>
+                </div>
+
+                <!-- LTL Feet Space (visible if "LTL" is selected) -->
+                <div id="feetSpace" class="mb-3" style="display: none;">
+                    <label for="id_feet_space" class="form-label">Feet Space</label>
+                    <input type="number" class="form-control" id="id_feet_space" name="feet_space">
+                </div>
+            </div>
+
+            <!-- Shipper Input Section -->
+            <div class="row" id="pickupDeliveryContainer">
+                <div class="col-lg-6 mb-3 shipper-wrapper">
+                    <div class="border border-primary p-3 rounded shipper-container" style="border-width: 2px;">
+                        <h5>Shipper #1 <button type="button" class="btn btn-link toggle-shipper">Collapse <i class="fas fa-chevron-up"></i></button></h5>
+                        <div class="row">
+                            <div class="col-md-12 mb-3">
+                                <label for="pickup_shipper_0" class="form-label">Shipper</label>
+                                <input type="text" class="form-control shipper-autocomplete" list="shipperList_0" id="pickup_shipper_0" name="pickup_shipper_0" placeholder="Start typing to search...">
+                                <datalist id="shipperList_0">
+                                    {% for shipper in shippers %}
+                                        <option value="{{ shipper.company_name }}">{{ shipper.company_name }}</option>
+                                    {% endfor %}
+                                </datalist>
+                                <button type="button" class="btn btn-success mt-2" data-bs-toggle="modal" data-bs-target="#shipperModal">Create New Shipper</button>
+                                <button type="button" class="btn btn-primary mt-2 addShipperBtn">Add Another Shipper</button>
+                                <button type="button" class="btn btn-danger mt-2 removeShipperBtn" style="display: none;"><i class="fas fa-trash"></i> Remove Shipper</button>
+                            </div>
+
+                            <div class="col-md-6 mb-3">
+                                <label for="pickup_date_0" class="form-label">Pickup Date</label>
+                                <input type="date" class="form-control" id="pickup_date_0" name="pickup_date_0">
+                            </div>
+                            <div class="col-md-6 mb-3">
+                                <label for="pickup_time_from_0" class="form-label">Appointment Time From</label>
+                                <input type="time" class="form-control" id="pickup_time_from_0" name="pickup_time_from_0">
+                            </div>
+                            <div class="col-md-6 mb-3">
+                                <label for="pickup_time_to_0" class="form-label">Appointment Time To</label>
+                                <input type="time" class="form-control" id="pickup_time_to_0" name="pickup_time_to_0">
+                            </div>
+                            <div class="col-md-6 mb-3">
+                                <label for="pickup_pu_number_0" class="form-label">PU#</label>
+                                <input type="text" class="form-control" id="pickup_pu_number_0" name="pickup_pu_number_0">
+                            </div>
+                            <div class="col-md-6 mb-3">
+                                <label for="pickup_appt_number_0" class="form-label">Appt#</label>
+                                <input type="text" class="form-control" id="pickup_appt_number_0" name="pickup_appt_number_0">
+                            </div>
+                            <div class="col-md-6 mb-3">
+                                <label for="pickup_pallet_count_0" class="form-label">Pallet Count</label>
+                                <input type="number" class="form-control" id="pickup_pallet_count_0" name="pickup_pallet_count_0">
+                            </div>
+                            <div class="col-md-6 mb-3">
+                                <label for="pickup_case_count_0" class="form-label">Case Count</label>
+                                <input type="number" class="form-control" id="pickup_case_count_0" name="pickup_case_count_0">
+                            </div>
+                            <div class="col-md-6 mb-3">
+                                <label for="pickup_weight_0" class="form-label">Weight (lbs)</label>
+                                <input type="number" class="form-control" id="pickup_weight_0" name="pickup_weight_0">
+                            </div>
+                            <div class="col-md-6 mb-3">
+                                <label for="pickup_cubic_feet_0" class="form-label">Cubic Feet</label>
+                                <input type="number" class="form-control" id="pickup_cubic_feet_0" name="pickup_cubic_feet_0">
+                            </div>
+                            <div class="col-md-12 form-check mb-3">
+                                <input class="form-check-input" type="checkbox" id="splitPallets_0" name="split_pallets_0">
+                                <label class="form-check-label" for="splitPallets_0">Split pallets to different receivers</label>
+                            </div>
+                            <div class="col-md-12 mb-3" id="splitPalletDetails_0" style="display: none;">
+                                <!-- Receiver-specific pallet input fields will be generated here by JavaScript -->
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Receiver Section -->
+                <div class="col-lg-6 mb-3 receiver-wrapper">
+                    <div class="border border-primary p-3 rounded receiver-container" style="border-width: 2px;">
+                        <h5>Receiver #1 <button type="button" class="btn btn-link toggle-receiver">Collapse <i class="fas fa-chevron-up"></i></button></h5>
+                        <div class="row">
+                            <div class="col-md-12 mb-3">
+                                <label for="delivery_receiver_0" class="form-label">Receiver</label>
+                                <input type="text" class="form-control" list="receiverList_0" id="delivery_receiver_0" name="delivery_receiver_0" placeholder="Start typing to search...">
+                                <datalist id="receiverList_0">
+                                    {% for receiver in receivers %}
+                                        <option value="{{ receiver.company_name }}">{{ receiver.company_name }}</option>
+                                    {% endfor %}
+                                </datalist>
+                                <button type="button" class="btn btn-success mt-2" data-bs-toggle="modal" data-bs-target="#receiverModal">Create New Receiver</button>
+                                <button type="button" class="btn btn-primary mt-2 addReceiverBtn">Add Another Receiver</button>
+                                <button type="button" class="btn btn-danger mt-2 removeReceiverBtn" style="display: none;"><i class="fas fa-trash"></i> Remove Receiver</button>
+                            </div>
+
+                            <div class="col-md-6 mb-3">
+                                <label for="delivery_date_0" class="form-label">Delivery Date</label>
+                                <input type="date" class="form-control" id="delivery_date_0" name="delivery_date_0">
+                            </div>
+                            <div class="col-md-6 mb-3">
+                                <label for="delivery_time_from_0" class="form-label">Appointment Time From</label>
+                                <input type="time" class="form-control" id="delivery_time_from_0" name="delivery_time_from_0">
+                            </div>
+                            <div class="col-md-6 mb-3">
+                                <label for="delivery_time_to_0" class="form-label">Appointment Time To</label>
+                                <input type="time" class="form-control" id="delivery_time_to_0" name="delivery_time_to_0">
+                            </div>
+                            <div class="col-md-6 mb-3">
+                                <label for="delivery_po_number_0" class="form-label">PO#</label>
+                                <input type="text" class="form-control" id="delivery_po_number_0" name="delivery_po_number_0">
+                            </div>
+                            <div class="col-md-6 mb-3">
+                                <label for="delivery_appt_number_0" class="form-label">Appt#</label>
+                                <input type="text" class="form-control" id="delivery_appt_number_0" name="delivery_appt_number_0">
+                            </div>
+                            <div class="col-md-6 mb-3">
+                                <label for="delivery_pallet_count_0" class="form-label">Pallet Count</label>
+                                <input type="number" class="form-control" id="delivery_pallet_count_0" name="delivery_pallet_count_0">
+                            </div>
+                            <div class="col-md-6 mb-3">
+                                <label for="delivery_case_count_0" class="form-label">Case Count</label>
+                                <input type="number" class="form-control" id="delivery_case_count_0" name="delivery_case_count_0">
+                            </div>
+                            <div class="col-md-6 mb-3">
+                                <label for="delivery_weight_0" class="form-label">Weight (lbs)</label>
+                                <input type="number" class="form-control" id="delivery_weight_0" name="delivery_weight_0">
+                            </div>
+                            <div class="col-md-6 mb-3">
+                                <label for="delivery_cubic_feet_0" class="form-label">Cubic Feet</label>
+                                <input type="number" class="form-control" id="delivery_cubic_feet_0" name="delivery_cubic_feet_0">
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Action Buttons and Booked With Section -->
+            <div class="border border-primary p-3 rounded mt-4" style="border-width: 2px;">
+                <div class="row">
+                    <div class="col-md-4">
+                        <label for="id_booked_with" class="form-label">Booked With</label>
+                        <select class="form-select" id="id_booked_with" name="booked_with">
+                            <option value="">Select User</option>
+                            {% for user in users %}
+                                <option value="{{ user.id }}">
+                                    {% if user.first_name and user.last_name %}
+                                        {{ user.first_name }} {{ user.last_name }}
+                                    {% else %}
+                                        {{ user.email }}
+                                    {% endif %}
+                                    {% if user.username %}
+                                        ({{ user.username }})
+                                    {% endif %}
+                                </option>
+                            {% endfor %}
+                        </select>
+                    </div>
+                    
+                    <div class="col-md-4">
+                        <label class="form-label">Attach Documents</label>
+                        <input type="file" class="form-control" name="attached_documents">
+                    </div>
+                    <div class="col-md-4 mt-3 d-flex justify-content-between">
+                        <button type="submit" name="save_new" class="btn btn-primary">Save & New</button>
+                        <button type="submit" name="save_close" class="btn btn-secondary">Save & Close</button>
+                        <button type="submit" name="save_dispatch" class="btn btn-success">Save & Dispatch</button>
+                    </div>
+                </div>
+            </div>
+
+        </form>
+    </div>
+</div>
+
+<!-- Modals for adding new entities -->
+<div class="modal fade" id="customerModal" tabindex="-1" aria-labelledby="customerModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="customerModalLabel">Add New Customer</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <iframe src="{% url 'add_customer' %}" width="100%" height="500" frameborder="0"></iframe>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="modal fade" id="shipperModal" tabindex="-1" aria-labelledby="shipperModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="shipperModalLabel">Create New Shipper</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <iframe src="{% url 'shippers_receivers:add_company' %}?type=shipper&modal=true" width="100%" height="500" frameborder="0"></iframe>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="modal fade" id="receiverModal" tabindex="-1" aria-labelledby="receiverModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="receiverModalLabel">Create New Receiver</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <iframe src="{% url 'shippers_receivers:add_company' %}?type=receiver&modal=true" width="100%" height="500" frameborder="0"></iframe>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+    let shipperCount = 1;
+    let receiverCount = 1;
+
+    // Show temperature fields and reefer mode when trailer type is "Reefer"
+    document.getElementById("id_trailer_type").addEventListener("change", function() {
+        const trailerType = this.value;
+        const temperatureControl = document.getElementById("temperatureControl");
+        const reeferMode = document.getElementById("reeferMode");
+
+        if (trailerType === "Reefer") {
+            temperatureControl.style.display = "block";
+            reeferMode.style.display = "block";
+        } else {
+            temperatureControl.style.display = "none";
+            reeferMode.style.display = "none";
+        }
+    });
+
+    // Automatically mirror temperature values if only one is filled
+    document.getElementById("id_temperature_min").addEventListener("input", function() {
+        const minValue = this.value;
+        if (!document.getElementById("id_temperature_max").value) {
+            document.getElementById("id_temperature_max").value = minValue;
+        }
+    });
+
+    document.getElementById("id_temperature_max").addEventListener("input", function() {
+        const maxValue = this.value;
+        if (!document.getElementById("id_temperature_min").value) {
+            document.getElementById("id_temperature_min").value = maxValue;
+        }
+    });
+
+    // Show feet space field if LTL is selected
+    document.getElementById("id_load_type").addEventListener("change", function() {
+        const feetSpace = document.getElementById("feetSpace");
+        if (this.value === "LTL") {
+            feetSpace.style.display = "block";
+        } else {
+            feetSpace.style.display = "none";
+        }
+    });
+
+    // Function to add a new shipper
+    document.querySelector("#pickupDeliveryContainer").addEventListener("click", function(event) {
+        if (event.target.classList.contains("addShipperBtn")) {
+            const newShipper = document.querySelector(".shipper-container").cloneNode(true);
+            shipperCount++;
+            newShipper.querySelector("h5").textContent = `Shipper #${shipperCount}`;
+            newShipper.querySelectorAll("input, select, textarea").forEach(function(el) {
+                el.name = el.name.replace(/_\d+/, `_${shipperCount - 1}`);
+                el.id = el.id.replace(/_\d+/, `_${shipperCount - 1}`);
+                el.value = "";
+            });
+            document.querySelector("#pickupDeliveryContainer .col-lg-6:first-child").appendChild(newShipper);
+            updateShipperDeleteButtons();
+        }
+    });
+
+    // Update delete buttons for shippers
+    function updateShipperDeleteButtons() {
+        const shippers = document.querySelectorAll(".shipper-container");
+        shippers.forEach((shipper, index) => {
+            const deleteBtn = shipper.querySelector(".removeShipperBtn");
+            if (index === 0) {
+                deleteBtn.style.display = "none"; // Hide delete button for first shipper
+            } else {
+                deleteBtn.style.display = "inline-block";
+            }
+        });
+    }
+
+    // Update delete buttons for receivers
+    function updateReceiverDeleteButtons() {
+        const receivers = document.querySelectorAll(".receiver-container");
+        receivers.forEach((receiver, index) => {
+            const deleteBtn = receiver.querySelector(".removeReceiverBtn");
+            if (index === 0) {
+                deleteBtn.style.display = "none"; // Hide delete button for first receiver
+            } else {
+                deleteBtn.style.display = "inline-block";
+            }
+        });
+    }
+
+    // Show split pallet details when the checkbox is checked
+    document.querySelector("#pickupDeliveryContainer").addEventListener("change", function(event) {
+        if (event.target.classList.contains("form-check-input") && event.target.id.includes("splitPallets")) {
+            const detailsId = event.target.id.replace("splitPallets", "splitPalletDetails");
+            const detailsContainer = document.getElementById(detailsId);
+            detailsContainer.style.display = event.target.checked ? "block" : "none";
+            if (event.target.checked) {
+                const shipperIndex = event.target.id.split('_')[1]; // Get the shipper index from the checkbox ID
+                updateSplitPalletDetails(detailsContainer, receiverCount, shipperIndex);
+            }
+        }
+    });
+
+    // Update split pallet details dynamically based on receiver count and shipper index
+    function updateSplitPalletDetails(container, receiverCount, shipperIndex) {
+        container.innerHTML = ""; // Clear previous content
+        for (let i = 1; i <= receiverCount; i++) {
+            const row = document.createElement("div");
+            row.classList.add("d-flex", "align-items-center", "mb-3", "border", "p-2", "rounded");
+
+            const receiverName = document.getElementById(`delivery_receiver_${i-1}`).value || "Unknown";
+            const receiverLabel = document.createElement("h6");
+            receiverLabel.textContent = `Receiver #${i} - ${receiverName}`;
+            receiverLabel.classList.add("me-3");
+            row.appendChild(receiverLabel);
+
+            const palletContainer = document.createElement("div");
+            palletContainer.classList.add("d-flex", "align-items-center", "me-3");
+            const palletInput = document.createElement("input");
+            palletInput.type = "number";
+            palletInput.classList.add("form-control", "me-2");
+            palletInput.name = `receiver_pallets_${shipperIndex}_${i}`;
+            palletInput.placeholder = "Pallets";
+            palletInput.addEventListener("input", updateReceiverDetails);
+            palletContainer.appendChild(palletInput);
+            row.appendChild(palletContainer);
+
+            const weightContainer = document.createElement("div");
+            weightContainer.classList.add("d-flex", "align-items-center", "me-3");
+            const weightInput = document.createElement("input");
+            weightInput.type = "number";
+            weightInput.classList.add("form-control", "me-2");
+            weightInput.name = `receiver_weight_${shipperIndex}_${i}`;
+            weightInput.placeholder = "Weight";
+            weightContainer.appendChild(weightInput);
+            row.appendChild(weightContainer);
+
+            const cubicFeetContainer = document.createElement("div");
+            cubicFeetContainer.classList.add("d-flex", "align-items-center", "me-3");
+            const cubicFeetInput = document.createElement("input");
+            cubicFeetInput.type = "number";
+            cubicFeetInput.classList.add("form-control", "me-2");
+            cubicFeetInput.name = `receiver_cubic_feet_${shipperIndex}_${i}`;
+            cubicFeetInput.placeholder = "Cubic Feet";
+            cubicFeetContainer.appendChild(cubicFeetInput);
+            row.appendChild(cubicFeetContainer);
+
+            const caseContainer = document.createElement("div");
+            caseContainer.classList.add("d-flex", "align-items-center", "me-3");
+            const caseInput = document.createElement("input");
+            caseInput.type = "number";
+            caseInput.classList.add("form-control", "me-2");
+            caseInput.name = `receiver_cases_${shipperIndex}_${i}`;
+            caseInput.placeholder = "Cases";
+            caseContainer.appendChild(caseInput);
+            row.appendChild(caseContainer);
+
+            container.appendChild(row);
+
+            const poContainer = document.createElement("div");
+            poContainer.classList.add("mt-2");
+            const poLabel = document.createElement("label");
+            poLabel.textContent = "PO/Pickup Number";
+            poLabel.classList.add("form-label");
+            const poInput = document.createElement("input");
+            poInput.type = "text";
+            poInput.classList.add("form-control");
+            poInput.name = `receiver_po_number_${shipperIndex}_${i}`;
+            poContainer.appendChild(poLabel);
+            poContainer.appendChild(poInput);
+            container.appendChild(poContainer);
+        }
+    }
+
+    // Function to update receiver details based on the split pallet inputs for all shippers
+    function updateReceiverDetails() {
+        const splitDetails = document.querySelectorAll('[id^="splitPalletDetails_"]');
+        const receiverTotals = {};
+
+        for (let i = 1; i <= receiverCount; i++) {
+            receiverTotals[i] = { pallets: 0, weight: 0, cubicFeet: 0, cases: 0 };
+        }
+
+        splitDetails.forEach(container => {
+            const palletInputs = container.querySelectorAll("input[name^='receiver_pallets_']");
+            const weightInputs = container.querySelectorAll("input[name^='receiver_weight_']");
+            const cubicFeetInputs = container.querySelectorAll("input[name^='receiver_cubic_feet_']");
+            const caseInputs = container.querySelectorAll("input[name^='receiver_cases_']");
+
+            palletInputs.forEach(input => {
+                const receiverIndex = input.name.split('_').pop();
+                receiverTotals[receiverIndex].pallets += parseInt(input.value) || 0;
+            });
+
+            weightInputs.forEach(input => {
+                const receiverIndex = input.name.split('_').pop();
+                receiverTotals[receiverIndex].weight += parseInt(input.value) || 0;
+            });
+
+            cubicFeetInputs.forEach(input => {
+                const receiverIndex = input.name.split('_').pop();
+                receiverTotals[receiverIndex].cubicFeet += parseInt(input.value) || 0;
+            });
+
+            caseInputs.forEach(input => {
+                const receiverIndex = input.name.split('_').pop();
+                receiverTotals[receiverIndex].cases += parseInt(input.value) || 0;
+            });
+        });
+
+        for (let i = 1; i <= receiverCount; i++) {
+            const receiverPalletInput = document.querySelector(`#delivery_pallet_count_${i - 1}`);
+            const receiverWeightInput = document.querySelector(`#delivery_weight_${i - 1}`);
+            const receiverCubicFeetInput = document.querySelector(`#delivery_cubic_feet_${i - 1}`);
+            const receiverCaseInput = document.querySelector(`#delivery_case_count_${i - 1}`);
+
+            if (receiverPalletInput) {
+                receiverPalletInput.value = receiverTotals[i].pallets;
+            }
+            if (receiverWeightInput) {
+                receiverWeightInput.value = receiverTotals[i].weight;
+            }
+            if (receiverCubicFeetInput) {
+                receiverCubicFeetInput.value = receiverTotals[i].cubicFeet;
+            }
+            if (receiverCaseInput) {
+                receiverCaseInput.value = receiverTotals[i].cases;
+            }
+        }
+    }
+
+    // Listen for changes in any split pallet input field to trigger updates
+    document.querySelector("#pickupDeliveryContainer").addEventListener("input", function(event) {
+        if (event.target && event.target.name && event.target.name.startsWith("receiver_")) {
+            updateReceiverDetails();
+        }
+    });
+
+    // Function to add a new receiver
+    document.querySelector("#pickupDeliveryContainer").addEventListener("click", function(event) {
+        if (event.target.classList.contains("addReceiverBtn")) {
+            const newReceiver = document.querySelector(".receiver-container").cloneNode(true);
+            receiverCount++;
+            newReceiver.querySelector("h5").textContent = `Receiver #${receiverCount}`;
+            newReceiver.querySelectorAll("input").forEach(function(el) {
+                el.name = el.name.replace(/_\d+/, `_${receiverCount - 1}`);
+                el.id = el.id.replace(/_\d+/, `_${receiverCount - 1}`);
+                el.value = "";
+            });
+            document.querySelector("#pickupDeliveryContainer .col-lg-6:last-child").appendChild(newReceiver);
+            const splitDetails = document.getElementById("splitPalletDetails_0");
+            if (document.getElementById("splitPallets_0").checked) {
+                updateSplitPalletDetails(splitDetails, receiverCount, 0);
+            }
+            updateReceiverDeleteButtons();
+        }
+    });
+
+    // Handle Enter key in shipper/receiver inputs to open "Add New" modal
+    document.querySelectorAll("input[list]").forEach(function(input) {
+        input.addEventListener("keydown", function(event) {
+            if (event.key === "Enter") {
+                event.preventDefault();
+                const listId = this.getAttribute("list");
+                const targetType = listId.includes("shipper") ? "shipperModal" : "receiverModal";
+                document.getElementById(targetType).querySelector(".btn-close").click();
+            }
+        });
+    });
+
+    // Functionality to collapse/expand shippers and receivers
+document.querySelector("#pickupDeliveryContainer").addEventListener("click", function(event) {
+    if (event.target.classList.contains("toggle-shipper")) {
+        const container = event.target.closest(".shipper-container");
+        const details = container.querySelector(".row");
+        const isCollapsed = details.style.display === "none";
+        details.style.display = isCollapsed ? "block" : "none";
+        event.target.innerHTML = isCollapsed ? `Collapse <i class="fas fa-chevron-up"></i>` : `Expand <i class="fas fa-chevron-down"></i>`;
+    }
+
+    if (event.target.classList.contains("toggle-receiver")) {
+        const container = event.target.closest(".receiver-container");
+        const details = container.querySelector(".row");
+        const isCollapsed = details.style.display === "none";
+        details.style.display = isCollapsed ? "block" : "none";
+        event.target.innerHTML = isCollapsed ? `Collapse <i class="fas fa-chevron-up"></i>` : `Expand <i class="fas fa-chevron-down"></i>`;
+    }
+});
+
+
+    // Remove shipper or receiver from the form
+    document.querySelector("#pickupDeliveryContainer").addEventListener("click", function(event) {
+    // For shippers
+    if (event.target.classList.contains("removeShipperBtn")) {
+        const shipperContainer = event.target.closest(".shipper-container");
+        shipperContainer.parentNode.removeChild(shipperContainer); // Remove only the clicked shipper
+        shipperCount--;
+        updateShipperDeleteButtons(); // Update delete buttons after removal
+    }
+
+    // For receivers
+    if (event.target.classList.contains("removeReceiverBtn")) {
+        const receiverContainer = event.target.closest(".receiver-container");
+        receiverContainer.parentNode.removeChild(receiverContainer); // Remove only the clicked receiver
+        receiverCount--;
+        updateReceiverDeleteButtons(); // Update delete buttons after removal
+    }
+});
+</script>
+{% endblock %}

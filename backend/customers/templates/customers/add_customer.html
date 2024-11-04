@@ -1,0 +1,199 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Add Customer</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <style>
+        /* Make the modal container responsive */
+        .modal-container {
+            width: 100%;  /* Full width */
+            max-width: 100%; /* Disable max-width limitation */
+            background-color: #f8f9fa;
+            border-radius: 5px;
+            margin: 0; /* Remove margin */
+            padding: 0; /* Remove padding */
+        }
+
+        .modal-body {
+            padding: 20px;
+            width: 100%; /* Ensure full width of body */
+        }
+
+        .modal-footer {
+            padding: 15px;
+            text-align: right;
+        }
+
+        /* Custom styles for tabs */
+        .nav-tabs {
+            display: flex;
+            justify-content: space-between;
+            border-bottom: 2px solid #0056b3;
+            width: 100%;
+        }
+
+        .nav-tabs .nav-item {
+            flex: 1;
+            text-align: center;
+        }
+
+        .nav-tabs .nav-link {
+            width: 100%;
+            border: none;
+            color: #0056b3;
+            padding: 10px 0;
+        }
+
+        .nav-tabs .nav-link.active {
+            background-color: #0056b3;
+            color: #fff;
+        }
+
+        .tab-content {
+            padding: 20px;
+        }
+
+        /* Full width form inputs */
+        .form-group input, .form-group select, .form-group textarea {
+            width: 100%; /* Make sure inputs take the full width */
+        }
+    </style>
+</head>
+<body>
+
+<div class="modal-container">
+    <div class="modal-body">
+        <form method="post" id="addCustomerForm">
+            {% csrf_token %}
+
+            <!-- Tab Navigation -->
+            <ul class="nav nav-tabs" id="myTab" role="tablist">
+                <li class="nav-item">
+                    <a class="nav-link active" id="basic-info-tab" data-toggle="tab" href="#basic-info" role="tab" aria-controls="basic-info" aria-selected="true">Basic Info</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" id="contact-info-tab" data-toggle="tab" href="#contact-info" role="tab" aria-controls="contact-info" aria-selected="false">Contact Info</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" id="address-info-tab" data-toggle="tab" href="#address-info" role="tab" aria-controls="address-info" aria-selected="false">Address Info</a>
+                </li>
+            </ul>
+
+            <!-- Tab Content -->
+            <div class="tab-content mt-3" id="myTabContent">
+                <!-- Basic Info Section -->
+                <div class="tab-pane fade show active" id="basic-info" role="tabpanel" aria-labelledby="basic-info-tab">
+                    <div class="form-group mb-3">
+                        <label for="company_name">Company Name</label>
+                        <input type="text" id="company_name" name="company_name" class="form-control" placeholder="Enter company name" required>
+                    </div>
+                    <div class="form-group mb-3">
+                        <label for="mc_number">MC Number</label>
+                        <input type="text" id="mc_number" name="mc_number" class="form-control" placeholder="Enter MC number">
+                        <button type="button" class="btn btn-info mt-2" id="fetch_mc_info">Fetch Info</button>
+                    </div>
+                    <div class="form-group mb-3">
+                        <label for="tax_id">Tax ID</label>
+                        <input type="text" id="tax_id" name="tax_id" class="form-control" placeholder="Enter tax ID">
+                    </div>
+                    <div class="form-group mb-3">
+                        <label for="company_address">Company Address</label>
+                        <input type="text" id="company_address" name="company_address" class="form-control" placeholder="Enter company address">
+                    </div>
+                </div>
+
+                <!-- Contact Info Section -->
+                <div class="tab-pane fade" id="contact-info" role="tabpanel" aria-labelledby="contact-info-tab">
+                    <div class="form-group mb-3">
+                        <label for="contact_name">Contact Name</label>
+                        <input type="text" id="contact_name" name="contact_name" class="form-control" placeholder="Enter contact name">
+                    </div>
+                    <div class="form-group mb-3">
+                        <label for="email">Email</label>
+                        <input type="email" id="email" name="email" class="form-control" placeholder="Enter email">
+                    </div>
+                    <div class="form-group mb-3">
+                        <label for="phone">Phone Number</label>
+                        <input type="text" id="phone" name="phone" class="form-control" placeholder="Enter phone number">
+                    </div>
+                    <div class="form-group mb-3">
+                        <label for="fax">Fax</label>
+                        <input type="text" id="fax" name="fax" class="form-control" placeholder="Enter fax number">
+                    </div>
+                </div>
+
+                <!-- Address Info Section -->
+                <div class="tab-pane fade" id="address-info" role="tabpanel" aria-labelledby="address-info-tab">
+                    <div class="form-group mb-3">
+                        <label for="autocomplete">Street Address</label>
+                        <input type="text" id="autocomplete" placeholder="Enter address" class="form-control">
+                    </div>
+                    <div class="form-group mb-3">
+                        <label for="city">City</label>
+                        <input type="text" id="city" name="city" class="form-control" placeholder="Enter city">
+                    </div>
+                    <div class="form-group mb-3">
+                        <label for="state">State</label>
+                        <input type="text" id="state" name="state" class="form-control" placeholder="Enter state">
+                    </div>
+                    <div class="form-group mb-3">
+                        <label for="zip_code">Zip Code</label>
+                        <input type="text" id="zip_code" name="zip_code" class="form-control" placeholder="Enter zip code">
+                    </div>
+                    <div class="form-group mb-3">
+                        <label for="country">Country</label>
+                        <input type="text" id="country" name="country" class="form-control" placeholder="Enter country">
+                    </div>
+                    <div class="form-group mb-3">
+                        <label for="billing_address">Billing Address</label>
+                        <input type="text" id="billing_address" name="billing_address" class="form-control" placeholder="Enter billing address">
+                    </div>
+                </div>
+            </div>
+
+            <!-- Action Buttons Section -->
+            <div class="modal-footer">
+                <button type="submit" class="btn btn-primary">Submit</button>
+                <button type="button" class="btn btn-secondary" onclick="window.close()">Cancel</button>
+            </div>
+        </form>
+    </div>
+</div>
+
+<!-- Include jQuery and Bootstrap JS for tab functionality -->
+<script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+
+<script>
+    // Handle form submission
+    document.getElementById("addCustomerForm").onsubmit = function(event) {
+        event.preventDefault();
+        const formData = new FormData(this);
+
+        fetch("{% url 'add_customer' %}", {
+            method: 'POST',
+            body: formData,
+            headers: {
+                'X-CSRFToken': '{{ csrf_token }}',
+            },
+        })
+        .then(response => response.json())
+        .then(data => {
+            if (data.success) {
+                alert('Customer added successfully!');
+                window.opener.location.reload(); // Refresh the parent window
+                window.close(); // Close the current window
+            } else {
+                alert('Error adding customer.');
+            }
+        })
+        .catch(error => {
+            console.error('Error:', error);
+        });
+    };
+</script>
+
+</body>
+</html>

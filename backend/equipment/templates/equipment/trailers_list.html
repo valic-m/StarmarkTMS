@@ -1,0 +1,24 @@
+<!-- File: C:\Users\valic\OneDrive\Documents\TMS\backend\equipment\templates\equipment\trailers_list.html -->
+
+{% extends 'base.html' %}
+
+{% block title %}Trailers List{% endblock %}
+
+{% block content %}
+    <h1>Trailers List</h1>
+    <a href="{% url 'add_trailer' %}" class="btn btn-primary mb-3">Add New Trailer</a>
+
+    {% if trailers %}
+        <ul class="list-group">
+            {% for trailer in trailers %}
+                <li class="list-group-item">
+                    <a href="{% url 'edit_trailer' trailer.id %}">
+                        <strong>{{ trailer.name }}</strong> (License Plate: {{ trailer.license_plate }})
+                    </a>
+                </li>
+            {% endfor %}
+        </ul>
+    {% else %}
+        <p>No trailers available.</p>
+    {% endif %}
+{% endblock %}

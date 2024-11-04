@@ -1,0 +1,17 @@
+<!-- File Path: C:\Users\valic\OneDrive\Documents\TMS\backend\accounts\templates\accounts\account_list.html -->
+
+{% extends 'base.html' %}
+
+{% block content %}
+<h2>Accounts</h2>
+
+<ul class="list-group">
+    {% for account in accounts %}
+    <li class="list-group-item">
+        <a href="{% url 'account_detail' account.id %}">{{ account.name }}</a> - {{ account.account_type.name }} - ${{ account.balance }}
+    </li>
+    {% endfor %}
+</ul>
+
+<a href="{% url 'create_account' %}" class="btn btn-primary mt-3">Add Account</a>
+{% endblock %}

@@ -1,0 +1,109 @@
+/* accounts/static/accounts/accounts.css */
+
+/* General Styling */
+body {
+    font-family: Arial, sans-serif;
+    margin: 0;
+    padding: 0;
+}
+
+.container {
+    width: 80%;
+    margin: 20px auto;
+}
+
+h2 {
+    color: #333;
+    font-size: 24px;
+    margin-bottom: 20px;
+}
+
+/* Account List Styling */
+ul.account-list {
+    list-style-type: none;
+    padding: 0;
+}
+
+ul.account-list li {
+    padding: 10px;
+    margin: 10px 0;
+    background-color: #f5f5f5;
+    border-left: 5px solid #007bff;
+    border-radius: 5px;
+}
+
+ul.account-list li a {
+    text-decoration: none;
+    color: #007bff;
+    font-weight: bold;
+}
+
+ul.account-list li:hover {
+    background-color: #e9ecef;
+}
+
+/* Form Styling */
+form {
+    width: 100%;
+    max-width: 600px;
+    margin: 0 auto;
+}
+
+form input, form select {
+    width: 100%;
+    padding: 10px;
+    margin: 10px 0;
+    border: 1px solid #ddd;
+    border-radius: 5px;
+}
+
+form button {
+    width: 100%;
+    padding: 10px;
+    background-color: #007bff;
+    color: #fff;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+}
+
+form button:hover {
+    background-color: #0056b3;
+}
+
+/* Transaction List Styling */
+ul.transaction-list {
+    list-style-type: none;
+    padding: 0;
+}
+
+ul.transaction-list li {
+    background-color: #f8f9fa;
+    padding: 10px;
+    margin: 5px 0;
+    border-left: 5px solid #28a745;
+    border-radius: 5px;
+}
+
+ul.transaction-list li:hover {
+    background-color: #e9ecef;
+}
+
+ul.transaction-list li span {
+    font-weight: bold;
+    color: #28a745;
+}
+
+/* Buttons */
+.btn-primary {
+    display: inline-block;
+    padding: 10px 15px;
+    background-color: #007bff;
+    color: white;
+    text-decoration: none;
+    border-radius: 5px;
+}
+
+.btn-primary:hover {
+    background-color: #0056b3;
+}

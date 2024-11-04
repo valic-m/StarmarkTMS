@@ -1,0 +1,20 @@
+<!-- C:\Users\valic\OneDrive\Documents\TMS\drivers_operators\templates\drivers_operators\add_driver.html -->
+
+{% extends 'base.html' %}
+{% load crispy_forms_tags %}
+
+{% block title %}
+Add Driver
+{% endblock %}
+
+{% block content %}
+<h1 class="my-4">Add a New Driver</h1>
+
+<!-- Crispy Forms automatically handles layout, so we don't need to manually create grid classes -->
+<form method="post">
+    {% csrf_token %}
+    {{ form|crispy }}  <!-- This renders the entire form using Crispy Forms styling with Bootstrap -->
+    <button type="submit" class="btn btn-primary mt-3">Save Driver</button>
+</form>
+
+{% endblock %}

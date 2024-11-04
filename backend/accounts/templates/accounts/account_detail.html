@@ -1,0 +1,18 @@
+<!-- File Path: C:\Users\valic\OneDrive\Documents\TMS\backend\accounts\templates\accounts\account_detail.html -->
+
+{% extends 'base.html' %}
+
+{% block content %}
+<h2>{{ account.name }}</h2>
+<p><strong>Type:</strong> {{ account.account_type.name }}</p>
+<p><strong>Balance:</strong> ${{ account.balance }}</p>
+
+<h3>Transactions</h3>
+<ul>
+    {% for transaction in account.transaction_set.all %}
+    <li>{{ transaction.transaction_date }} - ${{ transaction.amount }} - {{ transaction.description }}</li>
+    {% endfor %}
+</ul>
+
+<a href="{% url 'account_list' %}" class="btn btn-primary">Back to Accounts List</a>
+{% endblock %}

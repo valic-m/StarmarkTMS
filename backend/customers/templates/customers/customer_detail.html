@@ -1,0 +1,59 @@
+<!-- File: C:\Users\valic\OneDrive\Documents\TMS\backend\customers\templates\customers\customer_detail.html -->
+
+{% extends 'base.html' %}
+
+{% block title %}Customer Details: {{ customer.name }}{% endblock %}
+
+{% block content %}
+<div class="container mt-4">
+    <h2>Customer Details: {{ customer.name }}</h2>
+
+    <!-- Customer General Information -->
+    <div class="row mb-3">
+        <div class="col-md-6">
+            <h4>General Information</h4>
+            <p><strong>Contact Name:</strong> {{ customer.contact_name }}</p>
+            <p><strong>MC Number:</strong> {{ customer.mc_number }}</p>
+            <p><strong>SCAC:</strong> {{ customer.scac }}</p>
+            <p><strong>Street Address:</strong> {{ customer.address_street }} {{ customer.address_number }}</p>
+            <p><strong>City, State, ZIP:</strong> {{ customer.city }}, {{ customer.state }} {{ customer.zip_code }}</p>
+            <p><strong>Phone Number:</strong> {{ customer.phone_number }}</p>
+            <p><strong>Cell Number:</strong> {{ customer.cell_number }}</p>
+            <p><strong>Email:</strong> {{ customer.email }}</p>
+            <p><strong>Website:</strong> {{ customer.website }}</p>
+        </div>
+        <div class="col-md-6">
+            <h4>Additional Information</h4>
+            <p><strong>Credit Limit:</strong> ${{ customer.credit_limit }}</p>
+            <p><strong>Tax ID:</strong> {{ customer.tax_id }}</p>
+            <p><strong>Payment Terms:</strong> {{ customer.term_pay }}</p>
+            <p><strong>Active:</strong> {{ customer.is_active|yesno:"Yes,No" }}</p>
+            <p><strong>Factoring:</strong> {{ customer.factoring|yesno:"Yes,No" }}</p>
+            <p><strong>Do Not Use:</strong> {{ customer.do_not_use|yesno:"Yes,No" }}</p>
+            <p><strong>White List:</strong> {{ customer.white_list|yesno:"Yes,No" }}</p>
+            <p><strong>Notes:</strong> {{ customer.notes }}</p>
+        </div>
+    </div>
+
+    <!-- Accounts Payable Information -->
+    <div class="row mb-3">
+        <div class="col-md-6">
+            <h4>Accounts Payable</h4>
+            <p><strong>Contact:</strong> {{ customer.accounts_payable_contact }}</p>
+            <p><strong>Phone:</strong> {{ customer.accounts_payable_phone }}</p>
+            <p><strong>Email:</strong> {{ customer.accounts_payable_email }}</p>
+            <p><strong>Address:</strong> {{ customer.accounts_payable_address }}</p>
+            <p><strong>City, State, ZIP:</strong> {{ customer.accounts_payable_city }}, {{ customer.accounts_payable_state }} {{ customer.accounts_payable_zip }}</p>
+        </div>
+
+        <!-- Agent Information -->
+        <div class="col-md-6">
+            <h4>Agent Information</h4>
+            <p><strong>Agent Name:</strong> {{ customer.agent_name }}</p>
+            <p><strong>Agent Phone:</strong> {{ customer.agent_phone }}</p>
+            <p><strong>Agent Email:</strong> {{ customer.agent_email }}</p>
+        </div>
+    </div>
+
+    <!-- Documents Section -->
+    <div class=

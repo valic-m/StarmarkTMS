@@ -1,0 +1,44 @@
+<!-- File: C:\Users\valic\OneDrive\Documents\TMS\backend\templates\registration\login.html -->
+
+{% extends "base.html" %}
+{% load static %}
+
+{% block title %}Login{% endblock %}
+
+{% block content %}
+<style>
+    .login-container {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        min-height: 80vh;
+        flex-direction: column;
+    }
+    .login-form {
+        width: 100%;
+        max-width: 400px;
+        padding: 15px;
+        margin-top: 20px;
+    }
+    .logo {
+        width: 500px;
+        height: auto;
+        margin-bottom: 30px;
+    }
+</style>
+
+<div class="container login-container">
+    <div class="text-center">
+        <img src="{% static 'images/logo.png' %}" alt="Company Logo" class="logo">
+    </div>
+
+    <div class="login-form">
+        <h2 class="text-center">Login</h2>
+        <form method="post">
+            {% csrf_token %}
+            {{ form.as_p }}
+            <button type="submit" class="btn btn-primary btn-block w-100">Login</button>
+        </form>
+    </div>
+</div>
+{% endblock %}

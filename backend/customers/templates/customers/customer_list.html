@@ -1,0 +1,78 @@
+<!-- File: C:\Users\valic\OneDrive\Documents\TMS\backend\customers\templates\customers\customer_list.html -->
+
+{% extends 'base.html' %}
+
+{% block title %}Customer List{% endblock %}
+
+{% block content %}
+<div class="container mt-4">
+    <h2>Customer List</h2>
+
+    <!-- Total Customers Count -->
+    <p>Total Customers: {{ page_obj.paginator.count }}</p>
+
+    <!-- Search bar -->
+    <form method="GET" action="{% url 'customers:customer_list' %}" class="row g-3 mb-3">
+        <div class="col-md-3">
+            <input type="text" name="q" class="form-control" placeholder="Search by name, contact, MC, city, phone" value="{{ query }}">
+        </div>
+        <div class="col-md-2">
+            <button type="submit" class="btn btn-primary">Search</button>
+        </div>
+        <div class="col-md-2">
+            <a href="{% url 'customers:add_customer' %}" class="btn btn-success">Add New Customer</a>
+        </div>
+    </form>
+
+    <!-- Customer Table -->
+    <table class="table table-striped">
+        <thead>
+            <tr>
+                <th>Name</th>
+                <th>Contact Name</th>
+                <th>MC</th>
+                <th>City</th>
+                <th>Local Phone</th>
+                <th>Credit Limit</th>
+                <th>Edit</th>
+                <th>Documents</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for customer in page_obj %}
+                <tr>
+                    <td>{{ customer.name }}</td>
+                    <td>{{ customer.contact_name }}</td>
+                    <td>{{ customer.mc_number }}</td>
+                    <td>{{ customer.city }}</td>
+                    <td>{{ customer.phone_number }}</td>
+                    <td>${{ customer.credit_limit|floatformat:2 }}</td>
+                    <td><a href="{% url 'customers:edit_customer' customer.id %}" class="btn btn-warning btn-sm">Edit</a></td>
+                    <td><a href="{% url 'customers:customer_detail' customer.id %}" class="btn btn-info btn-sm">View Documents</a></td>
+                </tr>
+            {% empty %}
+                <tr>
+                    <td colspan="8" class="text-center">No customers found</td>
+                </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+
+    <!-- Pagination -->
+    <nav aria-label="Page navigation">
+        <ul class="pagination justify-content-center">
+            {% if page_obj.has_previous %}
+                <li class="page-item"><a class="page-link" href="?page={{ page_obj.previous_page_number }}&q={{ query }}">Previous</a></li>
+            {% endif %}
+            {% for num in page_obj.paginator.page_range %}
+                <li class="page-item {% if page_obj.number == num %}active{% endif %}">
+                    <a class="page-link" href="?page={{ num }}&q={{ query }}">{{ num }}</a>
+                </li>
+            {% endfor %}
+            {% if page_obj.has_next %}
+                <li class="page-item"><a class="page-link" href="?page={{ page_obj.next_page_number }}&q={{ query }}">Next</a></li>
+            {% endif %}
+        </ul>
+    </nav>
+</div>
+{% endblock %}

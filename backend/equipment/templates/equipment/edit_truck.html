@@ -1,0 +1,14 @@
+<!-- File: C:\Users\valic\OneDrive\Documents\TMS\backend\equipment\templates\equipment\edit_truck.html -->
+
+{% extends 'base.html' %}
+
+{% block title %}Edit Truck{% endblock %}
+
+{% block content %}
+    <h1>Edit Truck: {{ truck.name }}</h1>
+    <form method="post">
+        {% csrf_token %}
+        {{ form.as_p }}
+        <button type="submit" class="btn btn-primary">Save Changes</button>
+    </form>
+{% endblock %}

@@ -1,0 +1,9 @@
+# C:\Users\valic\OneDrive\Documents\TMS\drivers_operators\views.py
+
+from django.shortcuts import render
+from .models import Driver  # Ensure that you have the Driver model imported
+
+# Drivers list view
+def drivers_list(request):
+    drivers = Driver.objects.all()  # Query all drivers from the database
+    return render(request, 'drivers_operators/drivers.html', {'drivers': drivers})

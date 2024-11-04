@@ -1,0 +1,12 @@
+{% extends 'base.html' %}
+
+{% block content %}
+    <h1>Load List</h1>
+    <ul>
+        {% for load in loads %}
+            <li>
+                <a href="{% url 'load_detail' load.reference_number %}">Load {{ load.reference_number }} - {{ load.customer }}</a>
+            </li>
+        {% endfor %}
+    </ul>
+{% endblock %}

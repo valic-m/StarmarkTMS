@@ -1,0 +1,20 @@
+<!-- File: C:\Users\valic\OneDrive\Documents\TMS\backend\drivers_operators\templates\drivers_operators\edit_driver.html -->
+
+{% extends 'base.html' %}
+
+{% block title %}
+Edit Driver - {{ driver.full_name }}
+{% endblock %}
+
+{% block content %}
+<h1>Edit Driver - {{ driver.full_name }}</h1>
+
+<form method="post">
+    {% csrf_token %}
+    {{ form.as_p }}
+
+    <button type="submit" class="btn btn-primary">Save Changes</button>
+</form>
+
+<a href="{% url 'drivers_list' %}" class="btn btn-secondary mt-3">Back to Drivers List</a>
+{% endblock %}

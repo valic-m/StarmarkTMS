@@ -1,0 +1,15 @@
+<!-- File Path: C:\Users\valic\OneDrive\Documents\TMS\backend\accounts\templates\accounts\account_form.html -->
+
+{% extends 'base.html' %}
+
+{% block content %}
+<h2>{{ form.instance.id|yesno:"Edit Account,Create Account" }}</h2>
+
+<form method="POST">
+    {% csrf_token %}
+    {{ form.as_p }}
+    <button type="submit" class="btn btn-primary">Save Account</button>
+</form>
+
+<a href="{% url 'account_list' %}" class="btn btn-secondary">Cancel</a>
+{% endblock %}

@@ -1,0 +1,29 @@
+<!-- File: C:\Users\valic\OneDrive\Documents\TMS\backend\equipment\templates\equipment\truck_detail.html -->
+
+{% extends 'base.html' %}
+
+{% block title %}Truck Details{% endblock %}
+
+{% block content %}
+    <h1>Truck: {{ truck.name }}</h1>
+
+    <p><strong>License Plate:</strong> {{ truck.license_plate }}</p>
+    <p><strong>VIN:</strong> {{ truck.vin }}</p>
+    <p><strong>Manufacturer:</strong> {{ truck.manufacturer }}</p>
+    <p><strong>Year:</strong> {{ truck.year }}</p>
+
+    <h2>GPS Data</h2>
+    {% if gps_data %}
+        <p><strong>Location:</strong> {{ gps_data.location }}</p>
+        <p><strong>Coordinates:</strong> Latitude: {{ gps_data.latitude }}, Longitude: {{ gps_data.longitude }}</p>
+        <p><strong>Speed:</strong> {{ gps_data.speed|default:"Speed not available" }} miles per hour</p>
+        <p><strong>Engine Hours:</strong> {{ gps_data.engine_hours|default:"No engine hours data" }}</p>
+        <p><strong>Odometer:</strong> {{ gps_data.odometer|default:"No odometer data" }} miles</p>
+    {% else %}
+        <p>GPS data is not available for this truck.</p>
+    {% endif %}
+
+    <!-- Keep this link to navigate back to the trucks list -->
+    <a href="{% url 'trucks_list' %}">Back to Trucks List</a>
+
+{% endblock %}

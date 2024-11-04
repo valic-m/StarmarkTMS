@@ -1,0 +1,23 @@
+<!-- File: C:\Users\valic\OneDrive\Documents\TMS\backend\equipment\templates\equipment\equipment_locations.html -->
+
+{% extends 'base.html' %}
+
+{% block title %}Equipment Locations{% endblock %}
+
+{% block content %}
+    <h1>Recent Equipment Locations</h1>
+    {% if locations %}
+        <ul>
+            {% for equipment in locations %}
+                <li>
+                    <strong>ID:</strong> {{ equipment.id }}<br>
+                    <strong>Location:</strong> {{ equipment.location }}<br>
+                    <strong>Coordinates:</strong> Latitude: {{ equipment.latitude }}, Longitude: {{ equipment.longitude }}<br>
+                </li>
+            {% endfor %}
+        </ul>
+    {% else %}
+        <p>No equipment locations available.</p>
+    {% endif %}
+    <a href="{% url 'trucks_list' %}">Back to Trucks List</a>
+{% endblock %}
