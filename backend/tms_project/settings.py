@@ -8,18 +8,24 @@ from pathlib import Path
 import os
 from datetime import timedelta
 from django.urls import reverse_lazy
+from dotenv import load_dotenv
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
+
+# Load environment variables from the .env file
+load_dotenv(os.path.join(BASE_DIR, '.env'))
 
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/5.1/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = 'django-insecure-q_w^@49zswprh#=ap@m&6^i=!x=(b#ly^a%8odjq5s^%&^bl$1'
+SECRET_KEY = os.getenv('SECRET_KEY')
+if not SECRET_KEY:
+    raise ValueError("Missing SECRET_KEY environment variable")
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
+DEBUG = os.getenv('DEBUG', 'True') == 'True'
 
 ALLOWED_HOSTS = ['127.0.0.1', 'localhost']
 
@@ -90,7 +96,6 @@ CORS_ALLOWED_ORIGINS = [
 ]
 
 # Ensure CORS_ALLOW_ALL_ORIGINS is not set when CORS_ALLOWED_ORIGINS is used.
-# Remove CORS_ORIGIN_ALLOW_ALL for better control.
 CORS_ALLOW_ALL_ORIGINS = True  # Only use this in development; comment it out when using CORS_ALLOWED_ORIGINS
 
 MIDDLEWARE = [
@@ -184,6 +189,11 @@ PUBLIC_PATHS = [
     '/media/',
     reverse_lazy('password_reset'),
 ]
+
+# Securely load the API token from .env
+SAMSARA_API_TOKEN = os.getenv('SAMSARA_API_TOKEN')
+if not SAMSARA_API_TOKEN:
+    raise ValueError("Missing SAMSARA_API_TOKEN environment variable")
 
 # CORS configuration details:
 # Ensure that only the necessary CORS settings are used for clarity and security.
