@@ -39,19 +39,19 @@ h3,
   }
 }
 
-
-@each $key, $value in $theme-colors-bg-subtle{
-  .text-#{$key}-subtle{
+@each $key, $value in $theme-colors-bg-subtle {
+  .text-#{$key}-subtle {
     color: var(--#{$prefix}#{$key}-bg-subtle) !important;
   }
 }
 
-[data-bs-theme="dark"]{
-  @each $key, $value in $theme-colors{
-    .text-bg-#{$key}, .badge.bg-#{$key}{
+[data-bs-theme='dark'] {
+  @each $key, $value in $theme-colors {
+    .text-bg-#{$key},
+    .badge.bg-#{$key} {
       @if $key == 'secondary' {
         color: $gray-100 !important;
-      } @else{
+      } @else {
         color: var(--#{$prefix}black) !important;
       }
     }

@@ -41,7 +41,7 @@
 
   &.overlay {
     [data-bs-theme='dark'] & {
-      &.overlay-white{
+      &.overlay-white {
         &:before {
           background: rgba(white, var(--#{$prefix}bg-opacity, 0.35));
         }
@@ -195,14 +195,14 @@
   background-color: rgba(#000, 0.7);
 }
 
-@each $key, $value in $theme-colors-text{
-  .bg-#{$key}-emphasis{
+@each $key, $value in $theme-colors-text {
+  .bg-#{$key}-emphasis {
     background-color: var(--#{$prefix}#{$key}-text-emphasis);
   }
 }
-.bg-left{
+.bg-left {
   background-position: left;
 }
-.bg-right{
+.bg-right {
   background-position: right;
 }

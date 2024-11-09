@@ -6,19 +6,19 @@ import WizardFormProvider from 'providers/WizardFormProvider';
 import PageBreadcrumb from 'components/common/PageBreadcrumb';
 import WizardSideNav from 'components/wizard/WizardSideNav';
 import CreateNewLoadForm from 'components/forms/tmsforms/CreateNewLoadForm';
-import { wizardNav } from 'data/wizard/wizard'; // Ensure to update with correct navigation data
+import { wizardNav } from 'data/wizard/wizard'; // Ensure this import path and type are accurate
 
 const CreateNewLoadPage: React.FC = () => {
   const form = useWizardForm({ totalStep: 3 });
-  const [tabEventKey, setTabEventKey] = useState(1);
+  const [tabEventKey, setTabEventKey] = useState<number>(1); // Explicit typing for clarity
 
   return (
     <div className="mb-9">
       <PageBreadcrumb
         items={[
-          { label: 'Home', url: '/' }, // Change 'url' or 'path' to the correct property defined in your type, if needed
+          { label: 'Home', url: '/' },
           { label: 'Operations' },
-          { label: 'Create New Load' },
+          { label: 'Create New Load' }
         ]}
       />
       <h2 className="fs-5 mb-4 mb-xl-5">Create New Load</h2>
@@ -27,7 +27,7 @@ const CreateNewLoadPage: React.FC = () => {
           <Col xl={{ order: 1, span: 4 }}>
             <div className="scrollbar mb-4">
               <WizardSideNav
-                navItems={wizardNav} // Ensure the correct navigation structure is used
+                navItems={wizardNav} // Ensure this matches the expected type for navItems
                 setTabEventKey={setTabEventKey}
               />
             </div>
@@ -39,16 +39,27 @@ const CreateNewLoadPage: React.FC = () => {
                   <CreateNewLoadForm />
                 </WizardForm>
               </Tab.Pane>
-              {/* Add more Tab.Pane components as necessary for additional steps */}
+              {/* Repeat Tab.Pane for additional steps as needed */}
+              {/* <Tab.Pane eventKey={2}>
+                <WizardForm step={2}>
+                  <OtherComponent />
+                </WizardForm>
+              </Tab.Pane> */}
             </Tab.Content>
             <div className="mt-6 d-flex justify-content-between">
               {tabEventKey > 1 && (
-                <Button variant="secondary" onClick={() => setTabEventKey(tabEventKey - 1)}>
+                <Button
+                  variant="secondary"
+                  onClick={() => setTabEventKey(tabEventKey - 1)}
+                >
                   Back
                 </Button>
               )}
               {tabEventKey < form.totalStep && (
-                <Button variant="primary" onClick={() => setTabEventKey(tabEventKey + 1)}>
+                <Button
+                  variant="primary"
+                  onClick={() => setTabEventKey(tabEventKey + 1)}
+                >
                   Next
                 </Button>
               )}

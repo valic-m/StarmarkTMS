@@ -43,7 +43,7 @@ export const routes: RouteItems[] = [
     icon: UilChartPie,
     labelDisabled: true,
     pages: [
-        {
+      {
         name: 'operations management',
         icon: 'clipboard', // Replace with a compatible string if using FontAwesome
         pages: [

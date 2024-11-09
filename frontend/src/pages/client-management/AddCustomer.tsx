@@ -3,30 +3,53 @@ import WizardForm from 'components/wizard/WizardForm';
 import useWizardForm from 'hooks/useWizardForm';
 import WizardFormProvider from 'providers/WizardFormProvider';
 import { Col, Row, Tab } from 'react-bootstrap';
-import WizardFormFooter from 'components/wizard/WizardFormFooter';
 import classNames from 'classnames';
 import PageBreadcrumb from 'components/common/PageBreadcrumb';
 import { defaultBreadcrumbItems } from 'data/commonData';
 import WizardSideNav from 'components/wizard/WizardSideNav';
 import NewCustomerForm from 'components/forms/tmsforms/NewCustomerForm';
-import { faInfoCircle, faFileAlt, faCheckCircle } from '@fortawesome/free-solid-svg-icons';
+import {
+  faInfoCircle,
+  faFileAlt,
+  faCheckCircle,
+  faUser,
+  faMoneyBill
+} from '@fortawesome/free-solid-svg-icons';
 
-// Define wizard navigation items locally with icons of type IconDefinition
+// Define wizard navigation items with icons for each step
 const wizardNavItems = [
-  { step: 1, label: 'Basic Information', completed: false, icon: faInfoCircle },
-  { step: 2, label: 'Additional Details', completed: false, icon: faFileAlt },
-  { step: 3, label: 'Review & Submit', completed: false, icon: faCheckCircle }
+  { step: 1, label: 'General', completed: false, icon: faInfoCircle },
+  { step: 2, label: 'Contact', completed: false, icon: faUser },
+  { step: 3, label: 'Manage', completed: false, icon: faFileAlt },
+  { step: 4, label: 'Payable', completed: false, icon: faMoneyBill },
+  { step: 5, label: 'Agents', completed: false, icon: faCheckCircle }
 ];
 
-const AddCustomer = () => {
+const AddCustomer: React.FC = () => {
   const [tabEventKey, setTabEventKey] = useState(1);
   const form = useWizardForm({
-    totalStep: 3 // Adjust the number of steps as needed
+    totalStep: wizardNavItems.length // Total number of steps in the form
   });
 
   useEffect(() => {
     form.setFormData({}); // Initialize form data if needed
   }, []);
+
+  const handleNext = () => {
+    if (tabEventKey < form.totalStep) {
+      setTabEventKey(tabEventKey + 1);
+    }
+  };
+
+  const handlePrevious = () => {
+    if (tabEventKey > 1) {
+      setTabEventKey(tabEventKey - 1);
+    }
+  };
+
+  const handleStepChange = (step: number) => {
+    setTabEventKey(step);
+  };
 
   return (
     <>
@@ -39,38 +62,63 @@ const AddCustomer = () => {
               <div className="scrollbar mb-4">
                 <WizardSideNav
                   navItems={wizardNavItems}
-                  setTabEventKey={setTabEventKey}
+                  setTabEventKey={handleStepChange}
                 />
               </div>
             </Col>
             <Col xl={8} className="flex-1">
-              <Row>
-                <Col xxl={8}>
-                  <Tab.Content>
-                    <Tab.Pane eventKey={1}>
-                      <WizardForm step={1}>
-                        <NewCustomerForm />
-                      </WizardForm>
-                    </Tab.Pane>
-                    <Tab.Pane eventKey={2}>
-                      <WizardForm step={2}>
-                        <div>Step 2 Content Here</div>
-                      </WizardForm>
-                    </Tab.Pane>
-                    <Tab.Pane eventKey={3}>
-                      <WizardForm step={3}>
-                        <div>Step 3 Content Here</div>
-                      </WizardForm>
-                    </Tab.Pane>
-                  </Tab.Content>
-                  <div className="mt-6">
-                    <WizardFormFooter
-                      hidePrevBtn={tabEventKey === 1}
-                      className={classNames({ 'd-none': !form.getCanNextPage })}
+              <Tab.Content>
+                <Tab.Pane eventKey={1}>
+                  <WizardForm step={1}>
+                    <NewCustomerForm
+                      currentStep={1}
+                      onNext={handleNext}
+                      onPrev={handlePrevious}
+                      totalSteps={form.totalStep}
                     />
-                  </div>
-                </Col>
-              </Row>
+                  </WizardForm>
+                </Tab.Pane>
+                <Tab.Pane eventKey={2}>
+                  <WizardForm step={2}>
+                    <NewCustomerForm
+                      currentStep={2}
+                      onNext={handleNext}
+                      onPrev={handlePrevious}
+                      totalSteps={form.totalStep}
+                    />
+                  </WizardForm>
+                </Tab.Pane>
+                <Tab.Pane eventKey={3}>
+                  <WizardForm step={3}>
+                    <NewCustomerForm
+                      currentStep={3}
+                      onNext={handleNext}
+                      onPrev={handlePrevious}
+                      totalSteps={form.totalStep}
+                    />
+                  </WizardForm>
+                </Tab.Pane>
+                <Tab.Pane eventKey={4}>
+                  <WizardForm step={4}>
+                    <NewCustomerForm
+                      currentStep={4}
+                      onNext={handleNext}
+                      onPrev={handlePrevious}
+                      totalSteps={form.totalStep}
+                    />
+                  </WizardForm>
+                </Tab.Pane>
+                <Tab.Pane eventKey={5}>
+                  <WizardForm step={5}>
+                    <NewCustomerForm
+                      currentStep={5}
+                      onNext={handleNext}
+                      onPrev={handlePrevious}
+                      totalSteps={form.totalStep}
+                    />
+                  </WizardForm>
+                </Tab.Pane>
+              </Tab.Content>
             </Col>
           </Row>
         </WizardFormProvider>

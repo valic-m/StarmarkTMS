@@ -1,9 +1,9 @@
 /* -------------------------------------------------------------------------- */
 /*                                 Navbar Top                                 */
 /* -------------------------------------------------------------------------- */
-[data-navigation-type="horizontal"],
-[data-navigation-type="dual"],
-[data-navigation-type="combo"] {
+[data-navigation-type='horizontal'],
+[data-navigation-type='dual'],
+[data-navigation-type='combo'] {
   .navbar-nav-top {
     .dropdown {
       .dropdown-toggle {
@@ -219,10 +219,9 @@
 /*                       Navbar horizontal || combo                           */
 /* -------------------------------------------------------------------------- */
 
-[data-navigation-type="horizontal"],
-[data-navigation-type="dual"],
-[data-navigation-type="combo"] {
-
+[data-navigation-type='horizontal'],
+[data-navigation-type='dual'],
+[data-navigation-type='combo'] {
   .dropdown-item-group {
     display: flex;
     align-items: center;
@@ -338,7 +337,7 @@
 /*                            Navbar Combo                                    */
 /* -------------------------------------------------------------------------- */
 
-[data-navigation-type="combo"] {
+[data-navigation-type='combo'] {
   .move-container {
     .navbar-nav-top {
       padding-left: 1.5rem;
@@ -348,7 +347,7 @@
       padding-left: 0rem !important;
     }
   }
-  [data-navbar-appearance="darker"]{
+  [data-navbar-appearance='darker'] {
     .move-container {
       .navbar-vertical-hr {
         color: var(--#{$prefix}navbar-vertical-hr-color);
@@ -386,9 +385,9 @@
   }
 }
 
-[data-navigation-type="horizontal"],
-[data-navigation-type="dual"],
-[data-navigation-type="combo"]{
+[data-navigation-type='horizontal'],
+[data-navigation-type='dual'],
+[data-navigation-type='combo'] {
   .navbar-nav-top {
     max-height: calc(100vh - $navbar-top-height);
     overflow: auto;
@@ -398,7 +397,6 @@
         color: var(--#{$prefix}navbar-top-dropdown-color);
       }
     }
-
 
     .dropdown-menu {
       &.navbar-dropdown-caret::after {
@@ -643,7 +641,7 @@
 /* -------------------------------------------------------------------------- */
 /*                             Dual Navbar                                    */
 /* -------------------------------------------------------------------------- */
-[data-navigation-type="dual"]{
+[data-navigation-type='dual'] {
   .navbar-top {
     border-bottom: 1px solid var(--#{$prefix}dual-nav-border-color);
 

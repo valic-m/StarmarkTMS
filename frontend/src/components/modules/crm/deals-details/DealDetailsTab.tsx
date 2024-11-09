@@ -1,3 +1,5 @@
+import React from 'react';
+import { JSX } from 'react/jsx-runtime';
 import { IconProp } from '@fortawesome/fontawesome-svg-core';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { Nav, Tab } from 'react-bootstrap';

@@ -1,6 +1,6 @@
 .navbar-shadow {
   box-shadow: 0px 8px 24px -4px rgba(36, 40, 46, 0.08);
-  [data-bs-theme="dark"] & {
+  [data-bs-theme='dark'] & {
     box-shadow: 0px 8px 24px -4px rgba(0, 0, 0, 0.6);
   }
 }
@@ -170,11 +170,11 @@
 
 .alternate-landing {
   background-color: $white;
-  [data-bs-theme="dark"] & {
+  [data-bs-theme='dark'] & {
     background-color: $body-bg-dark;
   }
   .landing-navbar {
-    [data-bs-theme="dark"] & {
+    [data-bs-theme='dark'] & {
       background-color: $body-bg-dark !important;
     }
   }
@@ -207,7 +207,7 @@
       height: 80%;
       left: unset;
     }
-    [data-bs-theme="dark"] & {
+    [data-bs-theme='dark'] & {
       background-color: $body-bg-dark;
     }
   }
@@ -239,7 +239,7 @@
   }
 }
 
-[data-bs-theme="dark"] {
+[data-bs-theme='dark'] {
   .world-map-bg {
     opacity: 0.6;
   }
@@ -372,7 +372,6 @@
     top: 27%;
   }
 }
-
 
 /*-----------------------------------------------
 |   booking landing

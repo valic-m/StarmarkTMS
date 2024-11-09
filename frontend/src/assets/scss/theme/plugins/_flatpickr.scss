@@ -171,9 +171,11 @@ span.flatpickr-weekday,
   }
 }
 .flatpickr-day.inRange {
-  -webkit-box-shadow: -5px 0 0 var(--#{$prefix}flatpickr-calendar-bg),
+  -webkit-box-shadow:
+    -5px 0 0 var(--#{$prefix}flatpickr-calendar-bg),
     5px 0 0 var(--#{$prefix}flatpickr-calendar-bg);
-  box-shadow: -5px 0 0 var(--#{$prefix}flatpickr-calendar-bg),
+  box-shadow:
+    -5px 0 0 var(--#{$prefix}flatpickr-calendar-bg),
     5px 0 0 var(--#{$prefix}flatpickr-calendar-bg);
 }
 

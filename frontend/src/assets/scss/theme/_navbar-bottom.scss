@@ -4,7 +4,9 @@
   right: 0;
   left: 0;
   background: var(--#{$prefix}emphasis-bg);
-  filter: drop-shadow(0px -4px 40px rgba(var(--#{$prefix}tertiary-color), 0.07));
+  filter: drop-shadow(
+    0px -4px 40px rgba(var(--#{$prefix}tertiary-color), 0.07)
+  );
   border-top: 1px solid var(--#{$prefix}gray-300);
   padding: 1rem 1.5rem;
   z-index: $zindex-sticky;

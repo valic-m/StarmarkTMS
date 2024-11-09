@@ -16,6 +16,6 @@
   @include generate-utility($utility, '');
 }
 
-.border-translucent{
+.border-translucent {
   border-color: var(--#{$prefix}border-color-translucent) !important;
 }

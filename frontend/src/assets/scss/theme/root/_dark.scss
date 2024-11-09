@@ -1,6 +1,5 @@
 @if $enable-dark-mode {
   @include color-mode(dark, true) {
-
     @each $color, $value in $grays-dark {
       --#{$prefix}gray-#{$color}: #{$value};
     }
@@ -29,7 +28,7 @@
     --#{$prefix}quaternary-bg: #{$body-quaternary-bg-dark};
     --#{$prefix}quaternary-bg-rgb: #{to-rgb($body-quaternary-bg-dark)};
 
-    --#{$prefix}emphasis-bg: #{$body-emphasis-bg-dark};  // black
+    --#{$prefix}emphasis-bg: #{$body-emphasis-bg-dark}; // black
     --#{$prefix}emphasis-bg-rgb: #{to-rgb($body-emphasis-bg-dark)};
 
     --#{$prefix}body-highlight-color: #{$body-highlight-color-dark};
@@ -42,11 +41,11 @@
 
     // globals
     --#{$prefix}input-group-addon-bg-global: #{$gray-900};
-    --#{$prefix}dropdown-link-color-global: var(--#{$prefix}body-highlight-color);
+    --#{$prefix}dropdown-link-color-global: var(
+      --#{$prefix}body-highlight-color
+    );
     --#{$prefix}dropdown-link-hover-color-global: #{$white};
     --#{$prefix}nav-vertical-color-global: #{$gray-100};
-
-
 
     /* ------------------------------- navbar-vertical ------------------------------- */
     --#{$prefix}navbar-vertical-border-color: #{map-get($grays-dark, '200')};
@@ -56,10 +55,9 @@
 
     --#{$prefix}avatar-name-color: var(--#{$prefix}primary-light);
 
-
     /* --------------------------------- buttons -------------------------------- */
     .btn-reveal {
-    --#{$prefix}btn-color: #{map-get($grays-dark, '900')};
+      --#{$prefix}btn-color: #{map-get($grays-dark, '900')};
     }
 
     .btn.active {
@@ -121,7 +119,7 @@
 
     /* ----------------------------- outline buttons ---------------------------- */
 
-    // closed for error 
+    // closed for error
     @each $color, $value in $button-colors {
       $hover-color: var(--#{$prefix}#{$color}-dark);
       .btn-outline-#{$color} {
@@ -133,7 +131,6 @@
           --#{$prefix}btn-color: var(--#{$prefix}#{$color}-light);
           --#{$prefix}btn-border-color: var(--#{$prefix}#{$color}-light);
         }
-
       }
       // .btn-outline-#{$color} {
       //   --#{$prefix}btn-color: #{map-get($theme-colors-300, $color)};
@@ -146,7 +143,9 @@
 
     --#{$prefix}list-sort-icon: url('data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iNyIgaGVpZ2h0PSI5IiB2aWV3Qm94PSIwIDAgNyA5IiBmaWxsPSJub25lIiB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciPgo8cGF0aCBkPSJNMS4xMjkzIDQuOTkwMjNDMC42OTEwMTYgNC45OTAyMyAwLjQ3MTg3NSA1LjUwODIgMC43OTA2MjUgNS44MDcwM0wzLjE2MTMzIDguMTc3NzNDMy4zNDA2MiA4LjM3Njk1IDMuNjM5NDUgOC4zNzY5NSAzLjgzODY3IDguMTc3NzNMNi4yMDkzNyA1LjgwNzAzQzYuNTA4MiA1LjUwODIgNi4yODkwNiA0Ljk5MDIzIDUuODcwNyA0Ljk5MDIzSDEuMTI5M1pNNi4yMDkzNyAyLjg5ODQ0TDMuODM4NjcgMC41Mjc3MzVDMy42Mzk0NSAwLjM0ODQzOCAzLjM0MDYyIDAuMzQ4NDM4IDMuMTYxMzMgMC41Mjc3MzVMMC43OTA2MjUgMi44OTg0NEMwLjQ3MTg3NSAzLjIxNzE5IDAuNjkxMDE2IDMuNzE1MjMgMS4xMjkzIDMuNzE1MjNINS44NzA3QzYuMjg5MDYgMy43MTUyMyA2LjUwODIgMy4yMTcxOSA2LjIwOTM3IDIuODk4NDRaIiBmaWxsPSIjM0U0NjVCIi8+Cjwvc3ZnPgo=');
     /* --------------------------------- tinymce -------------------------------- */
-    --#{$prefix}tinymce-tox-tbtn-enabled-icon-color: var(--#{$prefix}body-highlight-color);
+    --#{$prefix}tinymce-tox-tbtn-enabled-icon-color: var(
+      --#{$prefix}body-highlight-color
+    );
 
     /* -------------------------------- choices -------------------------------- */
     --#{$prefix}choices-item-bg: rgba(var(--#{$prefix}primary-light-rgb), 0.25);
@@ -156,12 +155,19 @@
 
     /* ------------------------------- date-picker ------------------------------ */
     --#{$prefix}flatpickr-calendar-bg: #{map-get($grays, '1100')};
-    --#{$prefix}flatpickr-current-month-color: var(--#{$prefix}body-highlight-color);
+    --#{$prefix}flatpickr-current-month-color: var(
+      --#{$prefix}body-highlight-color
+    );
     --#{$prefix}flatpickr-weekday-color: var(--#{$prefix}body-highlight-color);
-    --#{$prefix}flatpickr-calendar-day-hover-bg: var(--#{$prefix}body-highlight-bg);
+    --#{$prefix}flatpickr-calendar-day-hover-bg: var(
+      --#{$prefix}body-highlight-bg
+    );
     --#{$prefix}flatpickr-weekend-days-color: var(--#{$prefix}warning);
     --#{$prefix}flatpickr-today-color: #{$gray-900};
-    --#{$prefix}flatpickr-calendar-day-selected-bg: #{rgba(var(--#{$prefix}primary-rgb), 0.2)};
+    --#{$prefix}flatpickr-calendar-day-selected-bg: #{rgba(
+        var(--#{$prefix}primary-rgb),
+        0.2
+      )};
 
     /* -------------------------------- Fullcalendar ------------------------------- */
     --#{$prefix}calendar-bg: #{$gray-1100};
@@ -180,7 +186,6 @@
     --#{$prefix}navbar-top-border-color: #{$gray-900};
     --#{$prefix}navbar-top-dropdown-color: #{$gray-600};
 
-
     /* ------------------------------- navbar-double top ------------------------------- */
 
     --#{$prefix}dual-nav-border-color: #{$dual-nav-border-color-dark};
@@ -193,21 +198,34 @@
     --#{$prefix}navbar-vertical-link-hover-color: #{$gray-100};
     --#{$prefix}navbar-vertical-link-hover-bg: #{map-get($grays-dark, '200')};
     --#{$prefix}navbar-vertical-link-active-color: #{$white};
-    --#{$prefix}navbar-vertical-link-disable-color: #{map-get($grays-dark, '600')};
+    --#{$prefix}navbar-vertical-link-disable-color: #{map-get(
+        $grays-dark,
+        '600'
+      )};
 
     --#{$prefix}hamburger-menu-color: #{$body-quaternary-color-dark};
 
     // ----------- collapsed colors ----------------
     --#{$prefix}navbar-vertical-hr-color: #{map-get($grays-dark, '400')};
-    --#{$prefix}navbar-vertical-collapsed-menu-bg: var(--#{$prefix}body-highlight-bg);
-    
+    --#{$prefix}navbar-vertical-collapsed-menu-bg: var(
+      --#{$prefix}body-highlight-bg
+    );
 
     /* -------------------------- theme-control-toggle -------------------------- */
-    --#{$prefix}theme-control-toggle-bg: rgba(var(--#{$prefix}primary-rgb), 0.24);
-    --#{$prefix}theme-control-toggle-hover-bg: rgba(var(--#{$prefix}primary-rgb), 0.7);
+    --#{$prefix}theme-control-toggle-bg: rgba(
+      var(--#{$prefix}primary-rgb),
+      0.24
+    );
+    --#{$prefix}theme-control-toggle-hover-bg: rgba(
+      var(--#{$prefix}primary-rgb),
+      0.7
+    );
     --#{$prefix}theme-control-toggle-color: var(--#{$prefix}primary-light);
-    --#{$prefix}theme-control-toggle-hover-color: #{map-get($theme-colors-bg-subtle,'primary')};
- 
+    --#{$prefix}theme-control-toggle-hover-color: #{map-get(
+        $theme-colors-bg-subtle,
+        'primary'
+      )};
+
     /* -------------------------------- Scrollbar ------------------------------- */
     --#{$variable-prefix}scrollbar-bg: #{rgba($gray-900, 0.6)};
 
@@ -233,17 +251,55 @@
       } @else {
         .table-#{$color} {
           --#{$prefix}table-bg: #{shift-color($value, -$table-bg-scale)};
-          --#{$prefix}table-color: #{color-contrast(opaque(map-get($grays-dark, '200'), $value))};
-          --#{$prefix}table-hover-bg: #{mix(color-contrast(opaque(map-get($grays-dark, '200'), $value)),$value,percentage($table-hover-bg-factor))};
-          --#{$prefix}table-hover-color: #{color-contrast(mix(color-contrast(opaque(map-get($grays-dark, '200'), $value)),$value,percentage($table-hover-bg-factor)))};
-          --#{$prefix}table-striped-bg: #{mix(color-contrast(opaque(map-get($grays-dark, '200'), $value)),$value,percentage($table-striped-bg-factor))};
-          --#{$prefix}table-striped-color: #{color-contrast(mix(color-contrast(opaque(map-get($grays-dark, '200'), $value)),$value,percentage($table-striped-bg-factor)))};
-          --#{$prefix}table-active-bg: #{mix(color-contrast(opaque(map-get($grays-dark, '200'), $value)),$value,percentage($table-active-bg-factor))};
-          --#{$prefix}table-active-color: #{color-contrast(mix(color-contrast(opaque(map-get($grays-dark, '200'), $value)),$value,percentage($table-active-bg-factor)))};
-          --#{$prefix}table-border-color: #{rgba(mix(color-contrast(opaque(map-get($grays-dark, '200'), $value)),$value,percentage($table-border-factor)),0.05)};
+          --#{$prefix}table-color: #{color-contrast(
+              opaque(map-get($grays-dark, '200'), $value)
+            )};
+          --#{$prefix}table-hover-bg: #{mix(
+              color-contrast(opaque(map-get($grays-dark, '200'), $value)),
+              $value,
+              percentage($table-hover-bg-factor)
+            )};
+          --#{$prefix}table-hover-color: #{color-contrast(
+              mix(
+                color-contrast(opaque(map-get($grays-dark, '200'), $value)),
+                $value,
+                percentage($table-hover-bg-factor)
+              )
+            )};
+          --#{$prefix}table-striped-bg: #{mix(
+              color-contrast(opaque(map-get($grays-dark, '200'), $value)),
+              $value,
+              percentage($table-striped-bg-factor)
+            )};
+          --#{$prefix}table-striped-color: #{color-contrast(
+              mix(
+                color-contrast(opaque(map-get($grays-dark, '200'), $value)),
+                $value,
+                percentage($table-striped-bg-factor)
+              )
+            )};
+          --#{$prefix}table-active-bg: #{mix(
+              color-contrast(opaque(map-get($grays-dark, '200'), $value)),
+              $value,
+              percentage($table-active-bg-factor)
+            )};
+          --#{$prefix}table-active-color: #{color-contrast(
+              mix(
+                color-contrast(opaque(map-get($grays-dark, '200'), $value)),
+                $value,
+                percentage($table-active-bg-factor)
+              )
+            )};
+          --#{$prefix}table-border-color: #{rgba(
+              mix(
+                color-contrast(opaque(map-get($grays-dark, '200'), $value)),
+                $value,
+                percentage($table-border-factor)
+              ),
+              0.05
+            )};
         }
       }
     }
-
   }
 }

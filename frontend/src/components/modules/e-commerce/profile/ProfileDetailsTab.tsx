@@ -1,3 +1,5 @@
+import React from 'react';
+import { JSX } from 'react/jsx-runtime';
 import { IconProp } from '@fortawesome/fontawesome-svg-core';
 import {
   faHeart,
@@ -56,7 +58,6 @@ const tabLinks: TabLink[] = [
     content: <EcomProfilePersonalInfo />
   }
 ];
-
 const ProfileDetailsTab = () => {
   return (
     <Tab.Container defaultActiveKey="orders">

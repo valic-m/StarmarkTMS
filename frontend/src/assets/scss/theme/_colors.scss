@@ -1,6 +1,5 @@
 $prefix: 'phoenix-' !default;
 
-
 //*-----------------------------------------------
 //|   Color System
 //-----------------------------------------------*/
@@ -40,34 +39,34 @@ $grays: (
 //-----------------------------------------------*/
 
 // scss-docs-start color-variables
-$blue:    #3874ff !default;
-$indigo:  #6610f2 !default;
-$purple:  #6f42c1 !default;
-$pink:    #d63384 !default;
-$red:     #EC1F00 !default;
-$orange:  #E5780B !default;
-$yellow:  #ffc107 !default;
-$green:   #25b003 !default;
-$teal:    #20c997 !default;
-$cyan:    #0097eb !default;
+$blue: #3874ff !default;
+$indigo: #6610f2 !default;
+$purple: #6f42c1 !default;
+$pink: #d63384 !default;
+$red: #ec1f00 !default;
+$orange: #e5780b !default;
+$yellow: #ffc107 !default;
+$green: #25b003 !default;
+$teal: #20c997 !default;
+$cyan: #0097eb !default;
 // scss-docs-end color-variables
 
 // scss-docs-start colors-map
 $colors: (
-  "blue":       $blue,
-  "indigo":     $indigo,
-  "purple":     $purple,
-  "pink":       $pink,
-  "red":        $red,
-  "orange":     $orange,
-  "yellow":     $yellow,
-  "green":      $green,
-  "teal":       $teal,
-  "cyan":       $cyan,
-  "black":      $black,
-  "white":      $white,
-  "gray":       $gray-600,
-  "gray-dark":  $gray-1100
+  'blue': $blue,
+  'indigo': $indigo,
+  'purple': $purple,
+  'pink': $pink,
+  'red': $red,
+  'orange': $orange,
+  'yellow': $yellow,
+  'green': $green,
+  'teal': $teal,
+  'cyan': $cyan,
+  'black': $black,
+  'white': $white,
+  'gray': $gray-600,
+  'gray-dark': $gray-1100
 ) !default;
 // scss-docs-end colors-map
 
@@ -75,64 +74,64 @@ $colors: (
 $min-contrast-ratio: 2 !default;
 
 // fusv-disable
-$blue-50: #F5F8FF !default;
-$blue-100: #E5EDFF !default;
-$blue-200: #ADC5FF !default;
-$blue-300: #85A9FF !default;
-$blue-400: #6090FF !default;
-$blue-500: #3874FF !default; // base-color
-$blue-600: #004DFF !default; 
-$blue-700: #003CC7 !default;
-$blue-800: #0033AA !default;
-$blue-900: #00267B !default;
-$blue-1000: #00174D !default;
+$blue-50: #f5f8ff !default;
+$blue-100: #e5edff !default;
+$blue-200: #adc5ff !default;
+$blue-300: #85a9ff !default;
+$blue-400: #6090ff !default;
+$blue-500: #3874ff !default; // base-color
+$blue-600: #004dff !default;
+$blue-700: #003cc7 !default;
+$blue-800: #0033aa !default;
+$blue-900: #00267b !default;
+$blue-1000: #00174d !default;
 
-$red-50:  #FFEDEB !default;
-$red-100: #FFE0DB !default;
-$red-200: #FABCB3 !default;
-$red-300: #F48270 !default;
-$red-400: #FB624A !default;
-$red-500: #FA3B1D !default; // base-color
-$red-600: #CC1B00 !default;
-$red-700: #B81800 !default;
+$red-50: #ffedeb !default;
+$red-100: #ffe0db !default;
+$red-200: #fabcb3 !default;
+$red-300: #f48270 !default;
+$red-400: #fb624a !default;
+$red-500: #fa3b1d !default; // base-color
+$red-600: #cc1b00 !default;
+$red-700: #b81800 !default;
 $red-800: #901400 !default;
-$red-900: #630D00 !default;
+$red-900: #630d00 !default;
 $red-1000: #380700 !default;
 
-$green-50: #F0FDEC !default;
-$green-100: #D9FBD0 !default;
-$green-200: #BEE8B4 !default;
-$green-300: #90D67F !default;
-$green-400: #51C035 !default;
-$green-500: #25B003 !default; // base-color
-$green-600: #23890B !default;
-$green-700: #1C6C09 !default;
-$green-800: #115A00 !default;
-$green-900: #0B3D00 !default;
-$green-1000: #061F00 !default;
+$green-50: #f0fdec !default;
+$green-100: #d9fbd0 !default;
+$green-200: #bee8b4 !default;
+$green-300: #90d67f !default;
+$green-400: #51c035 !default;
+$green-500: #25b003 !default; // base-color
+$green-600: #23890b !default;
+$green-700: #1c6c09 !default;
+$green-800: #115a00 !default;
+$green-900: #0b3d00 !default;
+$green-1000: #061f00 !default;
 
-$orange-50: #FFF6E0 !default;
-$orange-100: #FFEFCA !default;
-$orange-200: #FFE6AD !default;
-$orange-300: #FFCC85 !default;
-$orange-400: #EA9C3C !default;
-$orange-500: #E5780B !default; // base-color
-$orange-600: #D6630A !default;
-$orange-700: #BC3803 !default;
+$orange-50: #fff6e0 !default;
+$orange-100: #ffefca !default;
+$orange-200: #ffe6ad !default;
+$orange-300: #ffcc85 !default;
+$orange-400: #ea9c3c !default;
+$orange-500: #e5780b !default; // base-color
+$orange-600: #d6630a !default;
+$orange-700: #bc3803 !default;
 $orange-800: #901400 !default;
-$orange-900: #630D00 !default;
+$orange-900: #630d00 !default;
 $orange-1000: #380700 !default;
 
-$cyan-50: #F0FAFF !default;
-$cyan-100: #C7EBFF !default;
-$cyan-200: #96D9FF !default;
-$cyan-300: #60C6FF !default;
-$cyan-400: #33ACEF !default;
-$cyan-500: #0097EB !default; // base-color
-$cyan-600: #0080C7 !default;
+$cyan-50: #f0faff !default;
+$cyan-100: #c7ebff !default;
+$cyan-200: #96d9ff !default;
+$cyan-300: #60c6ff !default;
+$cyan-400: #33acef !default;
+$cyan-500: #0097eb !default; // base-color
+$cyan-600: #0080c7 !default;
 $cyan-700: #005585 !default;
 $cyan-800: #004870 !default;
-$cyan-900: #003A5B !default;
+$cyan-900: #003a5b !default;
 $cyan-1000: #002337 !default;
 
 $blues: (
@@ -146,7 +145,7 @@ $blues: (
   'blue-700': $blue-700,
   'blue-800': $blue-800,
   'blue-900': $blue-900,
-  'blue-1000': $blue-1000,
+  'blue-1000': $blue-1000
 ) !default;
 
 $reds: (
@@ -160,7 +159,7 @@ $reds: (
   'red-700': $red-700,
   'red-800': $red-800,
   'red-900': $red-900,
-  'red-1000': $red-1000,
+  'red-1000': $red-1000
 ) !default;
 
 $greens: (
@@ -174,7 +173,7 @@ $greens: (
   'green-700': $green-700,
   'green-800': $green-800,
   'green-900': $green-900,
-  'green-1000': $green-1000,
+  'green-1000': $green-1000
 ) !default;
 
 $oranges: (
@@ -188,7 +187,7 @@ $oranges: (
   'orange-700': $orange-700,
   'orange-800': $orange-800,
   'orange-900': $orange-900,
-  'orange-1000': $orange-1000,
+  'orange-1000': $orange-1000
 ) !default;
 
 $cyans: (
@@ -202,7 +201,7 @@ $cyans: (
   'cyan-700': $cyan-700,
   'cyan-800': $cyan-800,
   'cyan-900': $cyan-900,
-  'cyan-1000': $cyan-1000,
+  'cyan-1000': $cyan-1000
 ) !default;
 
 //fusv-enable
@@ -230,7 +229,6 @@ $theme-colors: (
   'dark': $dark
 ) !default;
 
-
 //*-----------------------------------------------
 //|   Body
 //-----------------------------------------------*/
@@ -254,38 +252,37 @@ $body-highlight-bg: $gray-100 !default;
 
 // scss-docs-start theme-text-variables
 
-$primary-text-emphasis:   $blue-700 !default;
+$primary-text-emphasis: $blue-700 !default;
 $secondary-text-emphasis: $gray-700 !default;
-$success-text-emphasis:   $green-700 !default;
-$info-text-emphasis:      $cyan-700 !default;
-$warning-text-emphasis:   $orange-700 !default;
-$danger-text-emphasis:    $red-700 !default;
-$light-text-emphasis:     $gray-1100 !default;
-$dark-text-emphasis:      $white !default;
+$success-text-emphasis: $green-700 !default;
+$info-text-emphasis: $cyan-700 !default;
+$warning-text-emphasis: $orange-700 !default;
+$danger-text-emphasis: $red-700 !default;
+$light-text-emphasis: $gray-1100 !default;
+$dark-text-emphasis: $white !default;
 // scss-docs-end theme-text-variables
 
 // scss-docs-start theme-bg-subtle-variables
-$primary-bg-subtle:       $blue-100 !default;
-$secondary-bg-subtle:     $gray-100 !default;
-$success-bg-subtle:       $green-100 !default;
-$info-bg-subtle:          $cyan-100 !default;
-$warning-bg-subtle:       $orange-100 !default;
-$danger-bg-subtle:        $red-100 !default;
+$primary-bg-subtle: $blue-100 !default;
+$secondary-bg-subtle: $gray-100 !default;
+$success-bg-subtle: $green-100 !default;
+$info-bg-subtle: $cyan-100 !default;
+$warning-bg-subtle: $orange-100 !default;
+$danger-bg-subtle: $red-100 !default;
 // $light-bg-subtle:         mix($gray-100, $white) !default;
 // $dark-bg-subtle:          $gray-400 !default;
 // scss-docs-end theme-bg-subtle-variables
 
 // scss-docs-start theme-border-subtle-variables
-$primary-border-subtle:   $blue-300 !default;
+$primary-border-subtle: $blue-300 !default;
 $secondary-border-subtle: $gray-300 !default;
-$success-border-subtle:   $green-300 !default;
-$info-border-subtle:      $cyan-300 !default;
-$warning-border-subtle:   $orange-300 !default;
-$danger-border-subtle:    $red-300 !default;
-$light-border-subtle:     $gray-100 !default;
-$dark-border-subtle:      $gray-500 !default;
+$success-border-subtle: $green-300 !default;
+$info-border-subtle: $cyan-300 !default;
+$warning-border-subtle: $orange-300 !default;
+$danger-border-subtle: $red-300 !default;
+$light-border-subtle: $gray-100 !default;
+$dark-border-subtle: $gray-500 !default;
 // scss-docs-end theme-border-subtle-variables
-
 
 //----------------------- phoenix own colors --------------------
 
@@ -351,16 +348,14 @@ $theme-color-shades: (
   'info-lighter': $cyan-200,
   'info-light': $cyan-300,
   'info-dark': $cyan-600,
-  'info-darker': $cyan-700,
+  'info-darker': $cyan-700
 ) !default;
-
 
 //*-----------------------------------------------
 //|   Border
 //-----------------------------------------------*/
 $border-color: $gray-300 !default;
-$border-color-translucent: rgba($border-color, .54) !default;
-
+$border-color-translucent: rgba($border-color, 0.54) !default;
 
 //*-----------------------------------------------
 //|  phoenix specific
@@ -374,14 +369,13 @@ $theme-hover-colors: (
   'danger': $red-600
 ) !default;
 
-
 $hover-text-colors: (
   'body-quaternary': var(--#{$prefix}quaternary-color),
   'body-tertiary': var(--#{$prefix}tertiary-color),
   'body-secondary': var(--#{$prefix}secondary-color),
   'body': var(--#{$prefix}body-color),
   'body-highlight': var(--#{$prefix}body-highlight-color),
-  'body-emphasis': var(--#{$prefix}emphasis-color),
+  'body-emphasis': var(--#{$prefix}emphasis-color)
 ) !default;
 
 $hover-bg-colors: (
@@ -390,7 +384,7 @@ $hover-bg-colors: (
   'body-secondary': var(--#{$prefix}secondary-bg),
   'body': var(--#{$prefix}body-bg),
   'body-highlight': var(--#{$prefix}body-highlight-bg),
-  'body-emphasis': var(--#{$prefix}emphasis-bg),
+  'body-emphasis': var(--#{$prefix}emphasis-bg)
 ) !default;
 
 // $body-link-colors variable’s key used as text color and value as hover text color.

@@ -14,7 +14,11 @@ const CreateDispatch = () => {
             </Form.Group>
             <Form.Group controlId="dispatchDetails" className="mt-3">
               <Form.Label>Dispatch Details</Form.Label>
-              <Form.Control as="textarea" rows={3} placeholder="Enter details" />
+              <Form.Control
+                as="textarea"
+                rows={3}
+                placeholder="Enter details"
+              />
             </Form.Group>
             <Button variant="primary" type="submit" className="mt-3">
               Submit

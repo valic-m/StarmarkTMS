@@ -2439,12 +2439,12 @@ interface EditorSelection {
     normalize: () => Range;
     selectorChanged: (selector: string, callback: (active: boolean, args: {
         node: Node;
-        selector: String;
+        selector: string;
         parents: Node[];
     }) => void) => EditorSelection;
     selectorChangedWithUnbind: (selector: string, callback: (active: boolean, args: {
         node: Node;
-        selector: String;
+        selector: string;
         parents: Node[];
     }) => void) => {
         unbind: () => void;

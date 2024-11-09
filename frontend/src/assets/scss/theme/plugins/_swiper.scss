@@ -1,16 +1,14 @@
 // @import 'swiper/css/bundle';
 .swiper-theme-container {
   position: relative;
-    .swiper-wrapper {
-      
-      &.swiper-continuous-autoplay {
-        transition-timing-function: linear;
-      }
-      .swiper-slide {
-        height: auto !important;
-      }
+  .swiper-wrapper {
+    &.swiper-continuous-autoplay {
+      transition-timing-function: linear;
     }
-  
+    .swiper-slide {
+      height: auto !important;
+    }
+  }
 
   .swiper-nav {
     margin-top: 0;
@@ -87,7 +85,6 @@
       margin-left: -1.25rem;
     }
   }
-
 
   .swiper-button-prev,
   .swiper-button-next {

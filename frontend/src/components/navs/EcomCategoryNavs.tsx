@@ -1,3 +1,5 @@
+import React from 'react';
+import { JSX } from 'react/jsx-runtime';
 import {
   UilEstate,
   UilGift,

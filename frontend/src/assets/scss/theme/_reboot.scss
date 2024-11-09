@@ -105,13 +105,13 @@ samp {
   top: 1px;
 }
 
-[data-bs-theme="dark"] {
+[data-bs-theme='dark'] {
   .d-dark-none {
     display: none;
   }
 }
 
-html:not([data-bs-theme="dark"]) {
+html:not([data-bs-theme='dark']) {
   .d-light-none {
     display: none;
   }

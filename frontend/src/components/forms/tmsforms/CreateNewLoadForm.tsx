@@ -13,13 +13,18 @@ interface FormDataType {
   customer?: string;
   loadDescription?: string;
   loadWeight?: string;
-  [key: string]: any; // Index signature to support dynamic property access
+  [key: string]: string | number | boolean | undefined; // Replace `any` with more specific types
 }
 
 const CreateNewLoadForm: React.FC = () => {
-  const { formData, onChange, validation } = useWizardFormContext<FormDataType>();
-  const [shippers, setShippers] = useState<ShipperReceiver[]>([{ name: '', address: '', contact: '' }]);
-  const [receivers, setReceivers] = useState<ShipperReceiver[]>([{ name: '', address: '', contact: '' }]);
+  const { formData, onChange, validation } =
+    useWizardFormContext<FormDataType>();
+  const [shippers, setShippers] = useState<ShipperReceiver[]>([
+    { name: '', address: '', contact: '' }
+  ]);
+  const [receivers, setReceivers] = useState<ShipperReceiver[]>([
+    { name: '', address: '', contact: '' }
+  ]);
   const [showCustomerModal, setShowCustomerModal] = useState(false);
 
   const handleCustomerModal = () => setShowCustomerModal(!showCustomerModal);
@@ -46,7 +51,10 @@ const CreateNewLoadForm: React.FC = () => {
     }
   };
 
-  const handleShipperChange = (index: number, event: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
+  const handleShipperChange = (
+    index: number,
+    event: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
+  ) => {
     const updatedShippers = [...shippers];
     const { name, value } = event.target;
     updatedShippers[index][name as keyof ShipperReceiver] = value;
@@ -54,7 +62,10 @@ const CreateNewLoadForm: React.FC = () => {
     onChange(event);
   };
 
-  const handleReceiverChange = (index: number, event: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
+  const handleReceiverChange = (
+    index: number,
+    event: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
+  ) => {
     const updatedReceivers = [...receivers];
     const { name, value } = event.target;
     updatedReceivers[index][name as keyof ShipperReceiver] = value;
@@ -79,7 +90,11 @@ const CreateNewLoadForm: React.FC = () => {
             />
           </Col>
           <Col xs="auto">
-            <Button variant="outline-success" size="sm" onClick={handleCustomerModal}>
+            <Button
+              variant="outline-success"
+              size="sm"
+              onClick={handleCustomerModal}
+            >
               Add New
             </Button>
           </Col>
@@ -95,11 +110,19 @@ const CreateNewLoadForm: React.FC = () => {
           <Form>
             <Form.Group controlId="newCustomerName" className="mb-3">
               <Form.Label>Name</Form.Label>
-              <Form.Control type="text" placeholder="Enter customer name" required />
+              <Form.Control
+                type="text"
+                placeholder="Enter customer name"
+                required
+              />
             </Form.Group>
             <Form.Group controlId="newCustomerContact" className="mb-3">
               <Form.Label>Contact</Form.Label>
-              <Form.Control type="text" placeholder="Enter contact details" required />
+              <Form.Control
+                type="text"
+                placeholder="Enter contact details"
+                required
+              />
             </Form.Group>
             <Button variant="outline-primary" type="submit">
               Save Customer
@@ -122,29 +145,35 @@ const CreateNewLoadForm: React.FC = () => {
                   name="name"
                   placeholder="Enter Shipper Name"
                   value={shipper.name}
-                  onChange={(e) => handleShipperChange(index, e)}
+                  onChange={e => handleShipperChange(index, e)}
                   required={validation}
                 />
               </Form.Group>
-              <Form.Group controlId={`shipperAddress-${index}`} className="mb-2">
+              <Form.Group
+                controlId={`shipperAddress-${index}`}
+                className="mb-2"
+              >
                 <Form.Label>Shipper Address</Form.Label>
                 <Form.Control
                   type="text"
                   name="address"
                   placeholder="Enter Shipper Address"
                   value={shipper.address}
-                  onChange={(e) => handleShipperChange(index, e)}
+                  onChange={e => handleShipperChange(index, e)}
                   required={validation}
                 />
               </Form.Group>
-              <Form.Group controlId={`shipperContact-${index}`} className="mb-2">
+              <Form.Group
+                controlId={`shipperContact-${index}`}
+                className="mb-2"
+              >
                 <Form.Label>Contact Number</Form.Label>
                 <Form.Control
                   type="text"
                   name="contact"
                   placeholder="Enter Contact Number"
                   value={shipper.contact}
-                  onChange={(e) => handleShipperChange(index, e)}
+                  onChange={e => handleShipperChange(index, e)}
                   required={validation}
                 />
               </Form.Group>
@@ -160,7 +189,12 @@ const CreateNewLoadForm: React.FC = () => {
               )}
             </Card>
           ))}
-          <Button variant="outline-success" className="w-100 mb-3" size="sm" onClick={handleAddShipper}>
+          <Button
+            variant="outline-success"
+            className="w-100 mb-3"
+            size="sm"
+            onClick={handleAddShipper}
+          >
             Add Shipper
           </Button>
         </Col>
@@ -177,29 +211,35 @@ const CreateNewLoadForm: React.FC = () => {
                   name="name"
                   placeholder="Enter Receiver Name"
                   value={receiver.name}
-                  onChange={(e) => handleReceiverChange(index, e)}
+                  onChange={e => handleReceiverChange(index, e)}
                   required={validation}
                 />
               </Form.Group>
-              <Form.Group controlId={`receiverAddress-${index}`} className="mb-2">
+              <Form.Group
+                controlId={`receiverAddress-${index}`}
+                className="mb-2"
+              >
                 <Form.Label>Receiver Address</Form.Label>
                 <Form.Control
                   type="text"
                   name="address"
                   placeholder="Enter Receiver Address"
                   value={receiver.address}
-                  onChange={(e) => handleReceiverChange(index, e)}
+                  onChange={e => handleReceiverChange(index, e)}
                   required={validation}
                 />
               </Form.Group>
-              <Form.Group controlId={`receiverContact-${index}`} className="mb-2">
+              <Form.Group
+                controlId={`receiverContact-${index}`}
+                className="mb-2"
+              >
                 <Form.Label>Contact Number</Form.Label>
                 <Form.Control
                   type="text"
                   name="contact"
                   placeholder="Enter Contact Number"
                   value={receiver.contact}
-                  onChange={(e) => handleReceiverChange(index, e)}
+                  onChange={e => handleReceiverChange(index, e)}
                   required={validation}
                 />
               </Form.Group>
@@ -215,7 +255,12 @@ const CreateNewLoadForm: React.FC = () => {
               )}
             </Card>
           ))}
-          <Button variant="outline-success" className="w-100 mb-3" size="sm" onClick={handleAddReceiver}>
+          <Button
+            variant="outline-success"
+            className="w-100 mb-3"
+            size="sm"
+            onClick={handleAddReceiver}
+          >
             Add Receiver
           </Button>
         </Col>

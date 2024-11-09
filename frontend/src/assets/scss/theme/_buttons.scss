@@ -234,7 +234,9 @@
   --#{$prefix}btn-disabled-color: #{$btn-link-disabled-color};
   --#{$prefix}btn-disabled-border-color: transparent;
   --#{$prefix}btn-box-shadow: 0 0 0 #000; // Can't use `none` as keyword negates all values when used with multiple shadows
-  --#{$prefix}btn-focus-shadow-rgb: #{to-rgb(mix(color-contrast($link-color), $link-color, 15%))};
+  --#{$prefix}btn-focus-shadow-rgb: #{to-rgb(
+      mix(color-contrast($link-color), $link-color, 15%)
+    )};
 
   text-decoration: $link-decoration;
 
@@ -337,6 +339,6 @@ button,
   -webkit-appearance: none;
 }
 
-.btn-link{
+.btn-link {
   --#{$prefix}btn-font-weight: #{$font-weight-bold};
 }

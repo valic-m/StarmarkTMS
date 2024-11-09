@@ -89,7 +89,7 @@
   $_map: ();
 
   @each $key, $value in $map {
-    $_map: map-merge($_map, ("gray-" + $key: $value));
+    $_map: map-merge($_map, ('gray-' + $key: $value));
   }
 
   @return $_map;

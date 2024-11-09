@@ -1,11 +1,8 @@
 /* -------------------------------------------------------------------------- */
 /*                                  Override                                  */
 /* -------------------------------------------------------------------------- */
-[data-bs-theme="dark"] {
-  @each $color, $value in map-merge-multiple(
-    $theme-colors,
-    $grays-updated,
-  ) {
+[data-bs-theme='dark'] {
+  @each $color, $value in map-merge-multiple($theme-colors, $grays-updated) {
     .dark__bg-#{$color} {
       background-color: $value !important;
     }
@@ -30,5 +27,4 @@
       --#{$prefix}text-opacity: #{$value};
     }
   }
-
 }

@@ -28,7 +28,7 @@
     }
   }
 }
-.flight-map{
+.flight-map {
   .mapboxgl-ctrl-logo {
     display: none;
   }
@@ -38,12 +38,12 @@
       min-height: 33.125rem;
     }
   }
-  .flight-map-control-btn{
+  .flight-map-control-btn {
     top: 60px;
     bottom: 0;
     right: 0;
     bottom: unset !important;
-    @include media-breakpoint-up(md){
+    @include media-breakpoint-up(md) {
       top: unset;
       right: unset;
       bottom: 0 !important;

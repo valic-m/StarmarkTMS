@@ -239,7 +239,7 @@ const routes: RouteObject[] = [
               }
             ]
           },
-            {
+          {
             path: '/operations-management',
             children: [
               {
