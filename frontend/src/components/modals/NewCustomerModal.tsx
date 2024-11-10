@@ -1,27 +1,18 @@
 import React, { useState } from 'react';
-import { Modal, Button, ProgressBar } from 'react-bootstrap';
-import NewCustomerForm from 'components/forms/tmsforms/NewCustomerForm';
+import { Modal, ProgressBar } from 'react-bootstrap';
+import NewCustomerForm from 'components/forms/tmsforms/NewCustomerForm/NewCustomerForm';
 
 interface NewCustomerModalProps {
   show: boolean;
   onHide: () => void;
 }
 
-const NewCustomerModal: React.FC<NewCustomerModalProps> = ({ show, onHide }) => {
-  const [currentStep, setCurrentStep] = useState(1);
+const NewCustomerModal: React.FC<NewCustomerModalProps> = ({
+  show,
+  onHide
+}) => {
+  const [currentStep] = useState<number>(1); // Removed setCurrentStep since it's unused
   const totalSteps = 3; // Adjust as needed
-
-  const handleNext = () => {
-    if (currentStep < totalSteps) {
-      setCurrentStep(currentStep + 1);
-    }
-  };
-
-  const handlePrevious = () => {
-    if (currentStep > 1) {
-      setCurrentStep(currentStep - 1);
-    }
-  };
 
   return (
     <Modal show={show} onHide={onHide} size="lg">
@@ -29,12 +20,7 @@ const NewCustomerModal: React.FC<NewCustomerModalProps> = ({ show, onHide }) => 
         <Modal.Title>Add New Customer</Modal.Title>
       </Modal.Header>
       <Modal.Body>
-        <NewCustomerForm
-          currentStep={currentStep}
-          onNext={handleNext}
-          onPrev={handlePrevious}
-          totalSteps={totalSteps}
-        />
+        <NewCustomerForm currentStep={currentStep} totalSteps={totalSteps} />
       </Modal.Body>
       <Modal.Footer>
         <ProgressBar
