@@ -5,9 +5,9 @@ import ContactInfoForm from './ContactInfoForm';
 import CreditLimitForm from './CreditLimitForm';
 import AccountsPayableForm from './AccountsPayableForm';
 import AgentInfoForm from './AgentInfoForm';
-import ReviewForm from './Preview'; // Corrected path for ReviewForm
+import Preview from './Preview';
 
-interface FormData {
+interface CustomerFormData {
   name: string;
   mc_number: string;
   scac: string;
@@ -16,18 +16,13 @@ interface FormData {
   city: string;
   state: string;
   zip_code: string;
-  term_pay: string;
-  tax_id: string;
-  is_active: boolean;
-  factoring: boolean;
-  do_not_use: boolean;
-  notes: string;
   contact_name: string;
   phone_number: string;
   cell_number: string;
   email: string;
   website: string;
   credit_limit: string;
+  is_active: boolean;
   accounts_payable_contact: string;
   accounts_payable_phone: string;
   accounts_payable_email: string;
@@ -43,13 +38,15 @@ interface FormData {
 interface NewCustomerFormProps {
   currentStep: number;
   totalSteps: number;
+  handleFinalSubmit: () => void;
 }
 
 const NewCustomerForm: React.FC<NewCustomerFormProps> = ({
   currentStep,
-  totalSteps
+  totalSteps,
+  handleFinalSubmit
 }) => {
-  const [formData, setFormData] = useState<FormData>({
+  const [formData, setFormData] = useState<CustomerFormData>({
     name: '',
     mc_number: '',
     scac: '',
@@ -58,18 +55,13 @@ const NewCustomerForm: React.FC<NewCustomerFormProps> = ({
     city: '',
     state: '',
     zip_code: '',
-    term_pay: 'Net 30',
-    tax_id: '',
-    is_active: false,
-    factoring: false,
-    do_not_use: false,
-    notes: '',
     contact_name: '',
     phone_number: '',
     cell_number: '',
     email: '',
     website: '',
     credit_limit: '',
+    is_active: false,
     accounts_payable_contact: '',
     accounts_payable_phone: '',
     accounts_payable_email: '',
@@ -88,9 +80,7 @@ const NewCustomerForm: React.FC<NewCustomerFormProps> = ({
     >
   ) => {
     const { name, value, type } = e.target;
-    const checked =
-      type === 'checkbox' ? (e.target as HTMLInputElement).checked : undefined;
-
+    const checked = (e.target as HTMLInputElement).checked;
     setFormData({
       ...formData,
       [name]: type === 'checkbox' ? checked : value
@@ -123,13 +113,45 @@ const NewCustomerForm: React.FC<NewCustomerFormProps> = ({
           <AgentInfoForm formData={formData} handleChange={handleChange} />
         );
       case 6:
-        return <ReviewForm formData={formData} />;
+        return (
+          <Preview
+            formData={
+              formData as unknown as Record<
+                string,
+                string | number | boolean | undefined
+              >
+            }
+          />
+        );
       default:
         return <div>Invalid step</div>;
     }
   };
 
-  return <Form>{renderStepContent()}</Form>;
+  return (
+    <Form>
+      {renderStepContent()}
+      <div className="mt-3">
+        {currentStep === totalSteps ? (
+          <button
+            type="button"
+            onClick={handleFinalSubmit}
+            className="btn btn-primary"
+          >
+            Save
+          </button>
+        ) : (
+          <button
+            type="button"
+            onClick={() => setFormData(formData)}
+            className="btn btn-primary"
+          >
+            Next
+          </button>
+        )}
+      </div>
+    </Form>
+  );
 };
 
 export default NewCustomerForm;

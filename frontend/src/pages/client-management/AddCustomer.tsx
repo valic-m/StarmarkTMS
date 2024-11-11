@@ -38,7 +38,9 @@ const AddCustomer: React.FC = () => {
   });
 
   useEffect(() => {
-    form.setFormData({});
+    form.setFormData(
+      {} as Record<string, string | number | boolean | undefined>
+    );
   }, [form]);
 
   const handleNext = () => {
@@ -75,11 +77,19 @@ const AddCustomer: React.FC = () => {
                 <Tab.Pane eventKey={item.step} key={item.step}>
                   <WizardForm step={item.step}>
                     {item.step === 6 ? (
-                      <Preview formData={form.formData} />
+                      <Preview
+                        formData={
+                          form.formData as Record<
+                            string,
+                            string | number | boolean | undefined
+                          >
+                        }
+                      />
                     ) : (
                       <NewCustomerForm
                         currentStep={item.step}
                         totalSteps={form.totalStep}
+                        handleFinalSubmit={handleFinalSubmit}
                       />
                     )}
                   </WizardForm>

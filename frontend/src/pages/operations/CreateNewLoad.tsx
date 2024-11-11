@@ -6,7 +6,7 @@ import WizardFormProvider from 'providers/WizardFormProvider';
 import PageBreadcrumb from 'components/common/PageBreadcrumb';
 import WizardSideNav from 'components/wizard/WizardSideNav';
 import CreateNewLoadForm from 'components/forms/tmsforms/CreateNewLoadForm';
-import { wizardNav } from 'data/wizard/wizard'; // Ensure this import path and type are accurate
+import { wizardNav } from 'data/wizard/wizard';
 import NewCustomerModal from 'components/modals/NewCustomerModal';
 import axios from 'axios';
 

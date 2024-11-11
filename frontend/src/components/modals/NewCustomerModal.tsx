@@ -11,8 +11,12 @@ const NewCustomerModal: React.FC<NewCustomerModalProps> = ({
   show,
   onHide
 }) => {
-  const [currentStep] = useState<number>(1); // Removed setCurrentStep since it's unused
-  const totalSteps = 3; // Adjust as needed
+  const [currentStep] = useState<number>(1);
+  const totalSteps = 3;
+
+  const handleFinalSubmit = () => {
+    console.log('Final submit action triggered');
+  };
 
   return (
     <Modal show={show} onHide={onHide} size="lg">
@@ -20,7 +24,11 @@ const NewCustomerModal: React.FC<NewCustomerModalProps> = ({
         <Modal.Title>Add New Customer</Modal.Title>
       </Modal.Header>
       <Modal.Body>
-        <NewCustomerForm currentStep={currentStep} totalSteps={totalSteps} />
+        <NewCustomerForm
+          currentStep={currentStep}
+          totalSteps={totalSteps}
+          handleFinalSubmit={handleFinalSubmit}
+        />
       </Modal.Body>
       <Modal.Footer>
         <ProgressBar
