@@ -36,7 +36,6 @@ const wizardNavItems = [
 
 const AddCustomer: React.FC = () => {
   const [tabEventKey, setTabEventKey] = useState<number>(1);
-
   const form = useWizardForm({
     totalStep: wizardNavItems.length
   });
@@ -48,6 +47,12 @@ const AddCustomer: React.FC = () => {
   const handleNext = () => {
     if (tabEventKey < form.totalStep) {
       setTabEventKey(prev => prev + 1);
+    }
+  };
+
+  const handlePrevious = () => {
+    if (tabEventKey > 1) {
+      setTabEventKey(prev => prev - 1);
     }
   };
 
@@ -105,8 +110,10 @@ const AddCustomer: React.FC = () => {
                     ) : (
                       <NewCustomerForm
                         currentStep={item.step}
-                        totalSteps={form.totalStep}
-                        handleFinalSubmit={handleFinalSubmit}
+                        formData={form.formData as CustomerFormData}
+                        setFormData={form.setFormData}
+                        onNext={handleNext}
+                        onPrev={handlePrevious}
                       />
                     )}
                   </WizardForm>

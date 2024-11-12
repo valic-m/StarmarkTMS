@@ -1,6 +1,6 @@
-// File: NewCustomerForm.tsx
+// File: src/components/forms/tmsforms/NewCustomerForm/NewCustomerForm.tsx
 
-import React, { useState } from 'react';
+import React from 'react';
 import { Form } from 'react-bootstrap';
 import GeneralInfoForm from './GeneralInfoForm';
 import ContactInfoForm from './ContactInfoForm';
@@ -12,48 +12,19 @@ import { CustomerFormData } from 'types/Customer';
 
 interface NewCustomerFormProps {
   currentStep: number;
-  totalSteps: number;
-  handleFinalSubmit: (formData: CustomerFormData) => void;
+  formData: CustomerFormData;
+  setFormData: React.Dispatch<React.SetStateAction<CustomerFormData>>;
+  onNext: () => void;
+  onPrev: () => void;
 }
 
 const NewCustomerForm: React.FC<NewCustomerFormProps> = ({
   currentStep,
-  totalSteps,
-  handleFinalSubmit
+  formData,
+  setFormData,
+  onNext,
+  onPrev
 }) => {
-  const [formData, setFormData] = useState<CustomerFormData>({
-    name: '',
-    mc_number: '',
-    scac: '',
-    address_street: '',
-    address_number: '',
-    city: '',
-    state: '',
-    zip_code: '',
-    contact_name: '',
-    phone_number: '',
-    cell_number: '',
-    email: '',
-    website: '',
-    credit_limit: '',
-    is_active: false,
-    accounts_payable_contact: '',
-    accounts_payable_phone: '',
-    accounts_payable_email: '',
-    accounts_payable_address: '',
-    accounts_payable_city: '',
-    accounts_payable_state: '',
-    accounts_payable_zip: '',
-    agent_name: '',
-    agent_phone: '',
-    agent_email: '',
-    factoring: false,
-    do_not_use: false,
-    notes: '',
-    tax_id: '',
-    term_pay: ''
-  });
-
   const handleChange = (
     e: React.ChangeEvent<
       HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement
@@ -103,22 +74,23 @@ const NewCustomerForm: React.FC<NewCustomerFormProps> = ({
   return (
     <Form>
       {renderStepContent()}
-      <div className="mt-3">
-        {currentStep === totalSteps ? (
-          <button
-            type="button"
-            onClick={() => handleFinalSubmit(formData)}
-            className="btn btn-primary"
-          >
-            Save
+      <div className="mt-3 d-flex justify-content-between">
+        {currentStep > 1 && (
+          <button type="button" onClick={onPrev} className="btn btn-secondary">
+            Previous
+          </button>
+        )}
+        {currentStep < 6 ? (
+          <button type="button" onClick={onNext} className="btn btn-primary">
+            Next
           </button>
         ) : (
           <button
             type="button"
-            onClick={() => setFormData(formData)}
+            onClick={() => console.log('Final Submit')}
             className="btn btn-primary"
           >
-            Next
+            Save
           </button>
         )}
       </div>
