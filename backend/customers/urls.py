@@ -1,5 +1,3 @@
-# File: C:/Users/valic/Documents/TMS/backend/customers/urls.py
-
 from django.urls import path
 from .views import (
     CustomerListCreate,

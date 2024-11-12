@@ -1,26 +1,19 @@
+// File: src/components/forms/tmsforms/NewCustomerForm/CreditLimitForm.tsx
+
 import React from 'react';
 import { Form } from 'react-bootstrap';
-
-interface FormData {
-  credit_limit: string;
-  is_active: boolean;
-  // Add any other relevant fields
-}
+import { CustomerFormData } from 'types/Customer'; // Ensure this path is correct
 
 interface CreditLimitFormProps {
-  formData: FormData;
+  formData: CustomerFormData;
   handleChange: (
-    e: React.ChangeEvent<
-      HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement
-    >
+    e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement>
   ) => void;
 }
 
-const CreditLimitForm: React.FC<CreditLimitFormProps> = ({
-  formData,
-  handleChange
-}) => (
+const CreditLimitForm: React.FC<CreditLimitFormProps> = ({ formData, handleChange }) => (
   <>
+    {/* Credit Limit Field */}
     <Form.Group controlId="credit_limit" className="mb-3">
       <Form.Label>Credit Limit</Form.Label>
       <Form.Control
@@ -32,6 +25,7 @@ const CreditLimitForm: React.FC<CreditLimitFormProps> = ({
       />
     </Form.Group>
 
+    {/* Active Status Checkbox */}
     <Form.Group controlId="is_active" className="mb-3">
       <Form.Check
         type="checkbox"
@@ -42,7 +36,7 @@ const CreditLimitForm: React.FC<CreditLimitFormProps> = ({
       />
     </Form.Group>
 
-    {/* Add other credit-related fields as needed */}
+    {/* Add any additional fields here, if needed */}
   </>
 );
 

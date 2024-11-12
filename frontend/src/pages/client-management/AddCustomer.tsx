@@ -1,3 +1,5 @@
+// File: src/pages/client-management/AddCustomer.tsx
+
 import React, { useEffect, useState } from 'react';
 import { Col, Row, Tab } from 'react-bootstrap';
 import PageBreadcrumb from 'components/common/PageBreadcrumb';
@@ -9,6 +11,8 @@ import WizardFormFooter from 'components/wizard/WizardFormFooter';
 import useWizardForm from 'hooks/useWizardForm';
 import NewCustomerForm from 'components/forms/tmsforms/NewCustomerForm/NewCustomerForm';
 import Preview from 'components/forms/tmsforms/NewCustomerForm/Preview';
+import { CustomerFormData } from 'types/Customer';  // <-- Import from types
+
 import {
   faInfoCircle,
   faFileAlt,
@@ -21,12 +25,7 @@ const wizardNavItems = [
   { step: 1, label: 'General Info', completed: false, icon: faInfoCircle },
   { step: 2, label: 'Contact Info', completed: false, icon: faUser },
   { step: 3, label: 'Credit Limit Info', completed: false, icon: faFileAlt },
-  {
-    step: 4,
-    label: 'Accounts Payable Info',
-    completed: false,
-    icon: faMoneyBill
-  },
+  { step: 4, label: 'Accounts Payable Info', completed: false, icon: faMoneyBill },
   { step: 5, label: 'Agent Info', completed: false, icon: faCheckCircle },
   { step: 6, label: 'Review Info', completed: false, icon: faCheckCircle }
 ];
@@ -38,10 +37,8 @@ const AddCustomer: React.FC = () => {
   });
 
   useEffect(() => {
-    form.setFormData(
-      {} as Record<string, string | number | boolean | undefined>
-    );
-  }, [form]);
+    console.log("Current form data:", form.formData);
+  }, [form.formData]);
 
   const handleNext = () => {
     if (tabEventKey < form.totalStep) {
@@ -53,8 +50,30 @@ const AddCustomer: React.FC = () => {
     setTabEventKey(step);
   };
 
-  const handleFinalSubmit = () => {
-    console.log('Customer data submitted:', form.formData);
+  const handleFinalSubmit = async () => {
+    try {
+      console.log('Submitting form data:', form.formData);
+      const response = await fetch('/api/customers/', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify(form.formData)
+      });
+
+      if (response.ok) {
+        const result = await response.json();
+        console.log('Customer data saved successfully:', result);
+        alert('Customer data saved successfully');
+      } else {
+        const errorData = await response.json();
+        console.error('Error saving customer data:', errorData);
+        alert('Error saving customer data. Check console for details.');
+      }
+    } catch (error) {
+      console.error('An unexpected error occurred:', error);
+      alert('An unexpected error occurred.');
+    }
   };
 
   return (
@@ -77,14 +96,7 @@ const AddCustomer: React.FC = () => {
                 <Tab.Pane eventKey={item.step} key={item.step}>
                   <WizardForm step={item.step}>
                     {item.step === 6 ? (
-                      <Preview
-                        formData={
-                          form.formData as Record<
-                            string,
-                            string | number | boolean | undefined
-                          >
-                        }
-                      />
+                      <Preview formData={form.formData as CustomerFormData} />
                     ) : (
                       <NewCustomerForm
                         currentStep={item.step}
@@ -98,6 +110,7 @@ const AddCustomer: React.FC = () => {
             </Tab.Content>
             <div className="mt-6">
               <WizardFormFooter
+                nextBtnLabel={tabEventKey === form.totalStep ? 'Save' : 'Next'}
                 handleSubmit={
                   tabEventKey === form.totalStep
                     ? handleFinalSubmit
