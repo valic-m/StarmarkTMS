@@ -11,6 +11,9 @@ import WizardFormFooter from 'components/wizard/WizardFormFooter';
 import useWizardForm from 'hooks/useWizardForm';
 import NewCustomerForm from 'components/forms/tmsforms/NewCustomerForm/NewCustomerForm';
 import Preview from 'components/forms/tmsforms/NewCustomerForm/Preview';
+import { CustomerFormData } from 'types/Customer';
+import { createCustomer } from '../../api/customers'; // Only one import for createCustomer
+
 import {
   faInfoCircle,
   faFileAlt,
@@ -18,7 +21,6 @@ import {
   faUser,
   faMoneyBill
 } from '@fortawesome/free-solid-svg-icons';
-import { CustomerFormData } from 'types/Customer'; // Ensure type is correctly imported
 
 const wizardNavItems = [
   { step: 1, label: 'General Info', completed: false, icon: faInfoCircle },
@@ -63,26 +65,12 @@ const AddCustomer: React.FC = () => {
   const handleFinalSubmit = async () => {
     try {
       console.log('Submitting form data:', form.formData);
-      const response = await fetch('/api/customers/', {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json'
-        },
-        body: JSON.stringify(form.formData)
-      });
-
-      if (response.ok) {
-        const result = await response.json();
-        console.log('Customer data saved successfully:', result);
-        alert('Customer data saved successfully');
-      } else {
-        const errorData = await response.json();
-        console.error('Error saving customer data:', errorData);
-        alert('Error saving customer data. Check console for details.');
-      }
+      const result = await createCustomer(form.formData as CustomerFormData);
+      console.log('Customer created:', result);
+      alert('Customer data saved successfully');
     } catch (error) {
-      console.error('An unexpected error occurred:', error);
-      alert('An unexpected error occurred.');
+      console.error('Error saving customer data:', error);
+      alert('Failed to save customer data');
     }
   };
 
