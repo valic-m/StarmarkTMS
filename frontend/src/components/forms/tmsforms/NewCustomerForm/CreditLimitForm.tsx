@@ -2,18 +2,22 @@
 
 import React from 'react';
 import { Form } from 'react-bootstrap';
-import { CustomerFormData } from 'types/Customer'; // Ensure this path is correct
+import { CustomerFormData } from 'types/Customer';
 
 interface CreditLimitFormProps {
   formData: CustomerFormData;
   handleChange: (
-    e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement>
+    e: React.ChangeEvent<
+      HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement
+    >
   ) => void;
 }
 
-const CreditLimitForm: React.FC<CreditLimitFormProps> = ({ formData, handleChange }) => (
+const CreditLimitForm: React.FC<CreditLimitFormProps> = ({
+  formData,
+  handleChange
+}) => (
   <>
-    {/* Credit Limit Field */}
     <Form.Group controlId="credit_limit" className="mb-3">
       <Form.Label>Credit Limit</Form.Label>
       <Form.Control
@@ -25,7 +29,6 @@ const CreditLimitForm: React.FC<CreditLimitFormProps> = ({ formData, handleChang
       />
     </Form.Group>
 
-    {/* Active Status Checkbox */}
     <Form.Group controlId="is_active" className="mb-3">
       <Form.Check
         type="checkbox"
@@ -35,8 +38,6 @@ const CreditLimitForm: React.FC<CreditLimitFormProps> = ({ formData, handleChang
         onChange={handleChange}
       />
     </Form.Group>
-
-    {/* Add any additional fields here, if needed */}
   </>
 );
 

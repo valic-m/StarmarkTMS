@@ -1,3 +1,5 @@
+// File: src/components/forms/tmsforms/NewCustomerForm/SummaryTable.tsx
+
 import React from 'react';
 
 interface PropertyDetails {

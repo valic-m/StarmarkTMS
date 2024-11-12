@@ -11,8 +11,6 @@ import WizardFormFooter from 'components/wizard/WizardFormFooter';
 import useWizardForm from 'hooks/useWizardForm';
 import NewCustomerForm from 'components/forms/tmsforms/NewCustomerForm/NewCustomerForm';
 import Preview from 'components/forms/tmsforms/NewCustomerForm/Preview';
-import { CustomerFormData } from 'types/Customer';  // <-- Import from types
-
 import {
   faInfoCircle,
   faFileAlt,
@@ -20,24 +18,31 @@ import {
   faUser,
   faMoneyBill
 } from '@fortawesome/free-solid-svg-icons';
+import { CustomerFormData } from 'types/Customer'; // Ensure type is correctly imported
 
 const wizardNavItems = [
   { step: 1, label: 'General Info', completed: false, icon: faInfoCircle },
   { step: 2, label: 'Contact Info', completed: false, icon: faUser },
   { step: 3, label: 'Credit Limit Info', completed: false, icon: faFileAlt },
-  { step: 4, label: 'Accounts Payable Info', completed: false, icon: faMoneyBill },
+  {
+    step: 4,
+    label: 'Accounts Payable Info',
+    completed: false,
+    icon: faMoneyBill
+  },
   { step: 5, label: 'Agent Info', completed: false, icon: faCheckCircle },
   { step: 6, label: 'Review Info', completed: false, icon: faCheckCircle }
 ];
 
 const AddCustomer: React.FC = () => {
   const [tabEventKey, setTabEventKey] = useState<number>(1);
+
   const form = useWizardForm({
     totalStep: wizardNavItems.length
   });
 
   useEffect(() => {
-    console.log("Current form data:", form.formData);
+    console.log('Current form data:', form.formData);
   }, [form.formData]);
 
   const handleNext = () => {

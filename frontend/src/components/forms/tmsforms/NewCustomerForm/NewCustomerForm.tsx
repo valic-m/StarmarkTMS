@@ -8,7 +8,7 @@ import CreditLimitForm from './CreditLimitForm';
 import AccountsPayableForm from './AccountsPayableForm';
 import AgentInfoForm from './AgentInfoForm';
 import Preview from './Preview';
-import { CustomerFormData } from 'types/Customer'; // Import the CustomerFormData type
+import { CustomerFormData } from 'types/Customer';
 
 interface NewCustomerFormProps {
   currentStep: number;
@@ -19,9 +19,8 @@ interface NewCustomerFormProps {
 const NewCustomerForm: React.FC<NewCustomerFormProps> = ({
   currentStep,
   totalSteps,
-  handleFinalSubmit,
+  handleFinalSubmit
 }) => {
-  // Initialize form data with all fields, including new fields for form submission
   const [formData, setFormData] = useState<CustomerFormData>({
     name: '',
     mc_number: '',
@@ -48,41 +47,54 @@ const NewCustomerForm: React.FC<NewCustomerFormProps> = ({
     agent_name: '',
     agent_phone: '',
     agent_email: '',
-    factoring: false,          // Set to false as it's a boolean field
-    do_not_use: false,         // Boolean field
-    notes: '',                 // String field for notes
-    tax_id: '',                // String field for tax ID
-    term_pay: '',              // String field for payment terms
+    factoring: false,
+    do_not_use: false,
+    notes: '',
+    tax_id: '',
+    term_pay: ''
   });
 
-  // Handle input change for updating form data
   const handleChange = (
-    e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement>
+    e: React.ChangeEvent<
+      HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement
+    >
   ) => {
     const { name, value, type } = e.target;
     const checked = (e.target as HTMLInputElement).checked;
 
-    setFormData((prevData) => ({
+    setFormData(prevData => ({
       ...prevData,
-      [name]: type === 'checkbox' ? checked : value,
+      [name]: type === 'checkbox' ? checked : value
     }));
   };
 
-  // Render the appropriate form section based on the current step
   const renderStepContent = () => {
     switch (currentStep) {
       case 1:
-        return <GeneralInfoForm formData={formData} handleChange={handleChange} />;
+        return (
+          <GeneralInfoForm formData={formData} handleChange={handleChange} />
+        );
       case 2:
-        return <ContactInfoForm formData={formData} handleChange={handleChange} />;
+        return (
+          <ContactInfoForm formData={formData} handleChange={handleChange} />
+        );
       case 3:
-        return <CreditLimitForm formData={formData} handleChange={handleChange} />;
+        return (
+          <CreditLimitForm formData={formData} handleChange={handleChange} />
+        );
       case 4:
-        return <AccountsPayableForm formData={formData} handleChange={handleChange} />;
+        return (
+          <AccountsPayableForm
+            formData={formData}
+            handleChange={handleChange}
+          />
+        );
       case 5:
-        return <AgentInfoForm formData={formData} handleChange={handleChange} />;
+        return (
+          <AgentInfoForm formData={formData} handleChange={handleChange} />
+        );
       case 6:
-        return <Preview formData={formData} />; // Final step shows the preview
+        return <Preview formData={formData} />;
       default:
         return <div>Invalid step</div>;
     }

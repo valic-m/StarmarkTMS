@@ -2,63 +2,75 @@
 
 import React from 'react';
 import { Accordion } from 'react-bootstrap';
-import SummaryTable from './SummaryTable';  // Make sure this path is correct
-import { CustomerFormData } from 'types/Customer';  // Import CustomerFormData type
+import SummaryTable from './SummaryTable';
+import { CustomerFormData } from 'types/Customer';
 
-// Define the type for each property in the summary table
 interface PropertyDetails {
   property: string;
   value: string | number | boolean;
 }
 
-// Define props for the Preview component
 interface PreviewProps {
   formData: CustomerFormData;
 }
 
-// Preview component to display form data in different sections
 const Preview: React.FC<PreviewProps> = ({ formData }) => {
-  // General Information section
   const generalInfo: PropertyDetails[] = [
     { property: 'Customer Name', value: formData.name || 'N/A' },
     { property: 'MC Number', value: formData.mc_number || 'N/A' },
     { property: 'SCAC', value: formData.scac || 'N/A' },
     { property: 'Address Street', value: formData.address_street || 'N/A' },
-    { property: 'City', value: formData.city || 'N/A' },
+    { property: 'City', value: formData.city || 'N/A' }
   ];
 
-  // Contact Information section
   const contactInfo: PropertyDetails[] = [
     { property: 'Contact Name', value: formData.contact_name || 'N/A' },
     { property: 'Phone Number', value: formData.phone_number || 'N/A' },
-    { property: 'Email', value: formData.email || 'N/A' },
+    { property: 'Email', value: formData.email || 'N/A' }
   ];
 
-  // Credit Information section
   const creditInfo: PropertyDetails[] = [
     { property: 'Credit Limit', value: formData.credit_limit || 'N/A' },
-    { property: 'Active Status', value: formData.is_active ? 'Yes' : 'No' },
+    { property: 'Active Status', value: formData.is_active ? 'Yes' : 'No' }
   ];
 
-  // Accounts Payable Information section
   const accountsPayableInfo: PropertyDetails[] = [
-    { property: 'Accounts Payable Contact', value: formData.accounts_payable_contact || 'N/A' },
-    { property: 'Accounts Payable Phone', value: formData.accounts_payable_phone || 'N/A' },
-    { property: 'Accounts Payable Email', value: formData.accounts_payable_email || 'N/A' },
-    { property: 'Accounts Payable Address', value: formData.accounts_payable_address || 'N/A' },
-    { property: 'Accounts Payable City', value: formData.accounts_payable_city || 'N/A' },
-    { property: 'Accounts Payable State', value: formData.accounts_payable_state || 'N/A' },
-    { property: 'Accounts Payable Zip', value: formData.accounts_payable_zip || 'N/A' },
+    {
+      property: 'Accounts Payable Contact',
+      value: formData.accounts_payable_contact || 'N/A'
+    },
+    {
+      property: 'Accounts Payable Phone',
+      value: formData.accounts_payable_phone || 'N/A'
+    },
+    {
+      property: 'Accounts Payable Email',
+      value: formData.accounts_payable_email || 'N/A'
+    },
+    {
+      property: 'Accounts Payable Address',
+      value: formData.accounts_payable_address || 'N/A'
+    },
+    {
+      property: 'Accounts Payable City',
+      value: formData.accounts_payable_city || 'N/A'
+    },
+    {
+      property: 'Accounts Payable State',
+      value: formData.accounts_payable_state || 'N/A'
+    },
+    {
+      property: 'Accounts Payable Zip',
+      value: formData.accounts_payable_zip || 'N/A'
+    }
   ];
 
-  // Agent Information section
   const agentInfo: PropertyDetails[] = [
     { property: 'Agent Name', value: formData.agent_name || 'N/A' },
     { property: 'Agent Phone', value: formData.agent_phone || 'N/A' },
-    { property: 'Agent Email', value: formData.agent_email || 'N/A' },
+    { property: 'Agent Email', value: formData.agent_email || 'N/A' }
   ];
 
-  // Render the Accordion with different sections
   return (
     <Accordion>
       <Accordion.Item eventKey="0">
