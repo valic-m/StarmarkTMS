@@ -1,101 +1,99 @@
-// File: src/components/forms/tmsforms/NewCustomerForm/NewCustomerForm.tsx
+// File: src/components/modals/NewCustomerModal.tsx
 
-import React from 'react';
-import { Form } from 'react-bootstrap';
-import GeneralInfoForm from './GeneralInfoForm';
-import ContactInfoForm from './ContactInfoForm';
-import CreditLimitForm from './CreditLimitForm';
-import AccountsPayableForm from './AccountsPayableForm';
-import AgentInfoForm from './AgentInfoForm';
-import Preview from './Preview';
+import React, { useState } from 'react';
+import { Modal, ProgressBar } from 'react-bootstrap';
+import NewCustomerForm from 'components/forms/tmsforms/NewCustomerForm/NewCustomerForm';
 import { CustomerFormData } from 'types/Customer';
 
-interface NewCustomerFormProps {
-  currentStep: number;
-  formData: CustomerFormData;
-  setFormData: React.Dispatch<React.SetStateAction<CustomerFormData>>;
-  onNext: () => void;
-  onPrev: () => void;
+interface NewCustomerModalProps {
+  show: boolean;
+  onHide: () => void;
 }
 
-const NewCustomerForm: React.FC<NewCustomerFormProps> = ({
-  currentStep,
-  formData,
-  setFormData,
-  onNext,
-  onPrev
+const NewCustomerModal: React.FC<NewCustomerModalProps> = ({
+  show,
+  onHide
 }) => {
-  const handleChange = (
-    e: React.ChangeEvent<
-      HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement
-    >
-  ) => {
-    const { name, value, type } = e.target;
-    const checked = (e.target as HTMLInputElement).checked;
+  const [currentStep, setCurrentStep] = useState(1);
+  const totalSteps = 6;
 
-    setFormData(prevData => ({
-      ...prevData,
-      [name]: type === 'checkbox' ? checked : value
-    }));
+  const [formData, setFormData] = useState<CustomerFormData>({
+    name: '',
+    mc_number: '',
+    scac: '',
+    address_street: '',
+    address_number: '',
+    city: '',
+    state: '',
+    zip_code: '',
+    contact_name: '',
+    phone_number: '',
+    cell_number: '',
+    email: '',
+    website: '',
+    credit_limit: '',
+    is_active: false,
+    accounts_payable_contact: '',
+    accounts_payable_phone: '',
+    accounts_payable_email: '',
+    accounts_payable_address: '',
+    accounts_payable_city: '',
+    accounts_payable_state: '',
+    accounts_payable_zip: '',
+    agent_name: '',
+    agent_phone: '',
+    agent_email: '',
+    factoring: false,
+    do_not_use: false,
+    notes: '',
+    tax_id: '',
+    term_pay: ''
+  });
+
+  // Handle final submit and close the modal
+  const handleFinalSubmit = () => {
+    console.log('Final submit action triggered with data:', formData);
+    onHide(); // Close the modal
   };
 
-  const renderStepContent = () => {
-    switch (currentStep) {
-      case 1:
-        return (
-          <GeneralInfoForm formData={formData} handleChange={handleChange} />
-        );
-      case 2:
-        return (
-          <ContactInfoForm formData={formData} handleChange={handleChange} />
-        );
-      case 3:
-        return (
-          <CreditLimitForm formData={formData} handleChange={handleChange} />
-        );
-      case 4:
-        return (
-          <AccountsPayableForm
-            formData={formData}
-            handleChange={handleChange}
-          />
-        );
-      case 5:
-        return (
-          <AgentInfoForm formData={formData} handleChange={handleChange} />
-        );
-      case 6:
-        return <Preview formData={formData} />;
-      default:
-        return <div>Invalid step</div>;
+  // Handle moving to the next step
+  const handleNext = () => {
+    if (currentStep < totalSteps) {
+      setCurrentStep((prev) => prev + 1);
+    } else {
+      handleFinalSubmit();
+    }
+  };
+
+  // Handle moving to the previous step
+  const handlePrevious = () => {
+    if (currentStep > 1) {
+      setCurrentStep((prev) => prev - 1);
     }
   };
 
   return (
-    <Form>
-      {renderStepContent()}
-      <div className="mt-3 d-flex justify-content-between">
-        {currentStep > 1 && (
-          <button type="button" onClick={onPrev} className="btn btn-secondary">
-            Previous
-          </button>
-        )}
-        {currentStep < 6 ? (
-          <button type="button" onClick={onNext} className="btn btn-primary">
-            Next
-          </button>
-        ) : (
-          <button
-            type="button"
-            onClick={() => console.log('Final Submit')}
-            className="btn btn-primary"
-          >
-            Save
-          </button>
-        )}
-      </div>
-    </Form>
+    <Modal show={show} onHide={onHide} centered size="lg">
+      <Modal.Header closeButton>
+        <Modal.Title>Add New Customer</Modal.Title>
+      </Modal.Header>
+      <Modal.Body>
+        <NewCustomerForm
+          currentStep={currentStep}
+          formData={formData}
+          setFormData={setFormData}
+          onNext={handleNext}
+          onPrev={handlePrevious}
+        />
+      </Modal.Body>
+      <Modal.Footer>
+        <ProgressBar
+          now={(currentStep / totalSteps) * 100}
+          style={{ width: '100%' }}
+        />
+      </Modal.Footer>
+    </Modal>
   );
 };
 
-export default NewCustomerForm;
+export default NewCustomerModal;

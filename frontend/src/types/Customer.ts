@@ -1,11 +1,9 @@
 // File: src/types/Customer.ts
 
-// Basic Customer interface for common customer data
+// Basic Customer interface for general customer data
 export interface Customer {
   id: number;
   name: string;
-  email: string;
-  phone: string;
   contact_name?: string;
   mc_number?: string; // Motor Carrier number
   scac?: string; // Standard Carrier Alpha Code
@@ -14,8 +12,10 @@ export interface Customer {
   city?: string;
   state?: string;
   zip_code?: string;
+  phone?: string;
   phone_number?: string;
   cell_number?: string;
+  email?: string;
   website?: string;
   credit_limit?: number;
   is_active?: boolean; // Whether the customer is active
@@ -41,14 +41,15 @@ export interface Customer {
   tax_id?: string; // Tax identification number
   term_pay?: string; // Payment terms (e.g., "Net 30", "Net 15")
 
-  // Additional Fields
+  // Timestamps
   created_at?: string; // Date when the customer was created
   updated_at?: string; // Date when the customer was last updated
 }
 
-// Detailed CustomerFormData interface for form-specific data, typically matching form input fields
+// Detailed CustomerFormData interface for form-specific data, matching form input fields
 export interface CustomerFormData {
   name: string;
+  contact_name: string;
   mc_number: string;
   scac: string;
   address_street: string;
@@ -56,12 +57,12 @@ export interface CustomerFormData {
   city: string;
   state: string;
   zip_code: string;
-  contact_name: string;
+  phone: string;
   phone_number: string;
   cell_number: string;
   email: string;
   website: string;
-  credit_limit: string;
+  credit_limit: string; // As a string for form input handling
   is_active: boolean;
   factoring: boolean; // Factoring status
   do_not_use: boolean; // Flag to mark as "Do Not Use"
@@ -85,7 +86,7 @@ export interface CustomerFormData {
   tax_id: string; // Tax identification number
   term_pay: string; // Payment terms (e.g., "Net 30", "Net 15")
 
-  // Additional Fields for form-specific data handling
+  // Timestamps (optional for form data)
   created_at?: string; // Date when the customer was created
   updated_at?: string; // Date when the customer was last updated
 }
