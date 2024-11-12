@@ -27,6 +27,7 @@ const NewCustomerModal: React.FC<NewCustomerModalProps> = ({
     state: '',
     zip_code: '',
     contact_name: '',
+    phone: '',
     phone_number: '',
     cell_number: '',
     email: '',
@@ -50,26 +51,18 @@ const NewCustomerModal: React.FC<NewCustomerModalProps> = ({
     term_pay: ''
   });
 
-  // Handle final submit and close the modal
   const handleFinalSubmit = () => {
     console.log('Final submit action triggered with data:', formData);
-    onHide(); // Close the modal
+    onHide();
   };
 
-  // Handle moving to the next step
   const handleNext = () => {
-    if (currentStep < totalSteps) {
-      setCurrentStep((prev) => prev + 1);
-    } else {
-      handleFinalSubmit();
-    }
+    if (currentStep < totalSteps) setCurrentStep(prev => prev + 1);
+    else handleFinalSubmit();
   };
 
-  // Handle moving to the previous step
   const handlePrevious = () => {
-    if (currentStep > 1) {
-      setCurrentStep((prev) => prev - 1);
-    }
+    if (currentStep > 1) setCurrentStep(prev => prev - 1);
   };
 
   return (

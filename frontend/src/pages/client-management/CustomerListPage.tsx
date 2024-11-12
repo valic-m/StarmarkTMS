@@ -1,11 +1,11 @@
-// File: C:/Users/valic/Documents/TMS/frontend/src/pages/client-management/CustomerListPage.tsx
+// File: src/pages/client-management/CustomerListPage.tsx
 
 import React, { useEffect, useState } from 'react';
 import { Table, Button } from 'react-bootstrap';
 import CustomerDetailsModal from 'components/modals/CustomerDetailsModal';
 import { getCustomers } from '../../services/customerService';
 import { Link } from 'react-router-dom';
-import { Customer } from '../../types/Customer'; // Ensure the path is correct and matches the main type definition
+import { Customer } from '../../types/Customer';
 
 const CustomerListPage: React.FC = () => {
   const [customers, setCustomers] = useState<Customer[]>([]);
@@ -80,12 +80,15 @@ const CustomerListPage: React.FC = () => {
         </tbody>
       </Table>
 
-      {/* Customer Details Modal */}
       {selectedCustomer && (
         <CustomerDetailsModal
           show={showDetailsModal}
           onHide={() => setShowDetailsModal(false)}
-          customer={selectedCustomer}
+          customer={{
+            ...selectedCustomer,
+            email: selectedCustomer.email ?? '',
+            phone: selectedCustomer.phone ?? ''
+          }}
         />
       )}
     </div>

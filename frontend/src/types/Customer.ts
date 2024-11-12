@@ -90,3 +90,11 @@ export interface CustomerFormData {
   created_at?: string; // Date when the customer was created
   updated_at?: string; // Date when the customer was last updated
 }
+
+// Simplified Customer interface for selected customer fields
+export interface SimpleCustomer {
+  id: string;
+  name: string;
+  email?: string; // Optional email field
+  // Additional fields can be added if needed
+}
