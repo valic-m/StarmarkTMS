@@ -10,7 +10,6 @@ interface FormData {
   city: string;
   state: string;
   zip_code: string;
-  // Add any other relevant fields
 }
 
 interface GeneralInfoFormProps {
@@ -56,7 +55,92 @@ const GeneralInfoForm: React.FC<GeneralInfoFormProps> = ({
       </Col>
     </Row>
 
-    {/* Add more fields as needed */}
+    <Row className="mb-3">
+      <Col md={6}>
+        <Form.Group controlId="scac">
+          <Form.Label>SCAC</Form.Label>
+          <Form.Control
+            type="text"
+            name="scac"
+            placeholder="Enter SCAC"
+            value={formData.scac}
+            onChange={handleChange}
+            required
+          />
+        </Form.Group>
+      </Col>
+      <Col md={6}>
+        <Form.Group controlId="address_street">
+          <Form.Label>Street Address</Form.Label>
+          <Form.Control
+            type="text"
+            name="address_street"
+            placeholder="Enter Street Address"
+            value={formData.address_street}
+            onChange={handleChange}
+            required
+          />
+        </Form.Group>
+      </Col>
+    </Row>
+
+    <Row className="mb-3">
+      <Col md={6}>
+        <Form.Group controlId="address_number">
+          <Form.Label>Address Number</Form.Label>
+          <Form.Control
+            type="text"
+            name="address_number"
+            placeholder="Enter Address Number"
+            value={formData.address_number}
+            onChange={handleChange}
+            required
+          />
+        </Form.Group>
+      </Col>
+      <Col md={6}>
+        <Form.Group controlId="city">
+          <Form.Label>City</Form.Label>
+          <Form.Control
+            type="text"
+            name="city"
+            placeholder="Enter City"
+            value={formData.city}
+            onChange={handleChange}
+            required
+          />
+        </Form.Group>
+      </Col>
+    </Row>
+
+    <Row className="mb-3">
+      <Col md={6}>
+        <Form.Group controlId="state">
+          <Form.Label>State</Form.Label>
+          <Form.Control
+            type="text"
+            name="state"
+            placeholder="Enter State"
+            value={formData.state}
+            onChange={handleChange}
+            required
+          />
+        </Form.Group>
+      </Col>
+      <Col md={6}>
+        <Form.Group controlId="zip_code">
+          <Form.Label>Zip Code</Form.Label>
+          <Form.Control
+            type="text"
+            name="zip_code"
+            placeholder="Enter Zip Code"
+            value={formData.zip_code}
+            onChange={handleChange}
+            required
+          />
+        </Form.Group>
+      </Col>
+    </Row>
   </>
 );
 
