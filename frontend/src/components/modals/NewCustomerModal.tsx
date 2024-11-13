@@ -75,8 +75,6 @@ const NewCustomerModal: React.FC<NewCustomerModalProps> = ({
           currentStep={currentStep}
           formData={formData}
           setFormData={setFormData}
-          onNext={handleNext}
-          onPrev={handlePrevious}
         />
       </Modal.Body>
       <Modal.Footer>
@@ -84,6 +82,18 @@ const NewCustomerModal: React.FC<NewCustomerModalProps> = ({
           now={(currentStep / totalSteps) * 100}
           style={{ width: '100%' }}
         />
+        {currentStep > 1 && (
+          <button
+            type="button"
+            onClick={handlePrevious}
+            className="btn btn-secondary"
+          >
+            Previous
+          </button>
+        )}
+        <button type="button" onClick={handleNext} className="btn btn-primary">
+          {currentStep === totalSteps ? 'Save' : 'Next'}
+        </button>
       </Modal.Footer>
     </Modal>
   );

@@ -14,16 +14,12 @@ interface NewCustomerFormProps {
   currentStep: number;
   formData: CustomerFormData;
   setFormData: React.Dispatch<React.SetStateAction<CustomerFormData>>;
-  onNext: () => void;
-  onPrev: () => void;
 }
 
 const NewCustomerForm: React.FC<NewCustomerFormProps> = ({
   currentStep,
   formData,
-  setFormData,
-  onNext,
-  onPrev
+  setFormData
 }) => {
   const handleChange = (
     e: React.ChangeEvent<
@@ -71,21 +67,7 @@ const NewCustomerForm: React.FC<NewCustomerFormProps> = ({
     }
   };
 
-  return (
-    <Form>
-      {renderStepContent()}
-      <div className="mt-3 d-flex justify-content-between">
-        {currentStep > 1 && (
-          <button type="button" onClick={onPrev} className="btn btn-secondary">
-            Previous
-          </button>
-        )}
-        <button type="button" onClick={onNext} className="btn btn-primary">
-          {currentStep === 6 ? 'Save' : 'Next'}
-        </button>
-      </div>
-    </Form>
-  );
+  return <Form>{renderStepContent()}</Form>;
 };
 
 export default NewCustomerForm;

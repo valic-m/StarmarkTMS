@@ -12,7 +12,7 @@ import useWizardForm from 'hooks/useWizardForm';
 import NewCustomerForm from 'components/forms/tmsforms/NewCustomerForm/NewCustomerForm';
 import Preview from 'components/forms/tmsforms/NewCustomerForm/Preview';
 import { CustomerFormData } from 'types/Customer';
-import { createCustomer } from '../../api/customers'; // Only one import for createCustomer
+import { createCustomer } from '../../api/customers';
 
 import {
   faInfoCircle,
@@ -49,12 +49,6 @@ const AddCustomer: React.FC = () => {
   const handleNext = () => {
     if (tabEventKey < form.totalStep) {
       setTabEventKey(prev => prev + 1);
-    }
-  };
-
-  const handlePrevious = () => {
-    if (tabEventKey > 1) {
-      setTabEventKey(prev => prev - 1);
     }
   };
 
@@ -100,8 +94,6 @@ const AddCustomer: React.FC = () => {
                         currentStep={item.step}
                         formData={form.formData as CustomerFormData}
                         setFormData={form.setFormData}
-                        onNext={handleNext}
-                        onPrev={handlePrevious}
                       />
                     )}
                   </WizardForm>
