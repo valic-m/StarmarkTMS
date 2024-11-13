@@ -94,9 +94,7 @@ SIMPLE_JWT = {
 CORS_ALLOWED_ORIGINS = [
     'http://localhost:3000',  # Your React app's URL
 ]
-
-# Ensure CORS_ALLOW_ALL_ORIGINS is not set when CORS_ALLOWED_ORIGINS is used.
-CORS_ALLOW_ALL_ORIGINS = True  # Only use this in development; comment it out when using CORS_ALLOWED_ORIGINS
+CORS_ALLOW_CREDENTIALS = True  # Allows credentials like cookies to be sent with cross-origin requests
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
@@ -109,6 +107,11 @@ MIDDLEWARE = [
     # Uncomment this line for clickjacking protection:
     # 'django.middleware.clickjacking.XFrameOptionsMiddleware',
 ]
+
+# Optional security settings
+SECURE_BROWSER_XSS_FILTER = True
+SECURE_CONTENT_TYPE_NOSNIFF = True
+X_FRAME_OPTIONS = 'DENY'
 
 # Crispy Forms settings
 CRISPY_TEMPLATE_PACK = 'bootstrap5'
@@ -194,6 +197,3 @@ PUBLIC_PATHS = [
 SAMSARA_API_TOKEN = os.getenv('SAMSARA_API_TOKEN')
 if not SAMSARA_API_TOKEN:
     raise ValueError("Missing SAMSARA_API_TOKEN environment variable")
-
-# CORS configuration details:
-# Ensure that only the necessary CORS settings are used for clarity and security.

@@ -1,7 +1,7 @@
 // File: src/pages/client-management/AddCustomer.tsx
 
 import React, { useEffect, useState } from 'react';
-import { Col, Row, Tab } from 'react-bootstrap';
+import { Col, Row, Tab, Alert } from 'react-bootstrap';
 import PageBreadcrumb from 'components/common/PageBreadcrumb';
 import { defaultBreadcrumbItems } from 'data/commonData';
 import WizardSideNav from 'components/wizard/WizardSideNav';
@@ -42,18 +42,41 @@ const AddCustomer: React.FC = () => {
     totalStep: wizardNavItems.length
   });
 
+  // Alert state for showing messages
+  const [alert, setAlert] = useState<{
+    show: boolean;
+    message: string;
+    variant: string;
+  }>({
+    show: false,
+    message: '',
+    variant: 'primary'
+  });
+
   useEffect(() => {
     console.log('Current form data:', form.formData);
   }, [form.formData]);
 
   const handleNext = () => {
-    if (tabEventKey < form.totalStep) {
-      setTabEventKey(prev => prev + 1);
-    }
-  };
+    // Example of front-end validation
+    const requiredFields = ['name', 'phone_number', 'email'];
+    const missingFields = requiredFields.filter(
+      field =>
+        !(form.formData as CustomerFormData)[field as keyof CustomerFormData]
+    );
 
-  const handleStepChange = (step: number) => {
-    setTabEventKey(step);
+    if (missingFields.length > 0) {
+      setAlert({
+        show: true,
+        message: `Please complete the required fields: ${missingFields.join(
+          ', '
+        )}`, // <-- Ensure proper spacing and line break here
+        variant: 'warning'
+      });
+      return;
+    }
+
+    setTabEventKey(prev => prev + 1); // Move to the next step if validation passes
   };
 
   const handleFinalSubmit = async () => {
@@ -61,10 +84,18 @@ const AddCustomer: React.FC = () => {
       console.log('Submitting form data:', form.formData);
       const result = await createCustomer(form.formData as CustomerFormData);
       console.log('Customer created:', result);
-      alert('Customer data saved successfully');
+      setAlert({
+        show: true,
+        message: 'Customer data saved successfully',
+        variant: 'success'
+      });
     } catch (error) {
       console.error('Error saving customer data:', error);
-      alert('Failed to save customer data');
+      setAlert({
+        show: true,
+        message: 'Failed to save customer data',
+        variant: 'danger'
+      });
     }
   };
 
@@ -78,7 +109,7 @@ const AddCustomer: React.FC = () => {
             <div className="scrollbar mb-4">
               <WizardSideNav
                 navItems={wizardNavItems}
-                setTabEventKey={handleStepChange}
+                setTabEventKey={setTabEventKey}
               />
             </div>
           </Col>
@@ -87,7 +118,7 @@ const AddCustomer: React.FC = () => {
               {wizardNavItems.map(item => (
                 <Tab.Pane eventKey={item.step} key={item.step}>
                   <WizardForm step={item.step}>
-                    {item.step === 6 ? (
+                    {item.step === wizardNavItems.length ? (
                       <Preview formData={form.formData as CustomerFormData} />
                     ) : (
                       <NewCustomerForm
@@ -112,6 +143,18 @@ const AddCustomer: React.FC = () => {
             </div>
           </Col>
         </Row>
+
+        {/* Display Alert if it's set to show */}
+        {alert.show && (
+          <Alert
+            variant={alert.variant}
+            onClose={() => setAlert({ ...alert, show: false })}
+            dismissible
+            className="mt-3"
+          >
+            {alert.message}
+          </Alert>
+        )}
       </WizardFormProvider>
     </div>
   );
