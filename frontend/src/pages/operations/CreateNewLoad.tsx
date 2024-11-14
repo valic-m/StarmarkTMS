@@ -1,150 +1,182 @@
-import React, { useState } from 'react';
-import { Col, Row, Tab, Button, Form, InputGroup } from 'react-bootstrap';
-import WizardForm from 'components/wizard/WizardForm';
-import useWizardForm from 'hooks/useWizardForm';
-import WizardFormProvider from 'providers/WizardFormProvider';
+// File: src/pages/operations/CreateNewLoad.tsx
+
+import React, { useEffect, useState } from 'react';
+import { Col, Row, Tab, Alert } from 'react-bootstrap';
 import PageBreadcrumb from 'components/common/PageBreadcrumb';
+import { defaultBreadcrumbItems } from 'data/commonData';
 import WizardSideNav from 'components/wizard/WizardSideNav';
-import CreateNewLoadForm from 'components/forms/tmsforms/CreateNewLoadForm';
-import { wizardNav } from 'data/wizard/wizard';
-import NewCustomerModal from 'components/modals/NewCustomerModal';
-import axios from 'axios';
+import WizardForm from 'components/wizard/WizardForm';
+import WizardFormProvider from 'providers/WizardFormProvider';
+import WizardFormFooter from 'components/wizard/WizardFormFooter';
+import useWizardForm from 'hooks/useWizardForm';
+import LoadInformation from 'components/forms/tmsforms/NewLoadForm/LoadInformation';
+import TrailerSpecifications from 'components/forms/tmsforms/NewLoadForm/TrailerSpecifications';
+import ShipmentDetails from 'components/forms/tmsforms/NewLoadForm/ShipmentDetails';
+import PickupDropoffDetails from 'components/forms/tmsforms/NewLoadForm/PickupDropoffDetails';
+import AdditionalInformation from 'components/forms/tmsforms/NewLoadForm/AdditionalInformation';
+import { FormDataType } from 'types/FormDataType';
+import { createLoad } from 'api/loads';
 
-// Define the expected structure of the customer data
-interface Customer {
-  name: string;
-  email: string;
-  // Add other relevant fields as needed
-}
+import {
+  faTruck,
+  faInfoCircle,
+  faBox,
+  faMapMarkerAlt,
+  faFileAlt
+} from '@fortawesome/free-solid-svg-icons';
 
-const CreateNewLoadPage: React.FC = () => {
-  const form = useWizardForm({ totalStep: 3 });
+const wizardNavItems = [
+  { step: 1, label: 'Load Info', completed: false, icon: faInfoCircle },
+  { step: 2, label: 'Trailer Specs', completed: false, icon: faTruck },
+  { step: 3, label: 'Shipment Details', completed: false, icon: faBox },
+  {
+    step: 4,
+    label: 'Pickup & Dropoff',
+    completed: false,
+    icon: faMapMarkerAlt
+  },
+  { step: 5, label: 'Additional Info', completed: false, icon: faFileAlt }
+];
+
+const CreateNewLoad: React.FC = () => {
   const [tabEventKey, setTabEventKey] = useState<number>(1);
-  const [searchQuery, setSearchQuery] = useState<string>('');
-  const [searchResults, setSearchResults] = useState<Customer[]>([]);
-  const [noResults, setNoResults] = useState<boolean>(false);
-  const [showNewCustomerModal, setShowNewCustomerModal] =
-    useState<boolean>(false);
+  const form = useWizardForm({ totalStep: wizardNavItems.length });
 
-  const handleSearchChange = async (e: React.ChangeEvent<HTMLInputElement>) => {
-    const query = e.target.value;
-    setSearchQuery(query);
+  const [alert, setAlert] = useState<{
+    show: boolean;
+    message: string;
+    variant: string;
+  }>({ show: false, message: '', variant: 'primary' });
 
-    if (query.trim().length > 0) {
-      try {
-        const response = await axios.get<Customer[]>(
-          `/api/customers/search?query=${query}`
-        );
-        if (response.data.length > 0) {
-          setSearchResults(response.data);
-          setNoResults(false);
-        } else {
-          setSearchResults([]);
-          setNoResults(true);
-        }
-      } catch (error) {
-        console.error('Error fetching customer data:', error);
-        setSearchResults([]);
-        setNoResults(true);
-      }
-    } else {
-      setSearchResults([]);
-      setNoResults(false);
+  useEffect(() => {
+    console.log('Current form data:', form.formData);
+  }, [form.formData]);
+
+  const handleNext = () => {
+    const requiredFields = ['customer', 'referenceNumber', 'rate'];
+    const missingFields = requiredFields.filter(
+      field => !(form.formData as FormDataType)[field as keyof FormDataType]
+    );
+
+    if (missingFields.length > 0) {
+      setAlert({
+        show: true,
+        message: `Please complete the required fields: ${missingFields.join(
+          ', '
+        )}`,
+        variant: 'warning'
+      });
+      return;
+    }
+
+    setTabEventKey(prev => prev + 1);
+  };
+
+  const handleFinalSubmit = async () => {
+    try {
+      console.log('Submitting load data:', form.formData);
+      const result = await createLoad(form.formData as FormDataType);
+      console.log('Load created:', result);
+      setAlert({
+        show: true,
+        message: 'Load data saved successfully',
+        variant: 'success'
+      });
+    } catch (error) {
+      console.error('Error saving load data:', error);
+      setAlert({
+        show: true,
+        message: 'Failed to save load data',
+        variant: 'danger'
+      });
     }
   };
 
-  const handleShowModal = () => setShowNewCustomerModal(true);
-  const handleCloseModal = () => setShowNewCustomerModal(false);
-
   return (
     <div className="mb-9">
-      <PageBreadcrumb
-        items={[
-          { label: 'Home', url: '/' },
-          { label: 'Operations' },
-          { label: 'Create New Load' }
-        ]}
-      />
+      <PageBreadcrumb items={defaultBreadcrumbItems} />
       <h2 className="fs-5 mb-4 mb-xl-5">Create New Load</h2>
-
-      {/* Customer Search Bar */}
-      <InputGroup className="mb-3">
-        <Form.Control
-          type="text"
-          placeholder="Search for a customer"
-          value={searchQuery}
-          onChange={handleSearchChange}
-        />
-        {noResults && (
-          <InputGroup.Text>
-            No customer found.{' '}
-            <Button
-              variant="link"
-              className="p-0 ms-1"
-              onClick={handleShowModal}
-            >
-              Add New Customer
-            </Button>
-          </InputGroup.Text>
-        )}
-      </InputGroup>
-
-      {/* Display search results */}
-      {searchResults.length > 0 && (
-        <ul className="list-group mb-3">
-          {searchResults.map((customer, index) => (
-            <li key={index} className="list-group-item">
-              {customer.name} - {customer.email}
-            </li>
-          ))}
-        </ul>
-      )}
-
       <WizardFormProvider {...form}>
         <Row className="gx-0 gx-xl-5 theme-wizard">
           <Col xl={{ order: 1, span: 4 }}>
             <div className="scrollbar mb-4">
               <WizardSideNav
-                navItems={wizardNav}
+                navItems={wizardNavItems}
                 setTabEventKey={setTabEventKey}
               />
             </div>
           </Col>
           <Col xl={8} className="flex-1">
             <Tab.Content>
-              <Tab.Pane eventKey={1}>
-                <WizardForm step={1}>
-                  <CreateNewLoadForm />
-                </WizardForm>
-              </Tab.Pane>
-              {/* Additional Tab.Pane can be added here for other steps */}
+              {wizardNavItems.map(item => (
+                <Tab.Pane eventKey={item.step} key={item.step}>
+                  <WizardForm step={item.step}>
+                    {item.step === 1 && (
+                      <LoadInformation
+                        formData={form.formData as FormDataType}
+                        onChange={form.onChange}
+                        validation={form.validation || false}
+                      />
+                    )}
+                    {item.step === 2 && (
+                      <TrailerSpecifications
+                        formData={form.formData as FormDataType}
+                        onChange={form.onChange}
+                        validation={form.validation || false}
+                      />
+                    )}
+                    {item.step === 3 && (
+                      <ShipmentDetails
+                        formData={form.formData as FormDataType}
+                        onChange={form.onChange}
+                        validation={form.validation || false}
+                      />
+                    )}
+                    {item.step === 4 && (
+                      <PickupDropoffDetails
+                        formData={form.formData as FormDataType}
+                        onChange={form.onChange}
+                        validation={form.validation || false}
+                      />
+                    )}
+                    {item.step === 5 && (
+                      <AdditionalInformation
+                        formData={form.formData as FormDataType}
+                        onChange={form.onChange}
+                        validation={form.validation || false}
+                      />
+                    )}
+                  </WizardForm>
+                </Tab.Pane>
+              ))}
             </Tab.Content>
-            <div className="mt-6 d-flex justify-content-between">
-              {tabEventKey > 1 && (
-                <Button
-                  variant="secondary"
-                  onClick={() => setTabEventKey(tabEventKey - 1)}
-                >
-                  Back
-                </Button>
-              )}
-              {tabEventKey < form.totalStep && (
-                <Button
-                  variant="primary"
-                  onClick={() => setTabEventKey(tabEventKey + 1)}
-                >
-                  Next
-                </Button>
-              )}
+            <div className="mt-6">
+              <WizardFormFooter
+                nextBtnLabel={tabEventKey === form.totalStep ? 'Save' : 'Next'}
+                handleSubmit={
+                  tabEventKey === form.totalStep
+                    ? handleFinalSubmit
+                    : handleNext
+                }
+              />
             </div>
           </Col>
         </Row>
-      </WizardFormProvider>
 
-      {/* New Customer Modal */}
-      <NewCustomerModal show={showNewCustomerModal} onHide={handleCloseModal} />
+        {/* Display Alert if it's set to show */}
+        {alert.show && (
+          <Alert
+            variant={alert.variant}
+            onClose={() => setAlert({ ...alert, show: false })}
+            dismissible
+            className="mt-3"
+          >
+            {alert.message}
+          </Alert>
+        )}
+      </WizardFormProvider>
     </div>
   );
 };
 
-export default CreateNewLoadPage;
+export default CreateNewLoad;

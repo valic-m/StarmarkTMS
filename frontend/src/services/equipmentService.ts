@@ -14,6 +14,6 @@ export const getEquipments = async (): Promise<Equipment[]> => {
 export const addEquipment = async (equipmentData: Omit<Equipment, 'id'>) => {
   return api('/api/equipment/', {
     method: 'POST',
-    body: equipmentData,
+    body: equipmentData
   });
 };

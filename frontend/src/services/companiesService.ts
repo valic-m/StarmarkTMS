@@ -14,6 +14,6 @@ export const getCompanies = async (): Promise<Company[]> => {
 export const addCompany = async (companyData: Omit<Company, 'id'>) => {
   return api('/api/companies/', {
     method: 'POST',
-    body: companyData,
+    body: companyData
   });
 };

@@ -14,6 +14,6 @@ export const getAccounts = async (): Promise<Account[]> => {
 export const addAccount = async (accountData: Omit<Account, 'id'>) => {
   return api('/api/accounts/', {
     method: 'POST',
-    body: accountData,
+    body: accountData
   });
 };

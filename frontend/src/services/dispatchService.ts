@@ -14,7 +14,6 @@ export const getDispatches = async (): Promise<Dispatch[]> => {
 export const addDispatch = async (dispatchData: Omit<Dispatch, 'id'>) => {
   return api('/api/dispatch/', {
     method: 'POST',
-    body: dispatchData,
+    body: dispatchData
   });
 };
-

@@ -14,6 +14,6 @@ export const getCarriers = async (): Promise<Carrier[]> => {
 export const addCarrier = async (carrierData: Omit<Carrier, 'id'>) => {
   return api('/api/carriers/', {
     method: 'POST',
-    body: carrierData,
+    body: carrierData
   });
 };

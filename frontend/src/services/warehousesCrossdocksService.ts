@@ -7,13 +7,17 @@ interface WarehouseCrossdock {
   // Add other fields as needed
 }
 
-export const getWarehousesCrossdocks = async (): Promise<WarehouseCrossdock[]> => {
+export const getWarehousesCrossdocks = async (): Promise<
+  WarehouseCrossdock[]
+> => {
   return api('/api/warehouses_crossdocks/');
 };
 
-export const addWarehouseCrossdock = async (data: Omit<WarehouseCrossdock, 'id'>) => {
+export const addWarehouseCrossdock = async (
+  data: Omit<WarehouseCrossdock, 'id'>
+) => {
   return api('/api/warehouses_crossdocks/', {
     method: 'POST',
-    body: data,
+    body: data
   });
 };

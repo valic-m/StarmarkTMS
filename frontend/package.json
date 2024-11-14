@@ -46,6 +46,8 @@
     "lodash.merge": "^4.6.2",
     "lottie-react": "^2.4.0",
     "mapbox-gl": "^2.14.1",
+    "pdf-lib": "^1.17.1",
+    "pdf-parse": "^1.1.1",
     "picmo": "^5.8.5",
     "react": "^18.2.0",
     "react-beautiful-dnd": "^13.1.1",

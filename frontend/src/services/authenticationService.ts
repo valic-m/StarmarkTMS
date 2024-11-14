@@ -14,6 +14,6 @@ export const getUsers = async (): Promise<User[]> => {
 export const addUser = async (userData: Omit<User, 'id'>) => {
   return api('/api/authentication/', {
     method: 'POST',
-    body: userData,
+    body: userData
   });
 };

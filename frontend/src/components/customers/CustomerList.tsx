@@ -49,7 +49,7 @@ const CustomerList: React.FC = () => {
           </tr>
         </thead>
         <tbody>
-          {customers.map((customer) => (
+          {customers.map(customer => (
             <tr key={customer.id}>
               <td>{customer.name}</td>
               <td>{customer.contact_name}</td>
