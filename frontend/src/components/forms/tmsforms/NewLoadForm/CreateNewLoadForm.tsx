@@ -1,5 +1,3 @@
-// File: src/components/forms/tmsforms/NewLoadForm/CreateNewLoadForm.tsx
-
 import React, { useState } from 'react';
 import LoadInformation from './LoadInformation';
 import TrailerSpecifications from './TrailerSpecifications';
@@ -25,7 +23,7 @@ const CreateNewLoadForm: React.FC = () => {
 
       const parsedData = extractLoadData(pdfData.text);
       if (parsedData) {
-        setFormData((prevData) => ({ ...prevData, ...parsedData }));
+        setFormData((prev) => ({ ...prev, ...parsedData }));
       }
     } catch (error) {
       setPdfError('Error reading PDF file.');
@@ -34,7 +32,6 @@ const CreateNewLoadForm: React.FC = () => {
   };
 
   const extractLoadData = (textContent: string): Partial<LoadFormData> => {
-    // Regex-based parsing for fields
     const customerMatch = textContent.match(/Customer:\s*(.+)/);
     const rateMatch = textContent.match(/Rate:\s*\$([\d,.]+)/);
     const referenceNumberMatch = textContent.match(/Reference Number:\s*(\S+)/);
@@ -43,8 +40,12 @@ const CreateNewLoadForm: React.FC = () => {
       customer: customerMatch?.[1] || '',
       rate: rateMatch ? parseFloat(rateMatch[1].replace(/,/g, '')) : undefined,
       referenceNumber: referenceNumberMatch?.[1] || '',
-      // Additional fields can be added here
     };
+  };
+
+  const handleInputChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement>) => {
+    const { name, value } = e.target;
+    setFormData((prev) => ({ ...prev, [name]: value }));
   };
 
   return (
@@ -53,11 +54,11 @@ const CreateNewLoadForm: React.FC = () => {
       <input type="file" accept=".pdf" onChange={handlePdfUpload} />
       {pdfError && <p style={{ color: 'red' }}>{pdfError}</p>}
 
-      <LoadInformation formData={formData} onChange={setFormData} validation={validation || false} />
-      <TrailerSpecifications formData={formData} onChange={setFormData} validation={validation || false} />
-      <ShipmentDetails formData={formData} onChange={setFormData} validation={validation || false} />
-      <PickupDropoffDetails formData={formData} onChange={setFormData} validation={validation || false} />
-      <AdditionalInformation formData={formData} onChange={setFormData} validation={validation || false} />
+      <LoadInformation formData={formData} onChange={handleInputChange} validation={validation || false} />
+      <TrailerSpecifications formData={formData} onChange={handleInputChange} validation={validation || false} />
+      <ShipmentDetails formData={formData} onChange={handleInputChange} validation={validation || false} />
+      <PickupDropoffDetails formData={formData} onChange={handleInputChange} validation={validation || false} />
+      <AdditionalInformation formData={formData} onChange={handleInputChange} validation={validation || false} />
 
       <Button variant="primary" type="submit">Create Load</Button>
     </div>
