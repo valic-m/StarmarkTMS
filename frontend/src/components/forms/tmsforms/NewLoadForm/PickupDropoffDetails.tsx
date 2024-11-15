@@ -1,24 +1,38 @@
-// File: src/components/forms/tmsforms/PickupDropoffDetails.tsx
-
 import React, { useState } from 'react';
 import { Row, Col, Form, Card, Button } from 'react-bootstrap';
 
+interface ContactInfo {
+  name: string;
+  address: string;
+  contact: string;
+}
+
 interface PickupDropoffDetailsProps {
-  formData: any;
-  onChange: (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => void;
+  formData: {
+    shippers?: ContactInfo[];
+    receivers?: ContactInfo[];
+  };
+  onChange: (
+    e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
+  ) => void;
   validation?: boolean;
 }
 
 const PickupDropoffDetails: React.FC<PickupDropoffDetailsProps> = ({
   formData,
   onChange,
-  validation
+  validation = false
 }) => {
-  const [shippers, setShippers] = useState([{ name: '', address: '', contact: '' }]);
-  const [receivers, setReceivers] = useState([{ name: '', address: '', contact: '' }]);
+  const [shippers, setShippers] = useState<ContactInfo[]>(
+    formData.shippers || [{ name: '', address: '', contact: '' }]
+  );
+  const [receivers, setReceivers] = useState<ContactInfo[]>(
+    formData.receivers || [{ name: '', address: '', contact: '' }]
+  );
 
   const handleAddShipper = () =>
     setShippers([...shippers, { name: '', address: '', contact: '' }]);
+
   const handleAddReceiver = () =>
     setReceivers([...receivers, { name: '', address: '', contact: '' }]);
 
@@ -28,9 +42,17 @@ const PickupDropoffDetails: React.FC<PickupDropoffDetailsProps> = ({
   ) => {
     const { name, value } = event.target;
     const updatedShippers = [...shippers];
-    updatedShippers[index][name as keyof typeof updatedShippers[0]] = value;
+    updatedShippers[index][name as keyof ContactInfo] = value;
     setShippers(updatedShippers);
-    onChange(event); // Update the form data in the parent component
+    // Update the parent form data
+    onChange({
+      ...event,
+      target: {
+        ...event.target,
+        name: 'shippers',
+        value: updatedShippers
+      }
+    });
   };
 
   const handleReceiverChange = (
@@ -39,17 +61,24 @@ const PickupDropoffDetails: React.FC<PickupDropoffDetailsProps> = ({
   ) => {
     const { name, value } = event.target;
     const updatedReceivers = [...receivers];
-    updatedReceivers[index][name as keyof typeof updatedReceivers[0]] = value;
+    updatedReceivers[index][name as keyof ContactInfo] = value;
     setReceivers(updatedReceivers);
-    onChange(event); // Update the form data in the parent component
+    // Update the parent form data
+    onChange({
+      ...event,
+      target: {
+        ...event.target,
+        name: 'receivers',
+        value: updatedReceivers
+      }
+    });
   };
 
   return (
     <div>
       <h5>Pickup & Dropoff Details</h5>
-
-      {/* Shippers Section */}
       <Row>
+        {/* Shippers Section */}
         <Col md={6}>
           <h6>Shippers</h6>
           {shippers.map((shipper, index) => (
@@ -61,29 +90,35 @@ const PickupDropoffDetails: React.FC<PickupDropoffDetailsProps> = ({
                   name="name"
                   placeholder="Enter Shipper Name"
                   value={shipper.name}
-                  onChange={(e) => handleShipperChange(index, e)}
+                  onChange={e => handleShipperChange(index, e)}
                   required={validation}
                 />
               </Form.Group>
-              <Form.Group controlId={`shipperAddress-${index}`} className="mb-2">
+              <Form.Group
+                controlId={`shipperAddress-${index}`}
+                className="mb-2"
+              >
                 <Form.Label>Shipper Address</Form.Label>
                 <Form.Control
                   type="text"
                   name="address"
                   placeholder="Enter Shipper Address"
                   value={shipper.address}
-                  onChange={(e) => handleShipperChange(index, e)}
+                  onChange={e => handleShipperChange(index, e)}
                   required={validation}
                 />
               </Form.Group>
-              <Form.Group controlId={`shipperContact-${index}`} className="mb-2">
+              <Form.Group
+                controlId={`shipperContact-${index}`}
+                className="mb-2"
+              >
                 <Form.Label>Contact Number</Form.Label>
                 <Form.Control
                   type="text"
                   name="contact"
                   placeholder="Enter Contact Number"
                   value={shipper.contact}
-                  onChange={(e) => handleShipperChange(index, e)}
+                  onChange={e => handleShipperChange(index, e)}
                   required={validation}
                 />
               </Form.Group>
@@ -106,29 +141,35 @@ const PickupDropoffDetails: React.FC<PickupDropoffDetailsProps> = ({
                   name="name"
                   placeholder="Enter Receiver Name"
                   value={receiver.name}
-                  onChange={(e) => handleReceiverChange(index, e)}
+                  onChange={e => handleReceiverChange(index, e)}
                   required={validation}
                 />
               </Form.Group>
-              <Form.Group controlId={`receiverAddress-${index}`} className="mb-2">
+              <Form.Group
+                controlId={`receiverAddress-${index}`}
+                className="mb-2"
+              >
                 <Form.Label>Receiver Address</Form.Label>
                 <Form.Control
                   type="text"
                   name="address"
                   placeholder="Enter Receiver Address"
                   value={receiver.address}
-                  onChange={(e) => handleReceiverChange(index, e)}
+                  onChange={e => handleReceiverChange(index, e)}
                   required={validation}
                 />
               </Form.Group>
-              <Form.Group controlId={`receiverContact-${index}`} className="mb-2">
+              <Form.Group
+                controlId={`receiverContact-${index}`}
+                className="mb-2"
+              >
                 <Form.Label>Contact Number</Form.Label>
                 <Form.Control
                   type="text"
                   name="contact"
                   placeholder="Enter Contact Number"
                   value={receiver.contact}
-                  onChange={(e) => handleReceiverChange(index, e)}
+                  onChange={e => handleReceiverChange(index, e)}
                   required={validation}
                 />
               </Form.Group>

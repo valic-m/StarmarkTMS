@@ -7,18 +7,21 @@ interface TrailerSpecificationsProps {
     loadType?: string;
     feetRequired?: number;
   };
-  onChange: (e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>) => void;
+  onChange: (
+    e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>
+  ) => void;
   validation?: boolean;
 }
 
 const TrailerSpecifications: React.FC<TrailerSpecificationsProps> = ({
   formData,
   onChange,
-  validation = false,
+  validation = false
 }) => (
   <div>
     <h5>Trailer Specifications</h5>
     <Row>
+      {/* Trailer Type Field */}
       <Col md={4}>
         <Form.Group controlId="trailerType">
           <Form.Label>Trailer Type</Form.Label>
@@ -26,7 +29,7 @@ const TrailerSpecifications: React.FC<TrailerSpecificationsProps> = ({
             as="select"
             name="trailerType"
             value={formData.trailerType || ''}
-            onChange={(e) => onChange(e as unknown as React.ChangeEvent<HTMLSelectElement>)}
+            onChange={onChange}
             required={validation}
           >
             <option value="">Select Trailer Type</option>
@@ -39,6 +42,7 @@ const TrailerSpecifications: React.FC<TrailerSpecificationsProps> = ({
         </Form.Group>
       </Col>
 
+      {/* Load Type Field */}
       <Col md={4}>
         <Form.Group controlId="loadType">
           <Form.Label>Load Type</Form.Label>
@@ -46,7 +50,7 @@ const TrailerSpecifications: React.FC<TrailerSpecificationsProps> = ({
             as="select"
             name="loadType"
             value={formData.loadType || ''}
-            onChange={(e) => onChange(e as unknown as React.ChangeEvent<HTMLSelectElement>)}
+            onChange={onChange}
             required={validation}
           >
             <option value="">Select Load Type</option>
@@ -57,14 +61,15 @@ const TrailerSpecifications: React.FC<TrailerSpecificationsProps> = ({
         </Form.Group>
       </Col>
 
+      {/* Feet Required Field */}
       <Col md={4}>
         <Form.Group controlId="feetRequired">
           <Form.Label>Feet Required</Form.Label>
           <Form.Control
             type="number"
             name="feetRequired"
-            value={formData.feetRequired !== undefined ? formData.feetRequired.toString() : ''}
-            onChange={(e) => onChange(e as unknown as React.ChangeEvent<HTMLInputElement>)}
+            value={formData.feetRequired?.toString() || ''}
+            onChange={onChange}
             min={0}
             placeholder="Enter required feet"
             required={validation}

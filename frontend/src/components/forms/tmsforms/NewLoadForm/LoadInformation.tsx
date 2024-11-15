@@ -2,15 +2,10 @@
 
 import React from 'react';
 import { Row, Col, Form } from 'react-bootstrap';
-
-interface FormDataType {
-  customer?: string;
-  referenceNumber?: string;
-  [key: string]: any;
-}
+import { LoadFormData } from 'types/LoadFormData'; // Ensure this path is correct and LoadFormData is defined
 
 interface LoadInformationProps {
-  formData: FormDataType;
+  formData: LoadFormData;
   onChange: (e: React.ChangeEvent<HTMLInputElement>) => void;
   validation: boolean;
 }

@@ -10,10 +10,13 @@ import { LoadFormData } from 'types/LoadFormData';
 import pdfParse from 'pdf-parse';
 
 const CreateNewLoadForm: React.FC = () => {
-  const { formData, setFormData, validation } = useWizardFormContext<LoadFormData>();
+  const { formData, setFormData, validation } =
+    useWizardFormContext<LoadFormData>();
   const [pdfError, setPdfError] = useState<string | null>(null);
 
-  const handlePdfUpload = async (event: React.ChangeEvent<HTMLInputElement>) => {
+  const handlePdfUpload = async (
+    event: React.ChangeEvent<HTMLInputElement>
+  ) => {
     const file = event.target.files?.[0];
     if (!file) return;
 
@@ -23,7 +26,7 @@ const CreateNewLoadForm: React.FC = () => {
 
       const parsedData = extractLoadData(pdfData.text);
       if (parsedData) {
-        setFormData((prev) => ({ ...prev, ...parsedData }));
+        setFormData(prev => ({ ...prev, ...parsedData }));
       }
     } catch (error) {
       setPdfError('Error reading PDF file.');
@@ -39,13 +42,17 @@ const CreateNewLoadForm: React.FC = () => {
     return {
       customer: customerMatch?.[1] || '',
       rate: rateMatch ? parseFloat(rateMatch[1].replace(/,/g, '')) : undefined,
-      referenceNumber: referenceNumberMatch?.[1] || '',
+      referenceNumber: referenceNumberMatch?.[1] || ''
     };
   };
 
-  const handleInputChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement>) => {
+  const handleInputChange = (
+    e: React.ChangeEvent<
+      HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement
+    >
+  ) => {
     const { name, value } = e.target;
-    setFormData((prev) => ({ ...prev, [name]: value }));
+    setFormData(prev => ({ ...prev, [name]: value }));
   };
 
   return (
@@ -54,13 +61,35 @@ const CreateNewLoadForm: React.FC = () => {
       <input type="file" accept=".pdf" onChange={handlePdfUpload} />
       {pdfError && <p style={{ color: 'red' }}>{pdfError}</p>}
 
-      <LoadInformation formData={formData} onChange={handleInputChange} validation={validation || false} />
-      <TrailerSpecifications formData={formData} onChange={handleInputChange} validation={validation || false} />
-      <ShipmentDetails formData={formData} onChange={handleInputChange} validation={validation || false} />
-      <PickupDropoffDetails formData={formData} onChange={handleInputChange} validation={validation || false} />
-      <AdditionalInformation formData={formData} onChange={handleInputChange} validation={validation || false} />
+      <LoadInformation
+        formData={formData}
+        onChange={handleInputChange}
+        validation={validation || false}
+      />
+      <TrailerSpecifications
+        formData={formData}
+        onChange={handleInputChange}
+        validation={validation || false}
+      />
+      <ShipmentDetails
+        formData={formData}
+        onChange={handleInputChange}
+        validation={validation || false}
+      />
+      <PickupDropoffDetails
+        formData={formData}
+        onChange={handleInputChange}
+        validation={validation || false}
+      />
+      <AdditionalInformation
+        formData={formData}
+        onChange={handleInputChange}
+        validation={validation || false}
+      />
 
-      <Button variant="primary" type="submit">Create Load</Button>
+      <Button variant="primary" type="submit">
+        Create Load
+      </Button>
     </div>
   );
 };
