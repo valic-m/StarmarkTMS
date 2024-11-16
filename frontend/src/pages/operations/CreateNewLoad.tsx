@@ -1,4 +1,4 @@
-import React, { useState, useRef } from 'react';
+import React, { useState, useRef, useEffect } from 'react';
 import {
   Col,
   Row,
@@ -7,13 +7,10 @@ import {
   InputGroup,
   Form,
   Button,
-  Spinner,
 } from 'react-bootstrap';
 import PageBreadcrumb from 'components/common/PageBreadcrumb';
 import WizardSideNav from 'components/wizard/WizardSideNav';
 import WizardFormProvider from 'providers/WizardFormProvider';
-import WizardFormFooter from 'components/wizard/WizardFormFooter';
-import LoadInformation from 'components/forms/tmsforms/NewLoadForm/LoadInformation';
 import TrailerSpecifications from 'components/forms/tmsforms/NewLoadForm/TrailerSpecifications';
 import ShipmentDetails from 'components/forms/tmsforms/NewLoadForm/ShipmentDetails';
 import PickupDropoffDetails from 'components/forms/tmsforms/NewLoadForm/PickupDropoffDetails';
@@ -21,14 +18,14 @@ import AdditionalInformation from 'components/forms/tmsforms/NewLoadForm/Additio
 import NewCustomerModal from 'components/modals/NewCustomerModal';
 import useWizardForm from 'hooks/useWizardForm';
 import { LoadFormData } from 'types/LoadFormData';
+import { getCustomers } from '../../services/customerService';
+import { Customer } from '../../types/Customer';
 import { createLoad } from 'api/loads';
-import axios from 'axios';
 import {
   faTruck,
   faInfoCircle,
   faBox,
   faMapMarkerAlt,
-  faFileAlt,
 } from '@fortawesome/free-solid-svg-icons';
 
 const wizardNavItems = [
@@ -36,7 +33,6 @@ const wizardNavItems = [
   { step: 2, label: 'Pickup & Dropoff', completed: false, icon: faMapMarkerAlt },
   { step: 3, label: 'Trailer Specs', completed: false, icon: faTruck },
   { step: 4, label: 'Shipment Details', completed: false, icon: faBox },
-  { step: 5, label: 'Additional Info', completed: false, icon: faFileAlt },
 ];
 
 const CreateNewLoad: React.FC = () => {
@@ -52,59 +48,52 @@ const CreateNewLoad: React.FC = () => {
     variant: 'primary',
   });
   const [searchQuery, setSearchQuery] = useState<string>('');
-  const [searchResults, setSearchResults] = useState([]);
-  const [selectedCustomer, setSelectedCustomer] = useState<any>(null);
-  const [agents, setAgents] = useState([]);
-  const [selectedAgent, setSelectedAgent] = useState('');
-  const [loadingAgents, setLoadingAgents] = useState(false);
+  const [filteredResults, setFilteredResults] = useState<Customer[]>([]);
+  const [customers, setCustomers] = useState<Customer[]>([]);
+  const [selectedCustomer, setSelectedCustomer] = useState<Customer | null>(null);
   const [showNewCustomerModal, setShowNewCustomerModal] = useState(false);
 
-  const handleCustomerSearch = async (e: React.ChangeEvent<HTMLInputElement>) => {
-    const query = e.target.value;
-    setSearchQuery(query);
-
-    if (query.trim().length > 0) {
+  useEffect(() => {
+    const fetchCustomers = async () => {
       try {
-        const response = await axios.get(`/api/customers/search?query=${query}`);
-        setSearchResults(response.data.length ? response.data : []);
+        const data = await getCustomers();
+        setCustomers(data);
       } catch (error) {
-        console.error('Error searching customers:', error);
+        console.error('Failed to fetch customers:', error);
       }
+    };
+
+    fetchCustomers();
+  }, []);
+
+  useEffect(() => {
+    if (searchQuery.trim().length > 0) {
+      setFilteredResults(
+        customers.filter((customer) =>
+          customer.name.toLowerCase().includes(searchQuery.toLowerCase())
+        )
+      );
     } else {
-      setSearchResults([]);
+      setFilteredResults([]);
     }
-  };
+  }, [searchQuery, customers]);
 
-  const handleSelectCustomer = async (customer: any) => {
+  const handleSelectCustomer = (customer: Customer) => {
     setSelectedCustomer(customer);
-    form.setFormData({ ...form.formData, customerId: customer.id });
-
-    // Fetch agents for the selected customer
-    setLoadingAgents(true);
-    try {
-      const response = await axios.get(`/api/customers/${customer.id}/agents`);
-      setAgents(response.data);
-    } catch (error) {
-      console.error('Error fetching agents:', error);
-      setAgents([]);
-    } finally {
-      setLoadingAgents(false);
-    }
+    form.setFormData({ ...form.formData, customerId: customer.id } as LoadFormData);
+    setSearchQuery('');
+    setFilteredResults([]);
   };
-
-  const handleAgentSelection = (e: React.ChangeEvent<HTMLSelectElement>) => {
-    setSelectedAgent(e.target.value);
-    form.setFormData({ ...form.formData, agentId: e.target.value });
-  };
-
-  const handleShowNewCustomerModal = () => setShowNewCustomerModal(true);
-  const handleCloseNewCustomerModal = () => setShowNewCustomerModal(false);
 
   const handleNext = () =>
     setSelectedStep((prev) => Math.min(prev + 1, wizardNavItems.length));
-  const handleFinalSubmit = async () => {
+
+  const handlePrevious = () =>
+    setSelectedStep((prev) => Math.max(prev - 1, 1));
+
+  const handleFinalSubmit = async (data: LoadFormData) => {
     try {
-      await createLoad(form.formData);
+      await createLoad(data);
       setAlert({
         show: true,
         message: 'Load data saved successfully',
@@ -118,6 +107,9 @@ const CreateNewLoad: React.FC = () => {
       });
     }
   };
+
+  const handleShowNewCustomerModal = () => setShowNewCustomerModal(true);
+  const handleCloseNewCustomerModal = () => setShowNewCustomerModal(false);
 
   return (
     <div className="mb-9">
@@ -139,34 +131,45 @@ const CreateNewLoad: React.FC = () => {
         formData={form.formData}
         setFormData={form.setFormData as React.Dispatch<unknown>}
         validation={form.validation}
+        startOver={() => setSelectedStep(1)}
+        getCanNextPage={true}
+        getCanPreviousPage={selectedStep > 1}
+        openDeniedModal={false}
+        setOpenDeniedModal={() => {}}
+        setValue={(values: Partial<LoadFormData>) =>
+          form.setFormData({ ...form.formData, ...values })
+        }
+        onChange={(e) => form.onChange(e)}
+        onSubmit={(e: React.FormEvent<HTMLFormElement>) => {
+          e.preventDefault();
+          handleFinalSubmit(form.formData);
+        }}
       >
         <Row className="gx-0 gx-xl-5 theme-wizard">
           <Col xl={{ order: 1, span: 4 }}>
-            <WizardSideNav
-              navItems={wizardNavItems}
-              setTabEventKey={goToStep}
-            />
+            <WizardSideNav navItems={wizardNavItems} setTabEventKey={goToStep} />
           </Col>
           <Col xl={8}>
             <Tab.Content>
               {selectedStep === 1 && (
                 <Tab.Pane eventKey={1}>
-                  {/* Customer Section */}
                   <h5>Customer Information</h5>
                   <InputGroup className="mb-3">
                     <Form.Control
                       type="text"
                       placeholder="Search for customer"
                       value={searchQuery}
-                      onChange={handleCustomerSearch}
+                      onChange={(e) => setSearchQuery(e.target.value)}
                     />
-                    <Button variant="link" onClick={handleShowNewCustomerModal}>
-                      Add New Customer
-                    </Button>
+                    {filteredResults.length === 0 && searchQuery && (
+                      <Button variant="link" onClick={handleShowNewCustomerModal}>
+                        Add New Customer
+                      </Button>
+                    )}
                   </InputGroup>
-                  {searchResults.length ? (
+                  {filteredResults.length > 0 && (
                     <ul className="list-group">
-                      {searchResults.map((customer: any) => (
+                      {filteredResults.map((customer) => (
                         <li
                           key={customer.id}
                           className="list-group-item"
@@ -176,10 +179,12 @@ const CreateNewLoad: React.FC = () => {
                         </li>
                       ))}
                     </ul>
-                  ) : (
-                    <div>No customer found. Add a new customer if necessary.</div>
                   )}
-
+                  {filteredResults.length === 0 &&
+                    !selectedCustomer &&
+                    searchQuery.trim() !== '' && (
+                      <div>No customers match your search.</div>
+                    )}
                   {selectedCustomer && (
                     <div className="mt-3">
                       <h6>Selected Customer</h6>
@@ -189,81 +194,65 @@ const CreateNewLoad: React.FC = () => {
                       <p>
                         <strong>Email:</strong> {selectedCustomer.email}
                       </p>
-
-                      {/* Agent Selection */}
-                      <Form.Group>
-                        <Form.Label>Select Agent</Form.Label>
-                        <Form.Control
-                          as="select"
-                          value={selectedAgent}
-                          onChange={handleAgentSelection}
-                          disabled={loadingAgents}
-                        >
-                          <option value="">Select an Agent</option>
-                          {agents.map((agent: any) => (
-                            <option key={agent.id} value={agent.id}>
-                              {agent.name}
-                            </option>
-                          ))}
-                        </Form.Control>
-                        {loadingAgents && <Spinner animation="border" />}
-                      </Form.Group>
+                      <p>
+                        <strong>Phone:</strong> {selectedCustomer.phone}
+                      </p>
                     </div>
                   )}
-
-                  {/* Additional Information Section */}
-                  <h5 className="mt-4">Additional Information</h5>
-                  <AdditionalInformation
-                    formData={form.formData}
-                    onChange={form.onChange}
-                    validation={form.validation || false}
-                  />
+                  <div className="mt-4">
+                    <h5>Booking Details</h5>
+                    <AdditionalInformation
+                      formData={form.formData}
+                      onChange={form.onChange}
+                      validation={form.validation || false}
+                    />
+                  </div>
                 </Tab.Pane>
               )}
-
-              {/* Other Steps */}
               {selectedStep === 2 && (
-                <Tab.Pane eventKey={2}>
-                  <PickupDropoffDetails
-                    formData={form.formData}
-                    onChange={form.onChange}
-                    validation={form.validation || false}
-                  />
-                </Tab.Pane>
+                <PickupDropoffDetails
+                  formData={{
+                    shippers: form.formData.shippers || [],
+                    receivers: form.formData.receivers || [],
+                  }}
+                  onChange={form.onChange}
+                  validation={form.validation || false}
+                />
               )}
               {selectedStep === 3 && (
-                <Tab.Pane eventKey={3}>
-                  <TrailerSpecifications
-                    formData={form.formData}
-                    onChange={form.onChange}
-                    validation={form.validation || false}
-                  />
-                </Tab.Pane>
+                <TrailerSpecifications
+                  formData={{
+                    trailerType: form.formData.trailerType,
+                    loadType: form.formData.loadType,
+                    feetRequired: form.formData.feetRequired,
+                  }}
+                  onChange={form.onChange}
+                  validation={form.validation || false}
+                />
               )}
-              {selectedStep === 4 && (
-                <Tab.Pane eventKey={4}>
-                  <ShipmentDetails
-                    formData={form.formData}
-                    onChange={form.onChange}
-                    validation={form.validation || false}
-                  />
-                </Tab.Pane>
-              )}
-              {selectedStep === 5 && (
-                <Tab.Pane eventKey={5}>
-                  <AdditionalInformation
-                    formData={form.formData}
-                    onChange={form.onChange}
-                    validation={form.validation || false}
-                  />
-                </Tab.Pane>
-              )}
+              {selectedStep === 4 && <ShipmentDetails {...form} />}
             </Tab.Content>
 
-            <WizardFormFooter
-              nextBtnLabel={selectedStep === 5 ? 'Save' : 'Next'}
-              handleSubmit={selectedStep === 5 ? handleFinalSubmit : handleNext}
-            />
+            <div className="d-flex justify-content-between mt-4">
+              {selectedStep > 1 && (
+                <Button variant="secondary" onClick={handlePrevious}>
+                  Previous
+                </Button>
+              )}
+              <Button
+                variant="primary"
+                onClick={
+                  selectedStep === 4
+                    ? (e) => {
+                        e.preventDefault();
+                        handleFinalSubmit(form.formData);
+                      }
+                    : handleNext
+                }
+              >
+                {selectedStep === 4 ? 'Save' : 'Next'}
+              </Button>
+            </div>
           </Col>
         </Row>
       </WizardFormProvider>

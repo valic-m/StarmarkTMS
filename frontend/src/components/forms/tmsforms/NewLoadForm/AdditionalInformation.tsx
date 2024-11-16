@@ -11,26 +11,19 @@ interface AdditionalInformationProps {
 const AdditionalInformation: React.FC<AdditionalInformationProps> = ({
   formData,
   onChange,
-  validation = false
+  validation = false,
 }) => {
   const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const file = e.target.files?.[0];
     if (file) {
-      const event = {
-        ...e,
-        target: {
-          ...e.target,
-          name: e.target.name,
-          value: file
-        }
-      } as React.ChangeEvent<HTMLInputElement>;
-      onChange(event);
+      onChange({
+        target: { name: e.target.name, value: file },
+      } as unknown as React.ChangeEvent<HTMLInputElement>);
     }
   };
 
   return (
-    <div>
-      <h5>Additional Information</h5>
+    <div className="additional-information">
       <Row>
         <Col md={6}>
           <Form.Group controlId="rate">
@@ -38,9 +31,7 @@ const AdditionalInformation: React.FC<AdditionalInformationProps> = ({
             <Form.Control
               type="number"
               name="rate"
-              value={
-                formData.rate !== undefined ? formData.rate.toString() : ''
-              }
+              value={formData.rate?.toString() || ''}
               onChange={onChange}
               placeholder="Enter rate"
               required={validation}
