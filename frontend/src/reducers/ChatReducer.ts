@@ -85,8 +85,8 @@ export const chatReducer = (state: ChatState, action: ACTIONTYPE) => {
         return payload === 'read'
           ? !hasUnreadMeassages
           : payload === 'unread'
-          ? hasUnreadMeassages
-          : true;
+            ? hasUnreadMeassages
+            : true;
       });
       return {
         ...state,

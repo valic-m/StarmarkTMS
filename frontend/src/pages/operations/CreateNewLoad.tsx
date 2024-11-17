@@ -1,278 +1,226 @@
-import React, { useState, useRef, useEffect } from 'react';
-import {
-  Col,
-  Row,
-  Tab,
-  Alert,
-  InputGroup,
-  Form,
-  Button,
-} from 'react-bootstrap';
+import React, { useState } from 'react';
+import { Col, Row, Alert, Form, FloatingLabel, Button } from 'react-bootstrap';
 import PageBreadcrumb from 'components/common/PageBreadcrumb';
-import WizardSideNav from 'components/wizard/WizardSideNav';
-import WizardFormProvider from 'providers/WizardFormProvider';
-import TrailerSpecifications from 'components/forms/tmsforms/NewLoadForm/TrailerSpecifications';
-import ShipmentDetails from 'components/forms/tmsforms/NewLoadForm/ShipmentDetails';
-import PickupDropoffDetails from 'components/forms/tmsforms/NewLoadForm/PickupDropoffDetails';
-import AdditionalInformation from 'components/forms/tmsforms/NewLoadForm/AdditionalInformation';
-import NewCustomerModal from 'components/modals/NewCustomerModal';
-import useWizardForm from 'hooks/useWizardForm';
-import { LoadFormData } from 'types/LoadFormData';
-import { getCustomers } from '../../services/customerService';
-import { Customer } from '../../types/Customer';
-import { createLoad } from 'api/loads';
 import {
-  faTruck,
-  faInfoCircle,
-  faBox,
-  faMapMarkerAlt,
-} from '@fortawesome/free-solid-svg-icons';
+  GoogleMap,
+  LoadScript,
+  Autocomplete,
+  Marker
+} from '@react-google-maps/api';
+import { createShipperReceiver } from 'api/shippersReceivers';
+import { Buffer } from 'buffer';
 
-const wizardNavItems = [
-  { step: 1, label: 'Customer Info', completed: false, icon: faInfoCircle },
-  { step: 2, label: 'Pickup & Dropoff', completed: false, icon: faMapMarkerAlt },
-  { step: 3, label: 'Trailer Specs', completed: false, icon: faTruck },
-  { step: 4, label: 'Shipment Details', completed: false, icon: faBox },
-];
+// Fix for Buffer is not defined
+globalThis.Buffer = Buffer;
 
-const CreateNewLoad: React.FC = () => {
-  const [selectedStep, setSelectedStep] = useState(1);
-  const goToStep = (step: number) => setSelectedStep(step);
-
-  const formRefs = useRef<(HTMLFormElement | null)[]>([]);
-  const form = useWizardForm<LoadFormData>({ totalStep: wizardNavItems.length });
+const AddShipperReceiver: React.FC = () => {
+  const [formData, setFormData] = useState({
+    company_name: '',
+    contact_person: '',
+    phone_number: '',
+    email: '',
+    address: ''
+  });
 
   const [alert, setAlert] = useState({
     show: false,
     message: '',
-    variant: 'primary',
+    variant: 'primary'
   });
-  const [searchQuery, setSearchQuery] = useState<string>('');
-  const [filteredResults, setFilteredResults] = useState<Customer[]>([]);
-  const [customers, setCustomers] = useState<Customer[]>([]);
-  const [selectedCustomer, setSelectedCustomer] = useState<Customer | null>(null);
-  const [showNewCustomerModal, setShowNewCustomerModal] = useState(false);
 
-  useEffect(() => {
-    const fetchCustomers = async () => {
-      try {
-        const data = await getCustomers();
-        setCustomers(data);
-      } catch (error) {
-        console.error('Failed to fetch customers:', error);
+  const [mapCenter, setMapCenter] = useState({ lat: 40.7128, lng: -74.006 });
+  const [markerPosition, setMarkerPosition] = useState(mapCenter);
+  const [autocomplete, setAutocomplete] =
+    useState<google.maps.places.Autocomplete | null>(null);
+
+  const handlePlaceChanged = () => {
+    if (autocomplete) {
+      const place = autocomplete.getPlace();
+      if (place.geometry?.location) {
+        const location = place.geometry.location;
+        setMapCenter({ lat: location.lat(), lng: location.lng() });
+        setMarkerPosition({ lat: location.lat(), lng: location.lng() });
+        setFormData({
+          ...formData,
+          address: place.formatted_address || ''
+        });
       }
-    };
-
-    fetchCustomers();
-  }, []);
-
-  useEffect(() => {
-    if (searchQuery.trim().length > 0) {
-      setFilteredResults(
-        customers.filter((customer) =>
-          customer.name.toLowerCase().includes(searchQuery.toLowerCase())
-        )
-      );
-    } else {
-      setFilteredResults([]);
     }
-  }, [searchQuery, customers]);
-
-  const handleSelectCustomer = (customer: Customer) => {
-    setSelectedCustomer(customer);
-    form.setFormData({ ...form.formData, customerId: customer.id } as LoadFormData);
-    setSearchQuery('');
-    setFilteredResults([]);
   };
 
-  const handleNext = () =>
-    setSelectedStep((prev) => Math.min(prev + 1, wizardNavItems.length));
+  const handleSubmit = async () => {
+    const requiredFields = [
+      'company_name',
+      'contact_person',
+      'phone_number',
+      'email',
+      'address'
+    ];
+    const missingFields = requiredFields.filter(field => !formData[field]);
 
-  const handlePrevious = () =>
-    setSelectedStep((prev) => Math.max(prev - 1, 1));
-
-  const handleFinalSubmit = async (data: LoadFormData) => {
-    try {
-      await createLoad(data);
+    if (missingFields.length > 0) {
       setAlert({
         show: true,
-        message: 'Load data saved successfully',
-        variant: 'success',
+        message: `Please complete the required fields: ${missingFields.join(
+          ', '
+        )}`,
+        variant: 'warning'
+      });
+      return;
+    }
+
+    try {
+      await createShipperReceiver(formData);
+      setAlert({
+        show: true,
+        message: 'Shipper/Receiver added successfully!',
+        variant: 'success'
+      });
+      setFormData({
+        company_name: '',
+        contact_person: '',
+        phone_number: '',
+        email: '',
+        address: ''
       });
     } catch (error) {
+      console.error('Failed to add shipper/receiver:', error);
       setAlert({
         show: true,
-        message: 'Failed to save load data',
-        variant: 'danger',
+        message: 'Failed to add shipper/receiver. Please try again.',
+        variant: 'danger'
       });
     }
   };
-
-  const handleShowNewCustomerModal = () => setShowNewCustomerModal(true);
-  const handleCloseNewCustomerModal = () => setShowNewCustomerModal(false);
 
   return (
     <div className="mb-9">
       <PageBreadcrumb
         items={[
           { label: 'Home', url: '/' },
-          { label: 'Operations' },
-          { label: 'Create New Load' },
+          { label: 'Client Management' },
+          { label: 'Add Shipper/Receiver' }
         ]}
       />
-      <h2 className="fs-5 mb-4 mb-xl-5">Create New Load</h2>
-
-      <WizardFormProvider
-        selectedStep={selectedStep}
-        setSelectedStep={setSelectedStep}
-        goToStep={goToStep}
-        formRefs={formRefs}
-        totalStep={wizardNavItems.length}
-        formData={form.formData}
-        setFormData={form.setFormData as React.Dispatch<unknown>}
-        validation={form.validation}
-        startOver={() => setSelectedStep(1)}
-        getCanNextPage={true}
-        getCanPreviousPage={selectedStep > 1}
-        openDeniedModal={false}
-        setOpenDeniedModal={() => {}}
-        setValue={(values: Partial<LoadFormData>) =>
-          form.setFormData({ ...form.formData, ...values })
-        }
-        onChange={(e) => form.onChange(e)}
-        onSubmit={(e: React.FormEvent<HTMLFormElement>) => {
-          e.preventDefault();
-          handleFinalSubmit(form.formData);
-        }}
-      >
-        <Row className="gx-0 gx-xl-5 theme-wizard">
-          <Col xl={{ order: 1, span: 4 }}>
-            <WizardSideNav navItems={wizardNavItems} setTabEventKey={goToStep} />
-          </Col>
-          <Col xl={8}>
-            <Tab.Content>
-              {selectedStep === 1 && (
-                <Tab.Pane eventKey={1}>
-                  <h5>Customer Information</h5>
-                  <InputGroup className="mb-3">
-                    <Form.Control
-                      type="text"
-                      placeholder="Search for customer"
-                      value={searchQuery}
-                      onChange={(e) => setSearchQuery(e.target.value)}
-                    />
-                    {filteredResults.length === 0 && searchQuery && (
-                      <Button variant="link" onClick={handleShowNewCustomerModal}>
-                        Add New Customer
-                      </Button>
-                    )}
-                  </InputGroup>
-                  {filteredResults.length > 0 && (
-                    <ul className="list-group">
-                      {filteredResults.map((customer) => (
-                        <li
-                          key={customer.id}
-                          className="list-group-item"
-                          onClick={() => handleSelectCustomer(customer)}
-                        >
-                          {customer.name} - {customer.email}
-                        </li>
-                      ))}
-                    </ul>
-                  )}
-                  {filteredResults.length === 0 &&
-                    !selectedCustomer &&
-                    searchQuery.trim() !== '' && (
-                      <div>No customers match your search.</div>
-                    )}
-                  {selectedCustomer && (
-                    <div className="mt-3">
-                      <h6>Selected Customer</h6>
-                      <p>
-                        <strong>Name:</strong> {selectedCustomer.name}
-                      </p>
-                      <p>
-                        <strong>Email:</strong> {selectedCustomer.email}
-                      </p>
-                      <p>
-                        <strong>Phone:</strong> {selectedCustomer.phone}
-                      </p>
-                    </div>
-                  )}
-                  <div className="mt-4">
-                    <h5>Booking Details</h5>
-                    <AdditionalInformation
-                      formData={form.formData}
-                      onChange={form.onChange}
-                      validation={form.validation || false}
-                    />
-                  </div>
-                </Tab.Pane>
-              )}
-              {selectedStep === 2 && (
-                <PickupDropoffDetails
-                  formData={{
-                    shippers: form.formData.shippers || [],
-                    receivers: form.formData.receivers || [],
-                  }}
-                  onChange={form.onChange}
-                  validation={form.validation || false}
-                />
-              )}
-              {selectedStep === 3 && (
-                <TrailerSpecifications
-                  formData={{
-                    trailerType: form.formData.trailerType,
-                    loadType: form.formData.loadType,
-                    feetRequired: form.formData.feetRequired,
-                  }}
-                  onChange={form.onChange}
-                  validation={form.validation || false}
-                />
-              )}
-              {selectedStep === 4 && <ShipmentDetails {...form} />}
-            </Tab.Content>
-
-            <div className="d-flex justify-content-between mt-4">
-              {selectedStep > 1 && (
-                <Button variant="secondary" onClick={handlePrevious}>
-                  Previous
-                </Button>
-              )}
-              <Button
-                variant="primary"
-                onClick={
-                  selectedStep === 4
-                    ? (e) => {
-                        e.preventDefault();
-                        handleFinalSubmit(form.formData);
-                      }
-                    : handleNext
+      <h2 className="fs-5 mb-4 mb-xl-5">Add Shipper/Receiver</h2>
+      <Row className="gx-0 gx-xl-5">
+        {/* Left Panel */}
+        <Col md={4}>
+          <Form>
+            <FloatingLabel
+              controlId="shipperName"
+              label="Company Name"
+              className="mb-3"
+            >
+              <Form.Control
+                type="text"
+                placeholder="Enter company name"
+                value={formData.company_name}
+                onChange={e =>
+                  setFormData({ ...formData, company_name: e.target.value })
                 }
-              >
-                {selectedStep === 4 ? 'Save' : 'Next'}
-              </Button>
-            </div>
-          </Col>
-        </Row>
-      </WizardFormProvider>
+              />
+            </FloatingLabel>
+            <FloatingLabel
+              controlId="contactPerson"
+              label="Contact Person"
+              className="mb-3"
+            >
+              <Form.Control
+                type="text"
+                placeholder="Enter contact person"
+                value={formData.contact_person}
+                onChange={e =>
+                  setFormData({ ...formData, contact_person: e.target.value })
+                }
+              />
+            </FloatingLabel>
+            <FloatingLabel
+              controlId="phoneNumber"
+              label="Phone Number"
+              className="mb-3"
+            >
+              <Form.Control
+                type="text"
+                placeholder="Enter phone number"
+                value={formData.phone_number}
+                onChange={e =>
+                  setFormData({ ...formData, phone_number: e.target.value })
+                }
+              />
+            </FloatingLabel>
+            <FloatingLabel controlId="email" label="Email" className="mb-3">
+              <Form.Control
+                type="email"
+                placeholder="Enter email"
+                value={formData.email}
+                onChange={e =>
+                  setFormData({ ...formData, email: e.target.value })
+                }
+              />
+            </FloatingLabel>
+            <FloatingLabel controlId="address" label="Address" className="mb-3">
+              <Form.Control
+                type="text"
+                placeholder="Enter address"
+                value={formData.address}
+                onChange={e =>
+                  setFormData({ ...formData, address: e.target.value })
+                }
+              />
+            </FloatingLabel>
+            <Button variant="primary" onClick={handleSubmit}>
+              Save Shipper/Receiver
+            </Button>
+          </Form>
+          {alert.show && (
+            <Alert
+              variant={alert.variant}
+              onClose={() => setAlert({ ...alert, show: false })}
+              dismissible
+              className="mt-3"
+            >
+              {alert.message}
+            </Alert>
+          )}
+        </Col>
 
-      <NewCustomerModal
-        show={showNewCustomerModal}
-        onHide={handleCloseNewCustomerModal}
-      />
-
-      {alert.show && (
-        <Alert
-          variant={alert.variant}
-          onClose={() => setAlert({ ...alert, show: false })}
-          dismissible
-        >
-          {alert.message}
-        </Alert>
-      )}
+        {/* Right Panel */}
+        <Col md={8}>
+          <LoadScript
+            googleMapsApiKey="YOUR_GOOGLE_MAPS_API_KEY"
+            libraries={['places']}
+          >
+            <Autocomplete
+              onLoad={autoCompleteInstance =>
+                setAutocomplete(autoCompleteInstance)
+              }
+              onPlaceChanged={handlePlaceChanged}
+            >
+              <Form.Control
+                type="text"
+                placeholder="Search location"
+                className="mb-3"
+              />
+            </Autocomplete>
+            <GoogleMap
+              mapContainerStyle={{ width: '100%', height: '400px' }}
+              center={mapCenter}
+              zoom={14}
+              onClick={event =>
+                setMarkerPosition({
+                  lat: event.latLng?.lat() || 0,
+                  lng: event.latLng?.lng() || 0
+                })
+              }
+            >
+              <Marker position={markerPosition} />
+            </GoogleMap>
+          </LoadScript>
+        </Col>
+      </Row>
     </div>
   );
 };
 
-export default CreateNewLoad;
+export default AddShipperReceiver;

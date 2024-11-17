@@ -30,8 +30,8 @@ const CalendarHeader = () => {
       actionType === 'next'
         ? calendarApi.next()
         : actionType === 'prev'
-        ? calendarApi.prev()
-        : calendarApi.today();
+          ? calendarApi.prev()
+          : calendarApi.today();
       calendarDispatch({
         type: SET_CALENDAR_STATE,
         payload: {

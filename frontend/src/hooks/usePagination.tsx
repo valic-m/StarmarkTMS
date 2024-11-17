@@ -35,8 +35,8 @@ const usePagination = ({
         start === 1
           ? maxPaginationButtonCount
           : currentPageNo + maxButtonEachSide >= totalPage
-          ? totalPage
-          : currentPageNo + maxButtonEachSide;
+            ? totalPage
+            : currentPageNo + maxButtonEachSide;
 
       if (start > 1 && start !== 2) {
         setHasPrevEllipsis(true);

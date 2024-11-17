@@ -34,8 +34,8 @@ const ThemeToggler = ({ slim, className, ...rest }: ThemeTogglerProps) => {
               {slim
                 ? 'Switch theme'
                 : theme === 'dark'
-                ? 'Switch to light theme'
-                : 'Switch to dark theme'}
+                  ? 'Switch to light theme'
+                  : 'Switch to dark theme'}
             </Tooltip>
           }
         >

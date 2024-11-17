@@ -20,8 +20,8 @@ const ChatFilterTab = () => {
         return type === 'read'
           ? !hasUnreadMessages
           : type === 'unread'
-          ? hasUnreadMessages
-          : true;
+            ? hasUnreadMessages
+            : true;
       })
     );
   };

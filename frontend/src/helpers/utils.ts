@@ -252,10 +252,10 @@ export const urlToFile = async (url: string) => {
     extension === 'png'
       ? 'image/png'
       : extension === 'jpg' || extension === 'jpeg'
-      ? 'image/jpeg'
-      : extension === 'gif'
-      ? 'image/gif'
-      : 'application/octet-stream'; // Fallback for unknown types
+        ? 'image/jpeg'
+        : extension === 'gif'
+          ? 'image/gif'
+          : 'application/octet-stream'; // Fallback for unknown types
 
   const response = await fetch(url);
   const blob = await response.blob();
@@ -269,3 +269,6 @@ export const formatDateToTime = (date: Date) => {
   });
   return formatter.format(date);
 };
+const missingFields = requiredFields.filter(
+  field => !formData[field as keyof typeof formData]
+);

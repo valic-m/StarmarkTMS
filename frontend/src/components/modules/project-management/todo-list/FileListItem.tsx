@@ -28,8 +28,8 @@ const FileListItem = ({ attachment, className }: FileListItemProps) => {
                   attachment.mimeType === 'image'
                     ? faImage
                     : attachment.mimeType === 'zip'
-                    ? faFileZipper
-                    : faFileLines
+                      ? faFileZipper
+                      : faFileLines
                 }
                 className="me-2 fs-9 text-body-tertiary"
               />
