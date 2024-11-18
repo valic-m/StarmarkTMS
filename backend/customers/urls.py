@@ -6,7 +6,8 @@ from .views import (
     edit_customer,
     delete_customer,
     customer_detail,
-    add_customer
+    add_customer,
+    get_fmcsa_data,  # Import the FMCSA data fetch view
 )
 
 app_name = 'customers'  # Namespace for the app
@@ -24,4 +25,7 @@ urlpatterns = [
 
     # Route for adding a new customer (e.g., for use with a modal form)
     path('add/', add_customer, name='add_customer'),  # Add a new customer with optional FMCSA data integration
+
+    # FMCSA API integration route
+    path('api/fmcsa/', get_fmcsa_data, name='get_fmcsa_data'),  # Add this route for FMCSA data fetch
 ]

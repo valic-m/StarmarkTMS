@@ -7,10 +7,30 @@ from .models import Customer
 from .forms import CustomerForm
 from .serializers import CustomerSerializer
 from django.core.paginator import Paginator
-from .fmcsa_utils import fetch_fmcsa_data  # Assuming you have an FMCSA utility module
+from .fmcsa_utils import fetch_fmcsa_data  # Utility function for FMCSA data
 
 # Configure logger
 logger = logging.getLogger(__name__)
+
+
+# --- Django API View to Fetch FMCSA Data ---
+
+def get_fmcsa_data(request):
+    """
+    Django view to fetch FMCSA data for a given MC number.
+    """
+    mc_number = request.GET.get('mcNumber')
+
+    if not mc_number:
+        return JsonResponse({"error": "MC number is required"}, status=400)
+
+    # Fetch data using the utility function
+    data = fetch_fmcsa_data(mc_number)
+
+    if data:
+        return JsonResponse(data, safe=False)
+    else:
+        return JsonResponse({"error": "Failed to fetch data for the provided MC number"}, status=500)
 
 
 # --- Django Template Views ---

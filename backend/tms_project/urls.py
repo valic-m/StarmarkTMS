@@ -6,7 +6,7 @@ from django.template.loader import render_to_string, TemplateDoesNotExist
 from dispatch import views as dispatch_views
 from backend.tms_project import views  # Project-level views (dashboard, companies_list)
 from users import views as user_views  # Views from the 'users' app
-from backend.customers.views import CustomerListCreate  # Import CustomerListCreate directly
+from backend.customers.views import CustomerListCreate, get_fmcsa_data  # Import necessary views
 from .views import test_template_view  # Import your test view
 import traceback  # Import traceback for more detailed error reporting
 
@@ -55,6 +55,9 @@ urlpatterns = [
 
     # API endpoint for customers
     path('api/customers/', CustomerListCreate.as_view(), name='customer_list_api'),  # Directly map to the API view
+
+    # FMCSA data endpoint
+    path('api/fmcsa/', get_fmcsa_data, name='get_fmcsa_data'),  # FMCSA data fetch route
 
     # Include URLs for dispatch (dispatch routes, including create and list)
     path('dispatch/', include('dispatch.urls')),  # Dispatch-related routes

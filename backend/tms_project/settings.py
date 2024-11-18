@@ -9,6 +9,8 @@ import os
 from datetime import timedelta
 from django.urls import reverse_lazy
 from dotenv import load_dotenv
+import environ
+
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
@@ -197,3 +199,9 @@ PUBLIC_PATHS = [
 SAMSARA_API_TOKEN = os.getenv('SAMSARA_API_TOKEN')
 if not SAMSARA_API_TOKEN:
     raise ValueError("Missing SAMSARA_API_TOKEN environment variable")
+
+env = environ.Env()
+environ.Env.read_env()
+
+FMCSA_WEB_KEY = env("FMCSA_WEB_KEY", default="default_web_key")
+
