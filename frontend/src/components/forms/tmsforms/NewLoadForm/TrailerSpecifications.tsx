@@ -16,7 +16,7 @@ interface TrailerSpecificationsProps {
 const TrailerSpecifications: React.FC<TrailerSpecificationsProps> = ({
   formData,
   onChange,
-  validation = false,
+  validation = false
 }) => (
   <div>
     <h5>Trailer Specifications</h5>
@@ -28,7 +28,7 @@ const TrailerSpecifications: React.FC<TrailerSpecificationsProps> = ({
             as="select"
             name="trailerType"
             value={formData.trailerType || ''}
-            onChange={(e) =>
+            onChange={e =>
               onChange(e as unknown as React.ChangeEvent<HTMLSelectElement>)
             }
             required={validation}
@@ -49,7 +49,7 @@ const TrailerSpecifications: React.FC<TrailerSpecificationsProps> = ({
             as="select"
             name="loadType"
             value={formData.loadType || ''}
-            onChange={(e) =>
+            onChange={e =>
               onChange(e as unknown as React.ChangeEvent<HTMLSelectElement>)
             }
             required={validation}
@@ -68,7 +68,7 @@ const TrailerSpecifications: React.FC<TrailerSpecificationsProps> = ({
             type="number"
             name="feetRequired"
             value={formData.feetRequired?.toString() || ''}
-            onChange={(e) =>
+            onChange={e =>
               onChange(e as unknown as React.ChangeEvent<HTMLInputElement>)
             }
             min={0}

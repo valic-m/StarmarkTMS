@@ -1,5 +1,5 @@
 {
-  "name": "StarmarkTMS",
+  "name": "phoenix-react",
   "version": "1.5.0",
   "private": true,
   "type": "module",
@@ -29,7 +29,6 @@
     "@types/node": "^20.8.10",
     "@types/react": "^18.0.28",
     "@types/react-dom": "^18.0.10",
-    "axios": "^1.7.7",
     "bootstrap": "^5.3.3",
     "classnames": "^2.3.2",
     "dayjs": "^1.11.7",
@@ -46,8 +45,6 @@
     "lodash.merge": "^4.6.2",
     "lottie-react": "^2.4.0",
     "mapbox-gl": "^2.14.1",
-    "pdf-lib": "^1.17.1",
-    "pdf-parse": "^1.1.1",
     "picmo": "^5.8.5",
     "react": "^18.2.0",
     "react-beautiful-dnd": "^13.1.1",

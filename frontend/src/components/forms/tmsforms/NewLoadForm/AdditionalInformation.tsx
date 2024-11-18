@@ -11,13 +11,13 @@ interface AdditionalInformationProps {
 const AdditionalInformation: React.FC<AdditionalInformationProps> = ({
   formData,
   onChange,
-  validation = false,
+  validation = false
 }) => {
   const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const file = e.target.files?.[0];
     if (file) {
       onChange({
-        target: { name: e.target.name, value: file },
+        target: { name: e.target.name, value: file }
       } as unknown as React.ChangeEvent<HTMLInputElement>);
     }
   };

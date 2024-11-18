@@ -16,7 +16,7 @@ interface PickupDropoffDetailsProps {
 const PickupDropoffDetails: React.FC<PickupDropoffDetailsProps> = ({
   formData,
   onChange,
-  validation = false,
+  validation = false
 }) => {
   const [shippers, setShippers] = useState<ContactInfo[]>(
     formData.shippers || [{ name: '', address: '', contact: '' }]
@@ -30,8 +30,8 @@ const PickupDropoffDetails: React.FC<PickupDropoffDetailsProps> = ({
     onChange({
       target: {
         name: 'shippers',
-        value: updatedShippers, // Pass the updated array directly
-      },
+        value: updatedShippers // Pass the updated array directly
+      }
     } as unknown as React.ChangeEvent<HTMLInputElement>);
   };
 
@@ -40,8 +40,8 @@ const PickupDropoffDetails: React.FC<PickupDropoffDetailsProps> = ({
     onChange({
       target: {
         name: 'receivers',
-        value: updatedReceivers, // Pass the updated array directly
-      },
+        value: updatedReceivers // Pass the updated array directly
+      }
     } as unknown as React.ChangeEvent<HTMLInputElement>);
   };
 
@@ -69,7 +69,10 @@ const PickupDropoffDetails: React.FC<PickupDropoffDetailsProps> = ({
     handleShippersChange([...shippers, { name: '', address: '', contact: '' }]);
 
   const handleAddReceiver = () =>
-    handleReceiversChange([...receivers, { name: '', address: '', contact: '' }]);
+    handleReceiversChange([
+      ...receivers,
+      { name: '', address: '', contact: '' }
+    ]);
 
   return (
     <div>
@@ -87,7 +90,7 @@ const PickupDropoffDetails: React.FC<PickupDropoffDetailsProps> = ({
                   name="name"
                   placeholder="Enter Shipper Name"
                   value={shipper.name}
-                  onChange={(e) => handleShipperFieldChange(index, e)}
+                  onChange={e => handleShipperFieldChange(index, e)}
                   required={validation}
                 />
               </Form.Group>
@@ -101,7 +104,7 @@ const PickupDropoffDetails: React.FC<PickupDropoffDetailsProps> = ({
                   name="address"
                   placeholder="Enter Shipper Address"
                   value={shipper.address}
-                  onChange={(e) => handleShipperFieldChange(index, e)}
+                  onChange={e => handleShipperFieldChange(index, e)}
                   required={validation}
                 />
               </Form.Group>
@@ -115,7 +118,7 @@ const PickupDropoffDetails: React.FC<PickupDropoffDetailsProps> = ({
                   name="contact"
                   placeholder="Enter Contact Number"
                   value={shipper.contact}
-                  onChange={(e) => handleShipperFieldChange(index, e)}
+                  onChange={e => handleShipperFieldChange(index, e)}
                   required={validation}
                 />
               </Form.Group>
@@ -138,7 +141,7 @@ const PickupDropoffDetails: React.FC<PickupDropoffDetailsProps> = ({
                   name="name"
                   placeholder="Enter Receiver Name"
                   value={receiver.name}
-                  onChange={(e) => handleReceiverFieldChange(index, e)}
+                  onChange={e => handleReceiverFieldChange(index, e)}
                   required={validation}
                 />
               </Form.Group>
@@ -152,7 +155,7 @@ const PickupDropoffDetails: React.FC<PickupDropoffDetailsProps> = ({
                   name="address"
                   placeholder="Enter Receiver Address"
                   value={receiver.address}
-                  onChange={(e) => handleReceiverFieldChange(index, e)}
+                  onChange={e => handleReceiverFieldChange(index, e)}
                   required={validation}
                 />
               </Form.Group>
@@ -166,7 +169,7 @@ const PickupDropoffDetails: React.FC<PickupDropoffDetailsProps> = ({
                   name="contact"
                   placeholder="Enter Contact Number"
                   value={receiver.contact}
-                  onChange={(e) => handleReceiverFieldChange(index, e)}
+                  onChange={e => handleReceiverFieldChange(index, e)}
                   required={validation}
                 />
               </Form.Group>

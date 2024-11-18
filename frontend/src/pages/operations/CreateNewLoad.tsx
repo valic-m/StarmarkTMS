@@ -6,7 +6,7 @@ import {
   Alert,
   InputGroup,
   Form,
-  Button,
+  Button
 } from 'react-bootstrap';
 import PageBreadcrumb from 'components/common/PageBreadcrumb';
 import WizardSideNav from 'components/wizard/WizardSideNav';
@@ -25,14 +25,19 @@ import {
   faTruck,
   faInfoCircle,
   faBox,
-  faMapMarkerAlt,
+  faMapMarkerAlt
 } from '@fortawesome/free-solid-svg-icons';
 
 const wizardNavItems = [
   { step: 1, label: 'Customer Info', completed: false, icon: faInfoCircle },
-  { step: 2, label: 'Pickup & Dropoff', completed: false, icon: faMapMarkerAlt },
+  {
+    step: 2,
+    label: 'Pickup & Dropoff',
+    completed: false,
+    icon: faMapMarkerAlt
+  },
   { step: 3, label: 'Trailer Specs', completed: false, icon: faTruck },
-  { step: 4, label: 'Shipment Details', completed: false, icon: faBox },
+  { step: 4, label: 'Shipment Details', completed: false, icon: faBox }
 ];
 
 const CreateNewLoad: React.FC = () => {
@@ -40,17 +45,21 @@ const CreateNewLoad: React.FC = () => {
   const goToStep = (step: number) => setSelectedStep(step);
 
   const formRefs = useRef<(HTMLFormElement | null)[]>([]);
-  const form = useWizardForm<LoadFormData>({ totalStep: wizardNavItems.length });
+  const form = useWizardForm<LoadFormData>({
+    totalStep: wizardNavItems.length
+  });
 
   const [alert, setAlert] = useState({
     show: false,
     message: '',
-    variant: 'primary',
+    variant: 'primary'
   });
   const [searchQuery, setSearchQuery] = useState<string>('');
   const [filteredResults, setFilteredResults] = useState<Customer[]>([]);
   const [customers, setCustomers] = useState<Customer[]>([]);
-  const [selectedCustomer, setSelectedCustomer] = useState<Customer | null>(null);
+  const [selectedCustomer, setSelectedCustomer] = useState<Customer | null>(
+    null
+  );
   const [showNewCustomerModal, setShowNewCustomerModal] = useState(false);
 
   useEffect(() => {
@@ -69,7 +78,7 @@ const CreateNewLoad: React.FC = () => {
   useEffect(() => {
     if (searchQuery.trim().length > 0) {
       setFilteredResults(
-        customers.filter((customer) =>
+        customers.filter(customer =>
           customer.name.toLowerCase().includes(searchQuery.toLowerCase())
         )
       );
@@ -80,16 +89,18 @@ const CreateNewLoad: React.FC = () => {
 
   const handleSelectCustomer = (customer: Customer) => {
     setSelectedCustomer(customer);
-    form.setFormData({ ...form.formData, customerId: customer.id } as LoadFormData);
+    form.setFormData({
+      ...form.formData,
+      customerId: customer.id
+    } as LoadFormData);
     setSearchQuery('');
     setFilteredResults([]);
   };
 
   const handleNext = () =>
-    setSelectedStep((prev) => Math.min(prev + 1, wizardNavItems.length));
+    setSelectedStep(prev => Math.min(prev + 1, wizardNavItems.length));
 
-  const handlePrevious = () =>
-    setSelectedStep((prev) => Math.max(prev - 1, 1));
+  const handlePrevious = () => setSelectedStep(prev => Math.max(prev - 1, 1));
 
   const handleFinalSubmit = async (data: LoadFormData) => {
     try {
@@ -97,13 +108,13 @@ const CreateNewLoad: React.FC = () => {
       setAlert({
         show: true,
         message: 'Load data saved successfully',
-        variant: 'success',
+        variant: 'success'
       });
     } catch (error) {
       setAlert({
         show: true,
         message: 'Failed to save load data',
-        variant: 'danger',
+        variant: 'danger'
       });
     }
   };
@@ -117,7 +128,7 @@ const CreateNewLoad: React.FC = () => {
         items={[
           { label: 'Home', url: '/' },
           { label: 'Operations' },
-          { label: 'Create New Load' },
+          { label: 'Create New Load' }
         ]}
       />
       <h2 className="fs-5 mb-4 mb-xl-5">Create New Load</h2>
@@ -139,7 +150,7 @@ const CreateNewLoad: React.FC = () => {
         setValue={(values: Partial<LoadFormData>) =>
           form.setFormData({ ...form.formData, ...values })
         }
-        onChange={(e) => form.onChange(e)}
+        onChange={e => form.onChange(e)}
         onSubmit={(e: React.FormEvent<HTMLFormElement>) => {
           e.preventDefault();
           handleFinalSubmit(form.formData);
@@ -147,7 +158,10 @@ const CreateNewLoad: React.FC = () => {
       >
         <Row className="gx-0 gx-xl-5 theme-wizard">
           <Col xl={{ order: 1, span: 4 }}>
-            <WizardSideNav navItems={wizardNavItems} setTabEventKey={goToStep} />
+            <WizardSideNav
+              navItems={wizardNavItems}
+              setTabEventKey={goToStep}
+            />
           </Col>
           <Col xl={8}>
             <Tab.Content>
@@ -159,17 +173,20 @@ const CreateNewLoad: React.FC = () => {
                       type="text"
                       placeholder="Search for customer"
                       value={searchQuery}
-                      onChange={(e) => setSearchQuery(e.target.value)}
+                      onChange={e => setSearchQuery(e.target.value)}
                     />
                     {filteredResults.length === 0 && searchQuery && (
-                      <Button variant="link" onClick={handleShowNewCustomerModal}>
+                      <Button
+                        variant="link"
+                        onClick={handleShowNewCustomerModal}
+                      >
                         Add New Customer
                       </Button>
                     )}
                   </InputGroup>
                   {filteredResults.length > 0 && (
                     <ul className="list-group">
-                      {filteredResults.map((customer) => (
+                      {filteredResults.map(customer => (
                         <li
                           key={customer.id}
                           className="list-group-item"
@@ -213,7 +230,7 @@ const CreateNewLoad: React.FC = () => {
                 <PickupDropoffDetails
                   formData={{
                     shippers: form.formData.shippers || [],
-                    receivers: form.formData.receivers || [],
+                    receivers: form.formData.receivers || []
                   }}
                   onChange={form.onChange}
                   validation={form.validation || false}
@@ -224,7 +241,7 @@ const CreateNewLoad: React.FC = () => {
                   formData={{
                     trailerType: form.formData.trailerType,
                     loadType: form.formData.loadType,
-                    feetRequired: form.formData.feetRequired,
+                    feetRequired: form.formData.feetRequired
                   }}
                   onChange={form.onChange}
                   validation={form.validation || false}
@@ -243,7 +260,7 @@ const CreateNewLoad: React.FC = () => {
                 variant="primary"
                 onClick={
                   selectedStep === 4
-                    ? (e) => {
+                    ? e => {
                         e.preventDefault();
                         handleFinalSubmit(form.formData);
                       }

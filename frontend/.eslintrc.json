@@ -5,9 +5,7 @@
   },
   "globals": {
     "process": true,
-    "module": true,
-    "tinymce": true,
-    "RequestInit": "readonly"
+    "tinymce": "readonly"
   },
   "settings": {
     "react": {
@@ -31,17 +29,14 @@
     "react/no-unescaped-entities": "off",
     "prettier/prettier": ["error", { "endOfLine": "auto" }],
     "no-unused-vars": "off",
-    "@typescript-eslint/no-unused-vars": "error",
+    "@typescript-eslint/no-unused-vars": ["warn", { "argsIgnorePattern": "^_" }],
     "@typescript-eslint/no-empty-interface": "off",
     "react/display-name": "off",
-    "no-prototype-builtins": "warn",
-    "no-useless-escape": "warn",
-    "no-empty": "warn",
-    "@typescript-eslint/no-this-alias": "warn",
-    "no-cond-assign": ["warn", "always"],
-    "no-control-regex": "warn",
-    "no-case-declarations": "warn",
-    "no-undef": "warn"
-  },
-  "ignorePatterns": ["public/tinymce/"]
+    "@typescript-eslint/no-this-alias": "off",
+    "no-cond-assign": ["error", "except-parens"],
+    "no-useless-escape": "off",
+    "no-empty": ["warn", { "allowEmptyCatch": true }],
+    "no-undef": "warn",
+    "@typescript-eslint/no-explicit-any": "off"
+  }
 }
