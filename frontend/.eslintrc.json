@@ -1,10 +1,11 @@
 {
   "env": {
     "browser": true,
-    "es2021": true
+    "es2021": true,
+    "node": true
   },
   "globals": {
-    "process": true,
+    "process": "readonly",
     "tinymce": "readonly"
   },
   "settings": {
@@ -21,7 +22,10 @@
   "parser": "@typescript-eslint/parser",
   "parserOptions": {
     "ecmaVersion": "latest",
-    "sourceType": "module"
+    "sourceType": "module",
+    "ecmaFeatures": {
+      "jsx": true
+    }
   },
   "plugins": ["@typescript-eslint", "react"],
   "rules": {
@@ -36,7 +40,18 @@
     "no-cond-assign": ["error", "except-parens"],
     "no-useless-escape": "off",
     "no-empty": ["warn", { "allowEmptyCatch": true }],
-    "no-undef": "warn",
-    "@typescript-eslint/no-explicit-any": "off"
+    "no-undef": "off",
+    "@typescript-eslint/no-explicit-any": "off",
+    "@typescript-eslint/ban-types": [
+      "error",
+      {
+        "types": {
+          "{}": false
+        }
+      }
+    ],
+    "@typescript-eslint/explicit-module-boundary-types": "off",
+    "react/jsx-uses-react": "off",
+    "react/jsx-uses-vars": "warn"
   }
 }
