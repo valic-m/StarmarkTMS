@@ -1,10 +1,11 @@
-# File: C:/Users/valic/OneDrive/Documents/TMS/backend/shippers_receivers/views.py
 from django.shortcuts import render, redirect, get_object_or_404
 from django.core.paginator import Paginator
 from backend.shippers_receivers.models import ShipperReceiverCompany
 from backend.shippers_receivers.forms import CompanyForm
-import re
-from datetime import timedelta
+from rest_framework.decorators import api_view
+from rest_framework.response import Response
+from rest_framework import status
+from backend.shippers_receivers.serializers import ShipperReceiverCompanySerializer
 
 def parse_duration(duration_str):
     """Parse a human-friendly duration string into a timedelta object."""
@@ -18,6 +19,99 @@ def parse_duration(duration_str):
 
     return timedelta(hours=hours, minutes=minutes, seconds=seconds)
 
+
+# API Views for RESTful Implementation
+
+@api_view(['GET', 'POST'])
+def shipper_list(request):
+    """
+    Handles listing all shippers (GET) or creating a new shipper (POST).
+    """
+    if request.method == 'GET':
+        shippers = ShipperReceiverCompany.objects.all()
+        serializer = ShipperReceiverCompanySerializer(shippers, many=True)
+        return Response(serializer.data)
+
+    if request.method == 'POST':
+        serializer = ShipperReceiverCompanySerializer(data=request.data)
+        if serializer.is_valid():
+            serializer.save()
+            return Response(serializer.data, status=status.HTTP_201_CREATED)
+        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+
+
+@api_view(['GET', 'PUT', 'DELETE'])
+def shipper_detail(request, id):
+    """
+    Handles retrieving (GET), updating (PUT), or deleting (DELETE) a single shipper.
+    """
+    try:
+        shipper = ShipperReceiverCompany.objects.get(pk=id)
+    except ShipperReceiverCompany.DoesNotExist:
+        return Response({'error': 'Shipper not found'}, status=status.HTTP_404_NOT_FOUND)
+
+    if request.method == 'GET':
+        serializer = ShipperReceiverCompanySerializer(shipper)
+        return Response(serializer.data)
+
+    if request.method == 'PUT':
+        serializer = ShipperReceiverCompanySerializer(shipper, data=request.data)
+        if serializer.is_valid():
+            serializer.save()
+            return Response(serializer.data)
+        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+
+    if request.method == 'DELETE':
+        shipper.delete()
+        return Response(status=status.HTTP_204_NO_CONTENT)
+
+
+@api_view(['GET', 'POST'])
+def receiver_list(request):
+    """
+    Handles listing all receivers (GET) or creating a new receiver (POST).
+    """
+    if request.method == 'GET':
+        receivers = ShipperReceiverCompany.objects.all()
+        serializer = ShipperReceiverCompanySerializer(receivers, many=True)
+        return Response(serializer.data)
+
+    if request.method == 'POST':
+        serializer = ShipperReceiverCompanySerializer(data=request.data)
+        if serializer.is_valid():
+            serializer.save()
+            return Response(serializer.data, status=status.HTTP_201_CREATED)
+        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+
+
+@api_view(['GET', 'PUT', 'DELETE'])
+def receiver_detail(request, id):
+    """
+    Handles retrieving (GET), updating (PUT), or deleting (DELETE) a single receiver.
+    """
+    try:
+        receiver = ShipperReceiverCompany.objects.get(pk=id)
+    except ShipperReceiverCompany.DoesNotExist:
+        return Response({'error': 'Receiver not found'}, status=status.HTTP_404_NOT_FOUND)
+
+    if request.method == 'GET':
+        serializer = ShipperReceiverCompanySerializer(receiver)
+        return Response(serializer.data)
+
+    if request.method == 'PUT':
+        serializer = ShipperReceiverCompanySerializer(receiver, data=request.data)
+        if serializer.is_valid():
+            serializer.save()
+            return Response(serializer.data)
+        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+
+    if request.method == 'DELETE':
+        receiver.delete()
+        return Response(status=status.HTTP_204_NO_CONTENT)
+
+
+# Traditional Django Views for HTML Forms
+
 def add_company(request):
     company_type = request.GET.get('type', 'shipper')  # Default to 'shipper'
     is_modal = request.GET.get('modal') == 'true'
@@ -26,7 +120,6 @@ def add_company(request):
         form = CompanyForm(request.POST)
         if form.is_valid():
             company = form.save(commit=False)
-            # You can set other fields or perform additional logic here if needed
             form.save()
             if is_modal:
                 return render(request, 'shippers_receivers/close_modal.html')
@@ -37,75 +130,21 @@ def add_company(request):
     template_name = 'shippers_receivers/add_company.html'
     return render(request, template_name, {'form': form, 'type': company_type})
 
+
 def edit_company(request, company_id):
-    # Retrieve the company object or return a 404 if it does not exist
     company = get_object_or_404(ShipperReceiverCompany, pk=company_id)
 
     if request.method == 'POST':
-        # Update the company with the submitted form data
         form = CompanyForm(request.POST, instance=company)
         if form.is_valid():
             form.save()
-            return redirect('shippers_receivers:company_list')  # Redirect to the company list after saving
-        else:
-            print("Form is not valid:", form.errors)  # Optional: print form errors for debugging
+            return redirect('shippers_receivers:company_list')
     else:
-        # Display the form with the existing company data for editing
         form = CompanyForm(instance=company)
 
-    # Render the edit_company.html template
     return render(request, 'shippers_receivers/edit_company.html', {'form': form, 'company': company})
+
 
 def company_list(request):
     companies = ShipperReceiverCompany.objects.all()
     return render(request, 'shippers_receivers/company_list.html', {'companies': companies})
-
-def shipper_list(request):
-    query = request.GET.get('q', '')
-    # Get all companies, treating them as shippers
-    shippers = ShipperReceiverCompany.objects.all()
-
-    if query:
-        shippers = shippers.filter(company_name__icontains=query)
-
-    shippers = shippers.order_by('company_name')
-    paginator = Paginator(shippers, 10)
-    page_number = request.GET.get('page')
-    page_obj = paginator.get_page(page_number)
-
-    context = {
-        'page_obj': page_obj,
-        'query': query,
-    }
-
-    return render(request, 'shippers_receivers/shipper_list.html', context)
-
-def shipper_detail(request, id):
-    # Get the company object without filtering by 'is_shipper'
-    shipper = get_object_or_404(ShipperReceiverCompany, pk=id)
-    return render(request, 'shippers_receivers/shipper_detail.html', {'shipper': shipper})
-
-def receiver_list(request):
-    query = request.GET.get('q', '')
-    # Get all companies, treating them as receivers
-    receivers = ShipperReceiverCompany.objects.all()
-
-    if query:
-        receivers = receivers.filter(company_name__icontains=query)
-
-    receivers = receivers.order_by('company_name')
-    paginator = Paginator(receivers, 10)
-    page_number = request.GET.get('page')
-    page_obj = paginator.get_page(page_number)
-
-    context = {
-        'page_obj': page_obj,
-        'query': query,
-    }
-
-    return render(request, 'shippers_receivers/receiver_list.html', context)
-
-def receiver_detail(request, id):
-    # Get the company object without filtering by 'is_receiver'
-    receiver = get_object_or_404(ShipperReceiverCompany, pk=id)
-    return render(request, 'shippers_receivers/receiver_detail.html', {'receiver': receiver})

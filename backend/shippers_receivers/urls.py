@@ -1,4 +1,3 @@
-# File: C:/Users/valic/OneDrive/Documents/TMS/backend/shippers_receivers/urls.py
 from django.urls import path
 from backend.shippers_receivers import views
 
@@ -13,6 +12,3 @@ urlpatterns = [
     path('edit/<int:company_id>/', views.edit_company, name='edit_company'),  # Edit company view
     path('companies/', views.company_list, name='company_list'),  # List of companies
 ]
-
-
-

@@ -1,5 +1,3 @@
-# File: C:/Users/valic/Documents/TMS/backend/tms_project/urls.py
-
 from django.contrib import admin
 from django.urls import path, include
 from django.contrib.auth import views as auth_views
@@ -30,12 +28,15 @@ def debug_login_view(request):
         return HttpResponse(f"An error occurred: {error_message}", status=500)
 
 urlpatterns = [
+    # Admin page
+    path('admin/', admin.site.urls),  # Access to the Django admin page
+
+    # API for Shippers and Receivers
+    path('api/shippers_receivers/', include('backend.shippers_receivers.urls')),  # Shippers and receivers-related API routes
+
     # Login and logout routes using Django's built-in authentication views
     path('login/', auth_views.LoginView.as_view(template_name='registration/login.html'), name='login'),
     path('logout/', auth_views.LogoutView.as_view(), name='logout'),
-
-    # Admin page
-    path('admin/', admin.site.urls),  # Access to the Django admin page
 
     # Home page with active dispatches
     path('', dispatch_views.home, name='home'),  # Home page route for showing active dispatches
@@ -69,9 +70,6 @@ urlpatterns = [
     path('password_reset/done/', auth_views.PasswordResetDoneView.as_view(), name='password_reset_done'),
     path('reset/<uidb64>/<token>/', auth_views.PasswordResetConfirmView.as_view(), name='password_reset_confirm'),
     path('reset/done/', auth_views.PasswordResetCompleteView.as_view(), name='password_reset_complete'),
-
-    # Include URLs for the shippers_receivers app
-    path('shippers_receivers/', include('shippers_receivers.urls', namespace='shippers_receivers')),  # Shippers and receivers-related routes
 
     # Include URLs for carriers
     path('carriers/', include('backend.carriers.urls')),  # Carrier-related routes

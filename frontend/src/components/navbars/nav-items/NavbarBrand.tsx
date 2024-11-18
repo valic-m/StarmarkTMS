@@ -33,8 +33,10 @@ const NavbarBrand = () => {
             </>
           ) : (
             <div className="d-flex align-items-center">
-              <img src={logo} alt="phoenix" width={27} />
-              <p className="logo-text ms-2 d-none d-sm-block">phoenix</p>
+              <img src={logo} alt="STARMARK TMS" width={70} />
+              <p className="logo-text ms-2 d-none d-sm-block">
+                S T A R M A R K TMS
+              </p>
             </div>
           )}
         </Navbar.Brand>
