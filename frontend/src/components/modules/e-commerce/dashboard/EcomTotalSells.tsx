@@ -7,9 +7,9 @@ const EcomTotalSells = () => {
     <>
       <Row className="justify-content-between align-items-center mb-4 g-3">
         <Col xs="auto">
-          <h3>Total sells</h3>
+          <h3>Total Gross Income This Month</h3>
           <p className="text-body-tertiary lh-sm mb-0">
-            Payment received across all channels
+            Loads Booked By All Dispatchers
           </p>
         </Col>
         <Col xs={8} sm={4}>

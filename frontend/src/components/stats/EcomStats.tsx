@@ -2,10 +2,22 @@ import { Col, Row, Stack } from 'react-bootstrap';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { IconProp } from '@fortawesome/fontawesome-svg-core';
 import {
+  faBoxesPacking,
+  faCashRegister,
   faCircle,
+  faFileInvoice,
+  faHandPaper,
   faPause,
+  faRoute,
   faSquare,
   faStar,
+  faTruck,
+  faTruckField,
+  faTruckFront,
+  faTruckLoading,
+  faTruckMoving,
+  faTruckPickup,
+  faWarehouse,
   faXmark
 } from '@fortawesome/free-solid-svg-icons';
 
@@ -20,24 +32,24 @@ type StatType = {
 const stats: StatType[] = [
   {
     id: 1,
-    icon: faStar,
-    title: '57 new orders',
-    subTitle: 'Awating processing',
+    icon: faTruckLoading,
+    title: '7 Available Loads',
+    subTitle: 'Awating for Dispatch',
     color: 'success'
   },
   {
     id: 2,
-    icon: faPause,
-    title: '5 orders',
-    subTitle: 'On hold',
-    color: 'warning'
+    icon: faBoxesPacking,
+    title: '15 Loads',
+    subTitle: 'In Transit',
+    color: 'success'
   },
   {
     id: 3,
-    icon: faXmark,
-    title: '15 products',
-    subTitle: 'Out of stock',
-    color: 'danger'
+    icon: faFileInvoice,
+    title: '15 Loads Delivered',
+    subTitle: 'Waiting to be Invoiced',
+    color: 'success'
   }
 ];
 
@@ -62,13 +74,7 @@ const Stat = ({ stat }: { stat: StatType }) => {
         style={{ minHeight: '46px', minWidth: '46px' }}
       >
         <FontAwesomeIcon
-          icon={faSquare}
-          size="2x"
-          className={`text-${stat.color}-light dark__text-opacity-50`}
-          transform="down-4 rotate--10 left-4"
-        />
-        <FontAwesomeIcon
-          icon={faCircle}
+          icon={faWarehouse}
           size="2x"
           className={`text-stats-circle-${stat.color} fa-layers-circle`}
           transform="up-4 right-3 grow-2"

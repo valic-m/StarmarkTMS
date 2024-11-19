@@ -19,9 +19,9 @@ const Ecommerce = () => {
         <Row className="g-4">
           <Col xs={12} xxl={6}>
             <div className="mb-8">
-              <h2 className="mb-2">Ecommerce Dashboard</h2>
+              <h2 className="mb-2">Dispatch Dashboard</h2>
               <h5 className="text-body-tertiary fw-semibold">
-                Here’s what’s going on at your business right now
+                Here’s what’s going on in Dispatch right now
               </h5>
             </div>
             <EcomStats />
