@@ -4,7 +4,7 @@ import ReactDOM from 'react-dom/client';
 import BreakpointsProvider from 'providers/BreakpointsProvider';
 import SettingsPanelProvider from 'providers/SettingsPanelProvider';
 import { RouterProvider } from 'react-router-dom';
-import { router } from 'Routes';
+import { router } from './Routes'; // Make sure the path is correct
 import ChatWidgetProvider from 'providers/ChatWidgetProvider';
 
 const root = ReactDOM.createRoot(

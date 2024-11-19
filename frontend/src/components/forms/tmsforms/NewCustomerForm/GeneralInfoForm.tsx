@@ -1,18 +1,34 @@
 import React, { useState } from 'react';
 import { Form, Row, Col, Button, Spinner } from 'react-bootstrap';
-import { fetchFmcsaData } from '../../../../api/fmcsa'; // Import the API utility
+import axios from 'axios';
 
+const BASE_URL = 'http://localhost:8000'; // Backend URL
+
+// Function to fetch FMCSA data
+export const fetchFmcsaData = async (mcNumber: string) => {
+  try {
+    const response = await axios.get(`${BASE_URL}/api/fmcsa/`, {
+      params: { mcNumber }
+    });
+    return response.data;
+  } catch (error) {
+    console.error('Error fetching FMCSA data:', error);
+    throw new Error('Failed to fetch FMCSA data');
+  }
+};
+
+// Define the interface for form data
 interface FormData {
   name: string;
   mc_number: string;
   scac: string;
   address_street: string;
-  address_number: string;
   city: string;
   state: string;
   zip_code: string;
 }
 
+// Define the interface for component props
 interface GeneralInfoFormProps {
   formData: FormData;
   handleChange: (
@@ -39,18 +55,26 @@ const GeneralInfoForm: React.FC<GeneralInfoFormProps> = ({
     setError('');
     try {
       const data = await fetchFmcsaData(formData.mc_number);
+
+      // Update form fields based on fetched data
       handleChange({
-        target: { name: 'name', value: data.name || '', type: 'text' }
+        target: { name: 'name', value: data.legalName || '', type: 'text' }
       } as React.ChangeEvent<HTMLInputElement>);
       handleChange({
         target: {
           name: 'address_street',
-          value: data.address || '',
+          value: data.phyStreet || '',
           type: 'text'
         }
       } as React.ChangeEvent<HTMLInputElement>);
       handleChange({
-        target: { name: 'phone', value: data.phone || '', type: 'text' }
+        target: { name: 'city', value: data.phyCity || '', type: 'text' }
+      } as React.ChangeEvent<HTMLInputElement>);
+      handleChange({
+        target: { name: 'state', value: data.phyState || '', type: 'text' }
+      } as React.ChangeEvent<HTMLInputElement>);
+      handleChange({
+        target: { name: 'zip_code', value: data.phyZipcode || '', type: 'text' }
       } as React.ChangeEvent<HTMLInputElement>);
     } catch (err) {
       setError('Failed to fetch FMCSA data. Please try again.');
@@ -88,19 +112,6 @@ const GeneralInfoForm: React.FC<GeneralInfoFormProps> = ({
           </Form.Group>
           {error && <p className="text-danger mt-2">{error}</p>}
         </Col>
-        <Col md={6}>
-          <Form.Group controlId="scac">
-            <Form.Label>SCAC</Form.Label>
-            <Form.Control
-              type="text"
-              name="scac"
-              placeholder="Enter SCAC"
-              value={formData.scac}
-              onChange={handleChange}
-              required
-            />
-          </Form.Group>
-        </Col>
       </Row>
 
       <Row className="mb-3">
@@ -134,19 +145,6 @@ const GeneralInfoForm: React.FC<GeneralInfoFormProps> = ({
 
       <Row className="mb-3">
         <Col md={6}>
-          <Form.Group controlId="address_number">
-            <Form.Label>Address Number</Form.Label>
-            <Form.Control
-              type="text"
-              name="address_number"
-              placeholder="Enter Address Number"
-              value={formData.address_number}
-              onChange={handleChange}
-              required
-            />
-          </Form.Group>
-        </Col>
-        <Col md={6}>
           <Form.Group controlId="city">
             <Form.Label>City</Form.Label>
             <Form.Control
@@ -159,9 +157,6 @@ const GeneralInfoForm: React.FC<GeneralInfoFormProps> = ({
             />
           </Form.Group>
         </Col>
-      </Row>
-
-      <Row className="mb-3">
         <Col md={6}>
           <Form.Group controlId="state">
             <Form.Label>State</Form.Label>
@@ -175,6 +170,9 @@ const GeneralInfoForm: React.FC<GeneralInfoFormProps> = ({
             />
           </Form.Group>
         </Col>
+      </Row>
+
+      <Row className="mb-3">
         <Col md={6}>
           <Form.Group controlId="zip_code">
             <Form.Label>Zip Code</Form.Label>

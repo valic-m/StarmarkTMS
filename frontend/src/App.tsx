@@ -1,12 +1,12 @@
+import React, { useEffect } from 'react';
+import { Outlet, useLocation } from 'react-router-dom';
 import SettingsPanel from 'components/settings-panel/SettingsPanel';
 import SettingsToggle from 'components/settings-panel/SettingsToggle';
 import useToggleStyle from 'hooks/useToggleStyle';
 import { useAppContext } from 'providers/AppProvider';
 import { useSettingsPanelContext } from 'providers/SettingsPanelProvider';
-import { useEffect } from 'react';
-import { Outlet, useLocation } from 'react-router-dom';
 
-const App = () => {
+const App: React.FC = () => {
   const { isStylesheetLoaded } = useToggleStyle();
   const { pathname } = useLocation();
 
@@ -24,6 +24,7 @@ const App = () => {
     window.scrollTo(0, 0);
   }, [pathname]);
 
+  // Reset settings panel configuration when RTL changes
   useEffect(() => {
     setSettingsPanelConfig({
       openSettingPanel: false
@@ -45,7 +46,10 @@ const App = () => {
         />
       ) : (
         <>
+          {/* Render the current route */}
           <Outlet />
+
+          {/* Conditional rendering of settings panel */}
           {showSettingPanelButton && (
             <>
               <SettingsToggle />

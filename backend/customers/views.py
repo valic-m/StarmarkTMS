@@ -7,56 +7,77 @@ from .models import Customer
 from .forms import CustomerForm
 from .serializers import CustomerSerializer
 from django.core.paginator import Paginator
-from .fmcsa_utils import fetch_fmcsa_data  # Utility function for FMCSA data
+from .fmcsa_utils import fetch_fmcsa_data
 
 # Configure logger
 logger = logging.getLogger(__name__)
 
-
-# --- Django API View to Fetch FMCSA Data ---
-
+# --- FMCSA API View ---
 def get_fmcsa_data(request):
     """
-    Django view to fetch FMCSA data for a given MC number.
+    Django view to fetch FMCSA data for a given MC docket number.
     """
-    mc_number = request.GET.get('mcNumber')
+    mc_number = request.GET.get('mcNumber')  # Get MC number from query parameters
+    logger.info(f"Received request for MC number: {mc_number}")
 
     if not mc_number:
+        logger.error("MC number is missing in the request")
         return JsonResponse({"error": "MC number is required"}, status=400)
 
     # Fetch data using the utility function
     data = fetch_fmcsa_data(mc_number)
+    logger.info(f"Fetched data from FMCSA: {data}")
 
-    if data:
-        return JsonResponse(data, safe=False)
-    else:
-        return JsonResponse({"error": "Failed to fetch data for the provided MC number"}, status=500)
+    if "error" in data:
+        return JsonResponse({"error": data["error"]}, status=400)
+
+    # Extract and map relevant fields for frontend use
+    content = data.get("content", [{}])[0].get("carrier", {})
+    mapped_data = {
+        "legalName": content.get("legalName", ""),
+        "phyStreet": content.get("phyStreet", ""),
+        "phyCity": content.get("phyCity", ""),
+        "phyState": content.get("phyState", ""),
+        "phyZipcode": content.get("phyZipcode", ""),
+        "phone": content.get("phone", ""),  # Default to empty if missing
+        "dotNumber": content.get("dotNumber", ""),
+    }
+
+    return JsonResponse(mapped_data, safe=False)
 
 
-# --- Django Template Views ---
-
-# View to list all customers with pagination and search functionality
+# --- Customer Management Views ---
 def customer_list(request):
+    """
+    View to list customers with optional search and pagination.
+    """
     query = request.GET.get('q', '')  # Search query
     if query:
         customers = Customer.objects.filter(
-            name__icontains=query) | Customer.objects.filter(
-            contact_name__icontains=query) | Customer.objects.filter(
-            mc_number__icontains=query) | Customer.objects.filter(
-            city__icontains=query) | Customer.objects.filter(
-            phone_number__icontains=query)
+            name__icontains=query
+        ) | Customer.objects.filter(
+            contact_name__icontains=query
+        ) | Customer.objects.filter(
+            mc_number__icontains=query
+        ) | Customer.objects.filter(
+            city__icontains=query
+        ) | Customer.objects.filter(
+            phone_number__icontains=query
+        )
     else:
-        customers = Customer.objects.all().order_by('name')  # Add ordering here
+        customers = Customer.objects.all().order_by('name')  # Alphabetical ordering
 
-    paginator = Paginator(customers, 10)
+    paginator = Paginator(customers, 10)  # Paginate by 10 items per page
     page_number = request.GET.get('page')
     page_obj = paginator.get_page(page_number)
 
     return render(request, 'customers/customer_list.html', {'page_obj': page_obj, 'query': query})
 
 
-# View to create a new customer
 def create_customer(request):
+    """
+    View to create a new customer with optional FMCSA data integration.
+    """
     if request.method == 'POST':
         form = CustomerForm(request.POST)
         if form.is_valid():
@@ -65,8 +86,8 @@ def create_customer(request):
             if mc_number:
                 fmcsa_data = fetch_fmcsa_data(mc_number)
                 if fmcsa_data:
-                    customer.name = fmcsa_data.get('name', customer.name)
-                    customer.address_street = fmcsa_data.get('address', customer.address_street)
+                    customer.name = fmcsa_data.get('legalName', customer.name)
+                    customer.address_street = fmcsa_data.get('phyStreet', customer.address_street)
                     customer.phone_number = fmcsa_data.get('phone', customer.phone_number)
 
             customer.save()
@@ -76,8 +97,10 @@ def create_customer(request):
     return render(request, 'customers/create_customer.html', {'form': form})
 
 
-# View to edit an existing customer
 def edit_customer(request, customer_id):
+    """
+    View to edit an existing customer with optional FMCSA data integration.
+    """
     customer = get_object_or_404(Customer, pk=customer_id)
     if request.method == 'POST':
         form = CustomerForm(request.POST, instance=customer)
@@ -87,8 +110,8 @@ def edit_customer(request, customer_id):
             if mc_number:
                 fmcsa_data = fetch_fmcsa_data(mc_number)
                 if fmcsa_data:
-                    customer.name = fmcsa_data.get('name', customer.name)
-                    customer.address_street = fmcsa_data.get('address', customer.address_street)
+                    customer.name = fmcsa_data.get('legalName', customer.name)
+                    customer.address_street = fmcsa_data.get('phyStreet', customer.address_street)
                     customer.phone_number = fmcsa_data.get('phone', customer.phone_number)
 
             customer.save()
@@ -98,8 +121,10 @@ def edit_customer(request, customer_id):
     return render(request, 'customers/edit_customer.html', {'form': form, 'customer': customer})
 
 
-# View to delete a customer
 def delete_customer(request, customer_id):
+    """
+    View to delete an existing customer.
+    """
     customer = get_object_or_404(Customer, pk=customer_id)
     if request.method == 'POST':
         customer.delete()
@@ -107,8 +132,10 @@ def delete_customer(request, customer_id):
     return render(request, 'customers/delete_customer.html', {'customer': customer})
 
 
-# View to add a new customer from a modal form (for use in 'loads/create_load.html')
 def add_customer(request):
+    """
+    View to add a new customer with FMCSA data integration.
+    """
     if request.method == 'POST':
         form = CustomerForm(request.POST)
         if form.is_valid():
@@ -117,17 +144,17 @@ def add_customer(request):
             if mc_number:
                 fmcsa_data = fetch_fmcsa_data(mc_number)
                 if fmcsa_data:
-                    customer.name = fmcsa_data.get('name', customer.name)
-                    customer.address_street = fmcsa_data.get('address', customer.address_street)
+                    customer.name = fmcsa_data.get('legalName', customer.name)
+                    customer.address_street = fmcsa_data.get('phyStreet', customer.address_street)
                     customer.phone_number = fmcsa_data.get('phone', customer.phone_number)
 
             customer.save()
-            # Return JSON response for AJAX calls
+            # For AJAX requests, return a success response
             if request.is_ajax():
                 return JsonResponse({'success': True})
             return redirect('customers:customer_list')
         else:
-            # Return JSON response for form errors in AJAX calls
+            # For AJAX requests, return form errors
             if request.is_ajax():
                 return JsonResponse({'success': False, 'errors': form.errors})
     else:
@@ -135,15 +162,19 @@ def add_customer(request):
     return render(request, 'customers/add_customer.html', {'form': form})
 
 
-# View to show details of a single customer
 def customer_detail(request, customer_id):
+    """
+    View to show details of a single customer.
+    """
     customer = get_object_or_404(Customer, pk=customer_id)
     return render(request, 'customers/customer_detail.html', {'customer': customer})
 
 
 # --- API Views (Django REST Framework) ---
-
 class CustomerListCreate(generics.ListCreateAPIView):
+    """
+    API endpoint to list and create customers.
+    """
     queryset = Customer.objects.all()
     serializer_class = CustomerSerializer
 

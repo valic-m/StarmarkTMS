@@ -1,5 +1,3 @@
-// File: src/pages/client-management/AddCustomer.tsx
-
 import React, { useEffect, useState } from 'react';
 import { Col, Row, Tab, Alert } from 'react-bootstrap';
 import PageBreadcrumb from 'components/common/PageBreadcrumb';
@@ -22,6 +20,7 @@ import {
   faMoneyBill
 } from '@fortawesome/free-solid-svg-icons';
 
+// Wizard navigation steps
 const wizardNavItems = [
   { step: 1, label: 'General Info', completed: false, icon: faInfoCircle },
   { step: 2, label: 'Contact Info', completed: false, icon: faUser },
@@ -38,11 +37,9 @@ const wizardNavItems = [
 
 const AddCustomer: React.FC = () => {
   const [tabEventKey, setTabEventKey] = useState<number>(1);
-  const form = useWizardForm({
-    totalStep: wizardNavItems.length
-  });
+  const form = useWizardForm({ totalStep: wizardNavItems.length });
 
-  // Alert state for showing messages
+  // Alert state for showing validation or submission messages
   const [alert, setAlert] = useState<{
     show: boolean;
     message: string;
@@ -70,7 +67,7 @@ const AddCustomer: React.FC = () => {
         show: true,
         message: `Please complete the required fields: ${missingFields.join(
           ', '
-        )}`, // <-- Ensure proper spacing and line break here
+        )}`,
         variant: 'warning'
       });
       return;
@@ -160,4 +157,10 @@ const AddCustomer: React.FC = () => {
   );
 };
 
+// Simplified fallback placeholder for "Add Customer Page"
+const AddCustomerPlaceholder: React.FC = () => {
+  return <div>Add Customer Page</div>;
+};
+
+export { AddCustomer, AddCustomerPlaceholder };
 export default AddCustomer;
