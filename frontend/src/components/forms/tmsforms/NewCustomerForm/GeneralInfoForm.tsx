@@ -110,11 +110,7 @@ const GeneralInfoForm: React.FC<GeneralInfoFormProps> = ({
               )}
             </Button>
           </Form.Group>
-          {error && <p className="text-danger mt-2">{error}</p>}
         </Col>
-      </Row>
-
-      <Row className="mb-3">
         <Col md={6}>
           <Form.Group controlId="name">
             <Form.Label>Customer Name</Form.Label>
@@ -128,6 +124,9 @@ const GeneralInfoForm: React.FC<GeneralInfoFormProps> = ({
             />
           </Form.Group>
         </Col>
+      </Row>
+
+      <Row className="mb-3">
         <Col md={6}>
           <Form.Group controlId="address_street">
             <Form.Label>Street Address</Form.Label>
@@ -141,9 +140,6 @@ const GeneralInfoForm: React.FC<GeneralInfoFormProps> = ({
             />
           </Form.Group>
         </Col>
-      </Row>
-
-      <Row className="mb-3">
         <Col md={6}>
           <Form.Group controlId="city">
             <Form.Label>City</Form.Label>
@@ -157,6 +153,9 @@ const GeneralInfoForm: React.FC<GeneralInfoFormProps> = ({
             />
           </Form.Group>
         </Col>
+      </Row>
+
+      <Row className="mb-3">
         <Col md={6}>
           <Form.Group controlId="state">
             <Form.Label>State</Form.Label>
@@ -170,9 +169,6 @@ const GeneralInfoForm: React.FC<GeneralInfoFormProps> = ({
             />
           </Form.Group>
         </Col>
-      </Row>
-
-      <Row className="mb-3">
         <Col md={6}>
           <Form.Group controlId="zip_code">
             <Form.Label>Zip Code</Form.Label>

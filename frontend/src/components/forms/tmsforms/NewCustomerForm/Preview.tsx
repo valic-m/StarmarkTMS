@@ -18,7 +18,6 @@ const Preview: React.FC<PreviewProps> = ({ formData }) => {
   const generalInfo: PropertyDetails[] = [
     { property: 'Customer Name', value: formData.name || 'N/A' },
     { property: 'MC Number', value: formData.mc_number || 'N/A' },
-    { property: 'SCAC', value: formData.scac || 'N/A' },
     { property: 'Address Street', value: formData.address_street || 'N/A' },
     { property: 'City', value: formData.city || 'N/A' }
   ];
