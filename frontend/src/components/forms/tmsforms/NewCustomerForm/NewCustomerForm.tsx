@@ -1,5 +1,3 @@
-// File: src/components/forms/tmsforms/NewCustomerForm/NewCustomerForm.tsx
-
 import React from 'react';
 import { Form } from 'react-bootstrap';
 import GeneralInfoForm from './GeneralInfoForm';
@@ -31,8 +29,31 @@ const NewCustomerForm: React.FC<NewCustomerFormProps> = ({
 
     setFormData(prevData => ({
       ...prevData,
-      [name]: type === 'checkbox' ? checked : value
+      [name]:
+        name === 'credit_limit'
+          ? value.replace(/,/g, '').trim() // Remove commas and whitespace
+          : type === 'checkbox'
+          ? checked
+          : value
     }));
+  };
+
+  const handleSubmit = () => {
+    const sanitizedData = {
+      ...formData,
+      credit_limit: parseFloat(formData.credit_limit) // Ensure numeric type
+    };
+
+    // Send sanitizedData to the backend API
+    fetch('/api/customers/', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify(sanitizedData)
+    })
+      .then(response => response.json())
+      .then(data => console.log(data));
   };
 
   const renderStepContent = () => {
@@ -47,7 +68,11 @@ const NewCustomerForm: React.FC<NewCustomerFormProps> = ({
         );
       case 3:
         return (
-          <CreditLimitForm formData={formData} handleChange={handleChange} />
+          <CreditLimitForm
+            formData={formData}
+            handleChange={handleChange}
+            setFormData={setFormData}
+          />
         );
       case 4:
         return (
@@ -67,7 +92,7 @@ const NewCustomerForm: React.FC<NewCustomerFormProps> = ({
     }
   };
 
-  return <Form>{renderStepContent()}</Form>;
+  return <Form onSubmit={handleSubmit}>{renderStepContent()}</Form>;
 };
 
 export default NewCustomerForm;

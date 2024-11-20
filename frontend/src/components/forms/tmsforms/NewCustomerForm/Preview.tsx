@@ -1,5 +1,3 @@
-// File: src/components/forms/tmsforms/NewCustomerForm/Preview.tsx
-
 import React from 'react';
 import { Accordion } from 'react-bootstrap';
 import SummaryTable from './SummaryTable';
@@ -69,6 +67,8 @@ const Preview: React.FC<PreviewProps> = ({ formData }) => {
     { property: 'Agent Phone', value: formData.agent_phone || 'N/A' },
     { property: 'Agent Email', value: formData.agent_email || 'N/A' }
   ];
+
+  console.log('Rendering Preview Component');
 
   return (
     <Accordion>

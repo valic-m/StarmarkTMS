@@ -1,8 +1,10 @@
 import logging
+from decimal import Decimal, InvalidOperation
 from django.shortcuts import render, redirect, get_object_or_404
 from django.http import JsonResponse
 from rest_framework import generics, status
 from rest_framework.response import Response
+from rest_framework.views import APIView
 from .models import Customer
 from .forms import CustomerForm
 from .serializers import CustomerSerializer
@@ -74,6 +76,36 @@ def customer_list(request):
     return render(request, 'customers/customer_list.html', {'page_obj': page_obj, 'query': query})
 
 
+def add_customer(request):
+    """
+    View to add a new customer with FMCSA data integration.
+    """
+    if request.method == 'POST':
+        form = CustomerForm(request.POST)
+        if form.is_valid():
+            customer = form.save(commit=False)
+            mc_number = form.cleaned_data.get('mc_number')
+            if mc_number:
+                fmcsa_data = fetch_fmcsa_data(mc_number)
+                if fmcsa_data:
+                    customer.name = fmcsa_data.get('legalName', customer.name)
+                    customer.address_street = fmcsa_data.get('phyStreet', customer.address_street)
+                    customer.phone_number = fmcsa_data.get('phone', customer.phone_number)
+
+            customer.save()
+            # For AJAX requests, return a success response
+            if request.is_ajax():
+                return JsonResponse({'success': True})
+            return redirect('customers:customer_list')
+        else:
+            # For AJAX requests, return form errors
+            if request.is_ajax():
+                return JsonResponse({'success': False, 'errors': form.errors})
+    else:
+        form = CustomerForm()
+    return render(request, 'customers/add_customer.html', {'form': form})
+
+
 def create_customer(request):
     """
     View to create a new customer with optional FMCSA data integration.
@@ -132,36 +164,6 @@ def delete_customer(request, customer_id):
     return render(request, 'customers/delete_customer.html', {'customer': customer})
 
 
-def add_customer(request):
-    """
-    View to add a new customer with FMCSA data integration.
-    """
-    if request.method == 'POST':
-        form = CustomerForm(request.POST)
-        if form.is_valid():
-            customer = form.save(commit=False)
-            mc_number = form.cleaned_data.get('mc_number')
-            if mc_number:
-                fmcsa_data = fetch_fmcsa_data(mc_number)
-                if fmcsa_data:
-                    customer.name = fmcsa_data.get('legalName', customer.name)
-                    customer.address_street = fmcsa_data.get('phyStreet', customer.address_street)
-                    customer.phone_number = fmcsa_data.get('phone', customer.phone_number)
-
-            customer.save()
-            # For AJAX requests, return a success response
-            if request.is_ajax():
-                return JsonResponse({'success': True})
-            return redirect('customers:customer_list')
-        else:
-            # For AJAX requests, return form errors
-            if request.is_ajax():
-                return JsonResponse({'success': False, 'errors': form.errors})
-    else:
-        form = CustomerForm()
-    return render(request, 'customers/add_customer.html', {'form': form})
-
-
 def customer_detail(request, customer_id):
     """
     View to show details of a single customer.
@@ -189,3 +191,24 @@ class CustomerListCreate(generics.ListCreateAPIView):
         else:
             logger.error("Customer creation failed with errors: %s", serializer.errors)
             return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+
+
+class CustomerCreateView(APIView):
+    """
+    API View to create a customer with credit_limit sanitization.
+    """
+    def post(self, request, *args, **kwargs):
+        data = request.data.copy()
+        try:
+            # Clean up credit_limit before validation
+            if 'credit_limit' in data:
+                data['credit_limit'] = Decimal(str(data['credit_limit']).replace(",", ""))
+        except (ValueError, InvalidOperation):
+            return Response({'credit_limit': ['A valid number is required.']}, status=400)
+
+        serializer = CustomerSerializer(data=data)
+        if serializer.is_valid():
+            serializer.save()
+            return Response(serializer.data, status=201)
+        else:
+            return Response(serializer.errors, status=400)

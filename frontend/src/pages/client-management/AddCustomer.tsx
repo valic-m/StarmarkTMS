@@ -32,12 +32,12 @@ const wizardNavItems = [
     icon: faMoneyBill
   },
   { step: 5, label: 'Agent Info', completed: false, icon: faCheckCircle },
-  { step: 6, label: 'Review Info', completed: false, icon: faCheckCircle }
+  { step: 6, label: 'Review Info', completed: false, icon: faCheckCircle } // Last step
 ];
 
 const AddCustomer: React.FC = () => {
-  const [tabEventKey, setTabEventKey] = useState<number>(1);
-  const form = useWizardForm({ totalStep: wizardNavItems.length });
+  const [tabEventKey, setTabEventKey] = useState<number>(1); // Tracks current step
+  const form = useWizardForm({ totalStep: wizardNavItems.length }); // Manages form state
 
   // Alert state for showing validation or submission messages
   const [alert, setAlert] = useState<{
@@ -51,11 +51,12 @@ const AddCustomer: React.FC = () => {
   });
 
   useEffect(() => {
+    console.log('Current tabEventKey:', tabEventKey);
     console.log('Current form data:', form.formData);
-  }, [form.formData]);
+  }, [form.formData, tabEventKey]);
 
   const handleNext = () => {
-    // Example of front-end validation
+    // Validate required fields before moving to the next step
     const requiredFields = ['name', 'phone_number', 'email'];
     const missingFields = requiredFields.filter(
       field =>
@@ -73,7 +74,10 @@ const AddCustomer: React.FC = () => {
       return;
     }
 
-    setTabEventKey(prev => prev + 1); // Move to the next step if validation passes
+    // Ensure `tabEventKey` does not exceed the total steps
+    if (tabEventKey < wizardNavItems.length) {
+      setTabEventKey(prev => prev + 1);
+    }
   };
 
   const handleFinalSubmit = async () => {
@@ -106,7 +110,11 @@ const AddCustomer: React.FC = () => {
             <div className="scrollbar mb-4">
               <WizardSideNav
                 navItems={wizardNavItems}
-                setTabEventKey={setTabEventKey}
+                setTabEventKey={step => {
+                  if (step <= wizardNavItems.length) {
+                    setTabEventKey(step);
+                  }
+                }}
               />
             </div>
           </Col>
@@ -130,9 +138,11 @@ const AddCustomer: React.FC = () => {
             </Tab.Content>
             <div className="mt-6">
               <WizardFormFooter
-                nextBtnLabel={tabEventKey === form.totalStep ? 'Save' : 'Next'}
+                nextBtnLabel={
+                  tabEventKey === wizardNavItems.length ? 'Save' : 'Next'
+                }
                 handleSubmit={
-                  tabEventKey === form.totalStep
+                  tabEventKey === wizardNavItems.length
                     ? handleFinalSubmit
                     : handleNext
                 }
