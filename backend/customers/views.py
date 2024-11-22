@@ -5,9 +5,10 @@ from django.http import JsonResponse
 from rest_framework import generics, status
 from rest_framework.response import Response
 from rest_framework.views import APIView
+from rest_framework.permissions import IsAdminUser
 from .models import Customer
 from .forms import CustomerForm
-from .serializers import CustomerSerializer
+from .serializers import CustomerSerializer, CustomerFullSerializer
 from django.core.paginator import Paginator
 from .fmcsa_utils import fetch_fmcsa_data
 
@@ -93,12 +94,10 @@ def add_customer(request):
                     customer.phone_number = fmcsa_data.get('phone', customer.phone_number)
 
             customer.save()
-            # For AJAX requests, return a success response
-            if request.is_ajax():
+            if request.is_ajax():  # For AJAX requests
                 return JsonResponse({'success': True})
             return redirect('customers:customer_list')
         else:
-            # For AJAX requests, return form errors
             if request.is_ajax():
                 return JsonResponse({'success': False, 'errors': form.errors})
     else:
@@ -191,6 +190,30 @@ class CustomerListCreate(generics.ListCreateAPIView):
         else:
             logger.error("Customer creation failed with errors: %s", serializer.errors)
             return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+
+
+class AdminCustomerView(APIView):
+    """
+    Admin-only API View to manage customers, including 'do_not_use'.
+    """
+    permission_classes = [IsAdminUser]
+
+    def get(self, request, customer_id):
+        customer = Customer.objects.filter(id=customer_id).first()
+        if not customer:
+            return Response({'error': 'Customer not found'}, status=404)
+        serializer = CustomerFullSerializer(customer)
+        return Response(serializer.data)
+
+    def patch(self, request, customer_id):
+        customer = Customer.objects.filter(id=customer_id).first()
+        if not customer:
+            return Response({'error': 'Customer not found'}, status=404)
+        serializer = CustomerFullSerializer(customer, data=request.data, partial=True)
+        if serializer.is_valid():
+            serializer.save()
+            return Response(serializer.data)
+        return Response(serializer.errors, status=400)
 
 
 class CustomerCreateView(APIView):

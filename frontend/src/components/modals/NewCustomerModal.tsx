@@ -1,5 +1,3 @@
-// File: src/components/modals/NewCustomerModal.tsx
-
 import React, { useState } from 'react';
 import { Modal, ProgressBar } from 'react-bootstrap';
 import NewCustomerForm from 'components/forms/tmsforms/NewCustomerForm/NewCustomerForm';
@@ -48,7 +46,8 @@ const NewCustomerModal: React.FC<NewCustomerModalProps> = ({
     do_not_use: false,
     notes: '',
     tax_id: '',
-    term_pay: ''
+    term_pay: '',
+    priority: 'active' // Default value added for the new 'priority' field
   });
 
   const handleFinalSubmit = () => {

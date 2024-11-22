@@ -1,8 +1,9 @@
-# File: C:/Users/valic/Documents/TMS/backend/customers/models.py
-
 from django.db import models
+from django.core.exceptions import ValidationError
 
 class Customer(models.Model):
+    TERM_PAY_CHOICES = [('Quickpay', 'Quickpay')] + [(f'Net {i}', f'Net {i}') for i in range(5, 31)]
+
     # General Information
     name = models.CharField(max_length=255)
     mc_number = models.CharField(max_length=7, blank=True, null=True)
@@ -23,7 +24,11 @@ class Customer(models.Model):
     broker_email = models.EmailField(blank=True, null=True)
 
     # Financial Details
-    term_pay = models.CharField(max_length=20, choices=[('Net 30', 'Net 30'), ('Net 15', 'Net 15')], default='Net 30')
+    term_pay = models.CharField(
+        max_length=20,
+        choices=TERM_PAY_CHOICES,
+        default='Net 30'
+    )
     tax_id = models.CharField(max_length=50, blank=True, null=True)
     credit_limit = models.DecimalField(max_digits=10, decimal_places=2, blank=True, null=True)
 
@@ -31,7 +36,8 @@ class Customer(models.Model):
     is_active = models.BooleanField(default=True)
     factoring = models.BooleanField(default=False)
     do_not_use = models.BooleanField(default=False)
-    whitelist = models.BooleanField(default=False)  # Ensure this is the correct field name
+    whitelist = models.BooleanField(default=False)
+    priority = models.BooleanField(default=False)
 
     # Accounts Payable Information
     accounts_payable_contact = models.CharField(max_length=255, blank=True, null=True)
@@ -51,7 +57,13 @@ class Customer(models.Model):
     notes = models.TextField(blank=True, null=True)
 
     class Meta:
-        ordering = ['name']  # Set default ordering by 'name'
+        ordering = ['name']
+        verbose_name = 'Customer'
+        verbose_name_plural = 'Customers'
 
     def __str__(self):
         return self.name
+
+    def clean(self):
+        if self.do_not_use and self.is_active:
+            raise ValidationError("A customer cannot be both 'Do Not Use' and 'Active'.")

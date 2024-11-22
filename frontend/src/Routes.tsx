@@ -76,7 +76,6 @@ import Customers from 'pages/apps/e-commerce/admin/Customers';
 import Orders from 'pages/apps/e-commerce/admin/Orders';
 import OrderDetails from 'pages/apps/e-commerce/admin/OrderDetails';
 import Refund from 'pages/apps/e-commerce/admin/Refund';
-import CustomerDetails from 'pages/apps/e-commerce/admin/CustomerDetails';
 import ProjectManagement from 'pages/dashboard/ProjectManagement';
 import CreateNew from 'pages/apps/project-management/CreateNew';
 import ProjectListView from 'pages/apps/project-management/ProjectListView';
@@ -182,7 +181,7 @@ import AddShipperReceiver from 'pages/client-management/AddShipperReceiver';
 import ShipperReceiverListPage from 'pages/client-management/ShipperReceiverListPage';
 import AddCrossDock from 'pages/client-management/AddCrossDock';
 import CrossDockListPage from 'pages/client-management/CrossDockListPage';
-
+import TmsCustomerDetails from './pages/client-management/tmsCustomerDetails';
 const FontAwesomeExample = lazy(
   () => import('pages/modules/components/FontAwesomeExample')
 );
@@ -299,6 +298,10 @@ const routes: RouteObject[] = [
                   {
                     path: 'list',
                     element: <CustomerListPage />
+                  },
+                  {
+                    path: ':id', // Added route for TmsCustomerDetails
+                    element: <TmsCustomerDetails />
                   }
                 ]
               },
@@ -362,7 +365,7 @@ const routes: RouteObject[] = [
                   },
                   {
                     path: 'customer-details',
-                    element: <CustomerDetails />
+                    element: <TmsCustomerDetails />
                   }
                 ]
               },

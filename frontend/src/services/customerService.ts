@@ -4,7 +4,7 @@ import { Customer } from '../types/Customer'; // Import the shared type definiti
 
 const baseUrl = process.env.REACT_APP_API_URL || 'http://localhost:8000'; // Fallback to localhost if the environment variable is not set
 
-// Function to fetch customers from the API
+// Function to fetch all customers from the API
 export const getCustomers = async (): Promise<Customer[]> => {
   try {
     const response = await fetch(`${baseUrl}/api/customers/`);
@@ -20,6 +20,22 @@ export const getCustomers = async (): Promise<Customer[]> => {
   }
 };
 
+// Function to fetch details of a specific customer by ID
+export const getCustomerDetails = async (id: number): Promise<Customer> => {
+  try {
+    const response = await fetch(`${baseUrl}/api/customers/${id}`); // Ensure the endpoint is correct
+    if (!response.ok) {
+      throw new Error('Failed to fetch customer details');
+    }
+    const customer: Customer = await response.json();
+    console.log('Fetched customer details:', customer); // For debugging purposes
+    return customer;
+  } catch (error) {
+    console.error(`Error fetching details for customer ID ${id}:`, error);
+    throw error;
+  }
+};
+
 // Define an interface for the new customer data being added
 interface NewCustomerData {
   name: string;
@@ -28,7 +44,9 @@ interface NewCustomerData {
 }
 
 // Function to add a new customer
-export const addCustomer = async (customerData: NewCustomerData) => {
+export const addCustomer = async (
+  customerData: NewCustomerData
+): Promise<Customer> => {
   try {
     const response = await fetch(`${baseUrl}/api/customers/`, {
       method: 'POST',
@@ -40,13 +58,14 @@ export const addCustomer = async (customerData: NewCustomerData) => {
 
     console.log('Response status:', response.status); // Debugging line
 
-    if (response.ok) {
-      console.log('Customer added successfully');
-      return response.json();
-    } else {
+    if (!response.ok) {
       console.error('Failed to add customer');
       throw new Error('Failed to add customer');
     }
+
+    const addedCustomer: Customer = await response.json();
+    console.log('Customer added successfully:', addedCustomer);
+    return addedCustomer;
   } catch (error) {
     console.error('Error in addCustomer:', error);
     throw error;

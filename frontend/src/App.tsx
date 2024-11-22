@@ -1,5 +1,5 @@
 import React, { useEffect } from 'react';
-import { Outlet, useLocation } from 'react-router-dom';
+import { Outlet } from 'react-router-dom';
 import SettingsPanel from 'components/settings-panel/SettingsPanel';
 import SettingsToggle from 'components/settings-panel/SettingsToggle';
 import useToggleStyle from 'hooks/useToggleStyle';
@@ -8,27 +8,16 @@ import { useSettingsPanelContext } from 'providers/SettingsPanelProvider';
 
 const App: React.FC = () => {
   const { isStylesheetLoaded } = useToggleStyle();
-  const { pathname } = useLocation();
-
   const {
     settingsPanelConfig: { showSettingPanelButton },
     setSettingsPanelConfig
   } = useSettingsPanelContext();
-
   const {
     config: { theme, isRTL }
   } = useAppContext();
 
-  // Automatically scrolls to top whenever pathname changes
   useEffect(() => {
-    window.scrollTo(0, 0);
-  }, [pathname]);
-
-  // Reset settings panel configuration when RTL changes
-  useEffect(() => {
-    setSettingsPanelConfig({
-      openSettingPanel: false
-    });
+    setSettingsPanelConfig({ openSettingPanel: false });
   }, [isRTL]);
 
   return (
@@ -46,10 +35,7 @@ const App: React.FC = () => {
         />
       ) : (
         <>
-          {/* Render the current route */}
-          <Outlet />
-
-          {/* Conditional rendering of settings panel */}
+          <Outlet /> {/* Render routed child components */}
           {showSettingPanelButton && (
             <>
               <SettingsToggle />

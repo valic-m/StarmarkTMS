@@ -2,9 +2,8 @@ import React, { useEffect, useState, ChangeEvent } from 'react';
 import { Table } from 'react-bootstrap';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faFileExport, faPlus } from '@fortawesome/free-solid-svg-icons';
-import CustomerDetailsModal from 'components/modals/CustomerDetailsModal';
+import { useNavigate } from 'react-router-dom'; // Import useNavigate
 import { getCustomers } from '../../services/customerService';
-import { Link } from 'react-router-dom';
 import { Customer } from '../../types/Customer';
 import PageBreadcrumb from 'components/common/PageBreadcrumb';
 import FilterTab, { FilterTabItem } from 'components/common/FilterTab';
@@ -13,35 +12,30 @@ import FilterButtonGroup, {
 } from 'components/common/FilterButtonGroup';
 import SearchBox from 'components/common/SearchBox';
 import Button from 'components/base/Button';
+import { Link } from 'react-router-dom';
 
-const tabItems: FilterTabItem[] = [
-  { label: 'All', value: 'all', count: 100 },
-  { label: 'New', value: 'new', count: 20 },
-  { label: 'VIP', value: 'vip', count: 5 }
-];
-
-const filterMenus: FilterMenu[] = [
-  {
-    label: 'Country',
-    items: [{ label: 'USA' }, { label: 'UK' }, { label: 'Australia' }]
-  },
-  { label: 'VIP Status', items: [{ label: 'Yes' }, { label: 'No' }] }
+// Predefined list of states
+const STATES = [
+  { label: 'Alabama', value: 'AL' },
+  { label: 'Alaska', value: 'AK' },
+  { label: 'Arizona', value: 'AZ' },
+  { label: 'Arkansas', value: 'AR' }
+  // Add all other states...
 ];
 
 const CustomerListPage: React.FC = () => {
+  const navigate = useNavigate(); // Use React Router's navigate function
+
   const [customers, setCustomers] = useState<Customer[]>([]);
   const [filteredCustomers, setFilteredCustomers] = useState<Customer[]>([]);
   const [searchTerm, setSearchTerm] = useState('');
-  const [selectedCustomer, setSelectedCustomer] = useState<Customer | null>(
-    null
-  );
-  const [showDetailsModal, setShowDetailsModal] = useState(false);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
 
   const [currentPage, setCurrentPage] = useState(1); // Current page for pagination
   const pageSize = 10; // Number of items per page
 
+  // Fetch customers
   useEffect(() => {
     getCustomers()
       .then((data: Customer[]) => {
@@ -56,6 +50,41 @@ const CustomerListPage: React.FC = () => {
       });
   }, []);
 
+  // Dynamically calculate tab items based on customers
+  const tabItems: FilterTabItem[] = [
+    { label: 'All', value: 'all', count: customers.length },
+    {
+      label: 'Active',
+      value: 'active',
+      count: customers.filter(c => c.priority === 'active').length
+    },
+    {
+      label: 'DNU',
+      value: 'dnu',
+      count: customers.filter(c => c.priority === 'dnu').length
+    },
+    {
+      label: 'Factoring',
+      value: 'factoring',
+      count: customers.filter(c => c.priority === 'factoring').length
+    }
+  ];
+
+  const filterMenus: FilterMenu[] = [
+    {
+      label: 'State',
+      items: STATES.map(state => ({ label: state.label, value: state.value }))
+    },
+    {
+      label: 'Priority',
+      items: [
+        { label: 'Active', value: 'active' },
+        { label: 'DNU', value: 'dnu' },
+        { label: 'Factoring', value: 'factoring' }
+      ]
+    }
+  ];
+
   const handleSearchInputChange = (e: ChangeEvent<HTMLInputElement>) => {
     const term = e.target.value.toLowerCase();
     setSearchTerm(term);
@@ -67,11 +96,6 @@ const CustomerListPage: React.FC = () => {
           (customer.contact_name?.toLowerCase().includes(term) ?? false)
       )
     );
-  };
-
-  const handleShowDetails = (customer: Customer) => {
-    setSelectedCustomer(customer);
-    setShowDetailsModal(true);
   };
 
   const paginate = (items: Customer[], page: number, size: number) => {
@@ -144,8 +168,10 @@ const CustomerListPage: React.FC = () => {
                 <td style={{ padding: '0.4rem', whiteSpace: 'nowrap' }}>
                   <Button
                     variant="info"
-                    size="sm" // Makes the button smaller
-                    onClick={() => handleShowDetails(customer)}
+                    size="sm"
+                    onClick={() =>
+                      navigate(`/client-management/customers/${customer.id}`)
+                    } // Navigate to details
                   >
                     View Details
                   </Button>
@@ -182,17 +208,6 @@ const CustomerListPage: React.FC = () => {
           </Button>
         </div>
       </div>
-      {selectedCustomer && (
-        <CustomerDetailsModal
-          show={showDetailsModal}
-          onHide={() => setShowDetailsModal(false)}
-          customer={{
-            ...selectedCustomer,
-            email: selectedCustomer.email ?? '',
-            phone: selectedCustomer.phone ?? ''
-          }}
-        />
-      )}
     </div>
   );
 };
