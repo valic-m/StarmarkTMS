@@ -2,8 +2,8 @@ import React, { useEffect, useState, ChangeEvent } from 'react';
 import { Table } from 'react-bootstrap';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faFileExport, faPlus } from '@fortawesome/free-solid-svg-icons';
-import { useNavigate } from 'react-router-dom'; // Import useNavigate
-import { getCustomers } from '../../services/customerService';
+import { useNavigate } from 'react-router-dom';
+import { fetchCustomers } from '../../api/customers'; // Updated API import
 import { Customer } from '../../types/Customer';
 import PageBreadcrumb from 'components/common/PageBreadcrumb';
 import FilterTab, { FilterTabItem } from 'components/common/FilterTab';
@@ -20,11 +20,11 @@ const STATES = [
   { label: 'Alaska', value: 'AK' },
   { label: 'Arizona', value: 'AZ' },
   { label: 'Arkansas', value: 'AR' }
-  // Add all other states...
+  // Add more states as needed...
 ];
 
 const CustomerListPage: React.FC = () => {
-  const navigate = useNavigate(); // Use React Router's navigate function
+  const navigate = useNavigate();
 
   const [customers, setCustomers] = useState<Customer[]>([]);
   const [filteredCustomers, setFilteredCustomers] = useState<Customer[]>([]);
@@ -32,25 +32,31 @@ const CustomerListPage: React.FC = () => {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
 
-  const [currentPage, setCurrentPage] = useState(1); // Current page for pagination
-  const pageSize = 10; // Number of items per page
+  const [currentPage, setCurrentPage] = useState(1);
+  const pageSize = 10;
 
   // Fetch customers
   useEffect(() => {
-    getCustomers()
-      .then((data: Customer[]) => {
-        setCustomers(data);
-        setFilteredCustomers(data);
+    const fetchData = async () => {
+      try {
+        const data = await fetchCustomers();
+        if (Array.isArray(data)) {
+          setCustomers(data);
+          setFilteredCustomers(data);
+        } else {
+          throw new Error('Unexpected data format received');
+        }
+      } catch (err: any) {
+        setError(err.message || 'An error occurred while fetching customers');
+      } finally {
         setLoading(false);
-      })
-      .catch(err => {
-        setError('An error occurred while fetching customer data');
-        console.error(err);
-        setLoading(false);
-      });
+      }
+    };
+
+    fetchData();
   }, []);
 
-  // Dynamically calculate tab items based on customers
+  // Dynamic tab items based on customer data
   const tabItems: FilterTabItem[] = [
     { label: 'All', value: 'all', count: customers.length },
     {
@@ -106,8 +112,8 @@ const CustomerListPage: React.FC = () => {
   const totalPages = Math.ceil(filteredCustomers.length / pageSize);
   const currentCustomers = paginate(filteredCustomers, currentPage, pageSize);
 
-  if (loading) return <p>Loading...</p>;
-  if (error) return <p>{error}</p>;
+  if (loading) return <p>Loading customers...</p>;
+  if (error) return <p className="text-danger">{error}</p>;
 
   return (
     <div>
@@ -145,33 +151,33 @@ const CustomerListPage: React.FC = () => {
           bordered
           hover
           style={{
-            fontSize: '0.9rem', // Slightly smaller font
-            tableLayout: 'fixed' // Prevent columns from stretching too wide
+            fontSize: '0.9rem',
+            tableLayout: 'fixed'
           }}
         >
           <thead>
             <tr>
-              <th style={{ padding: '0.4rem' }}>Name</th>
-              <th style={{ padding: '0.4rem' }}>Contact Name</th>
-              <th style={{ padding: '0.4rem' }}>Email</th>
-              <th style={{ padding: '0.4rem' }}>Phone</th>
-              <th style={{ padding: '0.4rem' }}>Actions</th>
+              <th>Name</th>
+              <th>Contact Name</th>
+              <th>Email</th>
+              <th>Phone</th>
+              <th>Actions</th>
             </tr>
           </thead>
           <tbody>
             {currentCustomers.map(customer => (
               <tr key={customer.id}>
-                <td style={{ padding: '0.4rem' }}>{customer.name}</td>
-                <td style={{ padding: '0.4rem' }}>{customer.contact_name}</td>
-                <td style={{ padding: '0.4rem' }}>{customer.email || 'N/A'}</td>
-                <td style={{ padding: '0.4rem' }}>{customer.phone}</td>
-                <td style={{ padding: '0.4rem', whiteSpace: 'nowrap' }}>
+                <td>{customer.name}</td>
+                <td>{customer.contact_name}</td>
+                <td>{customer.email || 'N/A'}</td>
+                <td>{customer.phone}</td>
+                <td>
                   <Button
                     variant="info"
                     size="sm"
                     onClick={() =>
-                      navigate(`/client-management/customers/${customer.id}`)
-                    } // Navigate to details
+                      navigate(`/client-management/customers/${customer.slug}`)
+                    }
                   >
                     View Details
                   </Button>
@@ -179,7 +185,7 @@ const CustomerListPage: React.FC = () => {
                     to={`/crm/customer/${customer.id}`}
                     className="btn btn-primary btn-sm ms-2"
                   >
-                    Go to CRM
+                    CRM
                   </Link>
                 </td>
               </tr>

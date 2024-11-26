@@ -74,7 +74,6 @@ import AddProduct from 'pages/apps/e-commerce/admin/AddProduct';
 import Products from 'pages/apps/e-commerce/admin/Products';
 import Customers from 'pages/apps/e-commerce/admin/Customers';
 import Orders from 'pages/apps/e-commerce/admin/Orders';
-import OrderDetails from 'pages/apps/e-commerce/admin/OrderDetails';
 import Refund from 'pages/apps/e-commerce/admin/Refund';
 import ProjectManagement from 'pages/dashboard/ProjectManagement';
 import CreateNew from 'pages/apps/project-management/CreateNew';
@@ -356,16 +355,8 @@ const routes: RouteObject[] = [
                     element: <Orders />
                   },
                   {
-                    path: 'order-details',
-                    element: <OrderDetails />
-                  },
-                  {
                     path: 'refund',
                     element: <Refund />
-                  },
-                  {
-                    path: 'customer-details',
-                    element: <TmsCustomerDetails />
                   }
                 ]
               },

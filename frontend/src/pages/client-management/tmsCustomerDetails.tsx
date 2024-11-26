@@ -1,3 +1,5 @@
+// File: tmsCustomerDetails.tsx
+
 import React, { useEffect, useState } from 'react';
 import { useParams } from 'react-router-dom';
 import { Row, Col } from 'react-bootstrap';
@@ -5,22 +7,19 @@ import PageBreadcrumb from 'components/common/PageBreadcrumb';
 import TMSCustomerProfileCard from 'components/tables/TMSCustomerProfileCard';
 import TMSCustomerOrdersTable from 'components/tables/TMSCustomerOrdersTable';
 import TMSCustomerRatingsTable from 'components/tables/TMSCustomerRatingsTable';
+import { getCustomerDetailsBySlug } from '../../services/customerService';
 import { Customer } from '../../types/Customer';
-import { getCustomerDetails } from '../../services/customerService';
 
 const TmsCustomerDetails: React.FC = () => {
-  const { id } = useParams<{ id: string }>();
+  const { slug } = useParams<{ slug: string }>(); // Use slug instead of ID
   const [customer, setCustomer] = useState<Customer | null>(null);
-  const [loading, setLoading] = useState<boolean>(true);
+  const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
 
   useEffect(() => {
-    console.log('Fetching details for customer ID:', id); // Debug log
-
-    if (id) {
-      getCustomerDetails(Number(id))
+    if (slug) {
+      getCustomerDetailsBySlug(slug)
         .then(data => {
-          console.log('Customer details fetched:', data); // Debug log
           setCustomer(data);
           setLoading(false);
         })
@@ -30,11 +29,10 @@ const TmsCustomerDetails: React.FC = () => {
           setLoading(false);
         });
     } else {
-      console.warn('No customer ID provided in the route parameter'); // Debug warning
-      setError('Invalid customer ID. Please check the URL.');
+      setError('Invalid customer slug. Please check the URL.');
       setLoading(false);
     }
-  }, [id]);
+  }, [slug]);
 
   if (loading) return <p>Loading customer details...</p>;
   if (error) return <p>{error}</p>;
@@ -48,7 +46,7 @@ const TmsCustomerDetails: React.FC = () => {
           { label: 'Customers', url: '/client-management/customers' },
           {
             label: customer.name,
-            url: `/client-management/customers/${customer.id}`
+            url: `/client-management/customers/${customer.slug}`
           }
         ]}
       />

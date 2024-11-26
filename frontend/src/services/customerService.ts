@@ -1,73 +1,44 @@
-// File: C:/Users/valic/Documents/Github/StarmarkTMS/frontend/src/services/customerService.ts
+// src/services/customerService.ts
 
-import { Customer } from '../types/Customer'; // Import the shared type definition
+import api from '../api'; // Import the shared API handler
 
-const baseUrl = process.env.REACT_APP_API_URL || 'http://localhost:8000'; // Fallback to localhost if the environment variable is not set
+// Define the Customer interface
+export interface Customer {
+  id: number;
+  name: string;
+  email?: string;
+  phone?: string;
+  contact_name?: string;
+  priority?: string;
+  slug?: string; // Add slug field
+  // Add other fields as needed
+}
 
-// Function to fetch all customers from the API
+// Fetch all customers
 export const getCustomers = async (): Promise<Customer[]> => {
   try {
-    const response = await fetch(`${baseUrl}/api/customers/`);
-    if (!response.ok) {
-      throw new Error('Failed to fetch customers');
+    const response = await api('/api/customers/');
+    if (Array.isArray(response.results)) {
+      return response.results;
+    } else if (Array.isArray(response)) {
+      return response;
     }
-    const data: Customer[] = await response.json();
-    console.log('Fetched customer data:', data); // For debugging purposes
-    return data;
+    throw new Error('Unexpected API response format.');
   } catch (error) {
     console.error('Error fetching customers:', error);
-    return []; // Return an empty array if there's an error to maintain return type consistency
-  }
-};
-
-// Function to fetch details of a specific customer by ID
-export const getCustomerDetails = async (id: number): Promise<Customer> => {
-  try {
-    const response = await fetch(`${baseUrl}/api/customers/${id}`); // Ensure the endpoint is correct
-    if (!response.ok) {
-      throw new Error('Failed to fetch customer details');
-    }
-    const customer: Customer = await response.json();
-    console.log('Fetched customer details:', customer); // For debugging purposes
-    return customer;
-  } catch (error) {
-    console.error(`Error fetching details for customer ID ${id}:`, error);
     throw error;
   }
 };
 
-// Define an interface for the new customer data being added
-interface NewCustomerData {
-  name: string;
-  email?: string;
-  // Add other fields as required for customer creation
-}
-
-// Function to add a new customer
-export const addCustomer = async (
-  customerData: NewCustomerData
+// Fetch customer details by slug
+export const getCustomerDetailsBySlug = async (
+  slug: string
 ): Promise<Customer> => {
   try {
-    const response = await fetch(`${baseUrl}/api/customers/`, {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json'
-      },
-      body: JSON.stringify(customerData)
-    });
-
-    console.log('Response status:', response.status); // Debugging line
-
-    if (!response.ok) {
-      console.error('Failed to add customer');
-      throw new Error('Failed to add customer');
-    }
-
-    const addedCustomer: Customer = await response.json();
-    console.log('Customer added successfully:', addedCustomer);
-    return addedCustomer;
+    const response = await api(`/api/customers/${slug}/`); // Use the slug for the URL
+    return response;
   } catch (error) {
-    console.error('Error in addCustomer:', error);
+    console.error(`Error fetching customer details for slug ${slug}:`, error);
     throw error;
   }
 };

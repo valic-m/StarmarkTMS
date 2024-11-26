@@ -48,7 +48,7 @@ urlpatterns = [
     path('equipment/', include('equipment.urls')),
 
     # Customers routes
-    path('customers/', include('backend.customers.urls', namespace='customers')),
+    path('customers/', include('backend.customers.urls', namespace='customers')),  # Updated to use slug in `customers.urls`
 
     # API endpoint for customers
     path('api/customers/', CustomerListCreate.as_view(), name='customer_list_api'),

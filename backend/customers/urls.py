@@ -1,15 +1,14 @@
-from django.urls import path, include
+from django.urls import path
 from .views import (
-    CustomerListCreate,
-    CustomerCreateView,
-    AdminCustomerView,  # Added AdminCustomerView
-    customer_list,
-    create_customer,
-    edit_customer,
-    delete_customer,
-    customer_detail,
-    add_customer,
-    get_fmcsa_data,
+    CustomerListCreate,  # API to list and create customers with pagination
+    CustomerCreateView,  # API to create customers
+    AdminCustomerView,   # API for admin-only customer management
+    customer_list,       # Web view to list customers
+    add_customer,        # Web view to add a new customer
+    edit_customer,       # Web view to edit an existing customer by slug
+    delete_customer,     # Web view to delete a customer by slug
+    customer_detail,     # Web view to display a customer's details by slug
+    get_fmcsa_data,      # API to fetch FMCSA data
 )
 
 app_name = 'customers'
@@ -17,19 +16,14 @@ app_name = 'customers'
 urlpatterns = [
     # Web Views for Customer Management
     path('', customer_list, name='customer_list'),  # List all customers with search and pagination
-    path('add/', add_customer, name='add_customer'),  # Add a new customer with optional FMCSA data integration
-    path('create/', create_customer, name='create_customer'),  # Create a new customer
-    path('<int:customer_id>/edit/', edit_customer, name='edit_customer'),  # Edit an existing customer
-    path('<int:customer_id>/delete/', delete_customer, name='delete_customer'),  # Delete a customer
-    path('<int:customer_id>/', customer_detail, name='customer_detail'),  # View details of a specific customer
-
-    # FMCSA API Integration
-    path('api/fmcsa/', get_fmcsa_data, name='get_fmcsa_data'),  # Fetch FMCSA data
-
-    # REST API Endpoints
-    path('api/', include(([  # Grouping API endpoints under the 'api' namespace
-        path('customers/', CustomerListCreate.as_view(), name='customer_list_api'),  # List and create customers
-        path('customers/create/', CustomerCreateView.as_view(), name='customer_create_api'),  # Create a customer with validation
-        path('admin/customers/<int:customer_id>/', AdminCustomerView.as_view(), name='admin_customer_api'),  # Admin-only endpoint for customer management
-    ], 'api'))),  # Grouped for scalability
+    path('add/', add_customer, name='add_customer'),  # Add a new customer
+    path('create/', CustomerCreateView.as_view(), name='create_customer'),  # Create a new customer (API)
+    path('<slug:slug>/edit/', edit_customer, name='edit_customer'),  # Edit an existing customer by slug
+    path('<slug:slug>/delete/', delete_customer, name='delete_customer'),  # Delete a customer by slug
+    path('<slug:slug>/', customer_detail, name='customer_detail'),  # View customer details by slug
+    path('fmcsa/', get_fmcsa_data, name='get_fmcsa_data'),  # Get FMCSA data
+    # API Views
+    path('api/customers/', CustomerListCreate.as_view(), name='customer_list_create'),  # List & create customers (API)
+    path('api/customers/<slug:slug>/', AdminCustomerView.as_view(), name='admin_customer_view'),  # Admin view of a customer by slug
 ]
+
