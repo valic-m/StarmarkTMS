@@ -299,7 +299,7 @@ const routes: RouteObject[] = [
                     element: <CustomerListPage />
                   },
                   {
-                    path: ':id', // Added route for TmsCustomerDetails
+                    path: ':slug', // Added route for TmsCustomerDetails
                     element: <TmsCustomerDetails />
                   }
                 ]

@@ -25,8 +25,8 @@ def debug_login_view(request):
         return HttpResponse(f"An error occurred: {error_message}", status=500)
 
 urlpatterns = [
-    # Admin page
-    path('admin/', admin.site.urls),  # Access to the Django admin page
+    # Admin site
+    path('admin/', admin.site.urls),
 
     # Shippers and Receivers API
     path('api/shippers_receivers/', include('backend.shippers_receivers.urls')),
@@ -48,7 +48,7 @@ urlpatterns = [
     path('equipment/', include('equipment.urls')),
 
     # Customers routes
-    path('customers/', include('backend.customers.urls', namespace='customers')),  # Updated to use slug in `customers.urls`
+    path('client-management/customers/', include('backend.customers.urls', namespace='customers')),  # Use correct namespace for customers app
 
     # API endpoint for customers
     path('api/customers/', CustomerListCreate.as_view(), name='customer_list_api'),
@@ -94,4 +94,6 @@ urlpatterns = [
 
     # Authentication-related URLs
     path('auth/', include('authentication.urls')),
+path('api/customers/', include('backend.customers.urls', namespace='customers')),
+
 ]

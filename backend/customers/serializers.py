@@ -1,23 +1,23 @@
+# File: customers/serializers.py
+
 from rest_framework import serializers
 from decimal import Decimal
 from .models import Customer
-import logging
 
-# Configure logger
-logger = logging.getLogger(__name__)
 
-# Serializer for Customer model with selected fields
 class CustomerSerializer(serializers.ModelSerializer):
+    """
+    Serializer for the Customer model with essential fields.
+    """
     credit_limit = serializers.DecimalField(max_digits=15, decimal_places=2, required=False)
 
     def validate_credit_limit(self, value):
         """
-        Validates the credit_limit field by sanitizing the input.
+        Validates and sanitizes the credit_limit field.
         """
         if value is None:
             return value
         try:
-            # Remove commas and ensure it is a valid decimal
             sanitized_value = Decimal(str(value).replace(",", ""))
             return sanitized_value
         except (ValueError, TypeError):
@@ -28,27 +28,31 @@ class CustomerSerializer(serializers.ModelSerializer):
         fields = [
             'id',
             'name',
-            'slug',  # Include the slug field for URL-based lookups
+            'slug',  # Include slug for URL lookups
             'contact_name',
             'mc_number',
             'city',
+            'state',
             'phone_number',
+            'email',
             'credit_limit',
+            'notes',
         ]
 
 
-# Serializer for Customer model with all fields
 class CustomerFullSerializer(serializers.ModelSerializer):
+    """
+    Full serializer for the Customer model, including all fields.
+    """
     credit_limit = serializers.DecimalField(max_digits=15, decimal_places=2, required=False)
 
     def validate_credit_limit(self, value):
         """
-        Validates the credit_limit field by sanitizing the input.
+        Validates and sanitizes the credit_limit field.
         """
         if value is None:
             return value
         try:
-            # Remove commas and ensure it is a valid decimal
             sanitized_value = Decimal(str(value).replace(",", ""))
             return sanitized_value
         except (ValueError, TypeError):
@@ -56,7 +60,7 @@ class CustomerFullSerializer(serializers.ModelSerializer):
 
     def validate_phone_number(self, value):
         """
-        Validates the phone number field to ensure it matches the expected format.
+        Validates and formats the phone_number field.
         """
         if value and len(value) == 10 and value.isdigit():
             return f"({value[:3]}){value[3:6]}-{value[6:]}"
@@ -64,21 +68,22 @@ class CustomerFullSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = Customer
-        fields = '__all__'  # Includes all fields in the Customer model
+        fields = '__all__'  # Include all fields from the model
 
 
-# Serializer for Customer model with additional customization if required
 class CustomerCompleteSerializer(serializers.ModelSerializer):
+    """
+    Serializer with additional validation and customization.
+    """
     credit_limit = serializers.DecimalField(max_digits=15, decimal_places=2, required=False)
 
     def validate_credit_limit(self, value):
         """
-        Validates the credit_limit field by sanitizing the input.
+        Validates and sanitizes the credit_limit field.
         """
         if value is None:
             return value
         try:
-            # Remove commas and ensure it is a valid decimal
             sanitized_value = Decimal(str(value).replace(",", ""))
             return sanitized_value
         except (ValueError, TypeError):
@@ -86,7 +91,7 @@ class CustomerCompleteSerializer(serializers.ModelSerializer):
 
     def validate_phone_number(self, value):
         """
-        Validates the phone number field to ensure it matches the expected format.
+        Validates and formats the phone_number field.
         """
         if value and len(value) == 10 and value.isdigit():
             return f"({value[:3]}){value[3:6]}-{value[6:]}"

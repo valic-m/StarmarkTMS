@@ -1,5 +1,3 @@
-# File: views.py
-
 import logging
 from decimal import Decimal, InvalidOperation
 from django.shortcuts import render, redirect, get_object_or_404
@@ -14,6 +12,7 @@ from .models import Customer
 from .forms import CustomerForm
 from .serializers import CustomerSerializer, CustomerFullSerializer
 from .fmcsa_utils import fetch_fmcsa_data
+from django.core.paginator import Paginator
 
 # Configure logger
 logger = logging.getLogger(__name__)
@@ -49,27 +48,25 @@ def get_fmcsa_data(request):
 
     return JsonResponse(mapped_data, safe=False)
 
-
 # --- Customer Management Views ---
 def customer_list(request):
     """
     List customers with optional search and pagination.
     """
     query = request.GET.get('q', '')
+    customers = Customer.objects.all().order_by('name')
     if query:
-        customers = Customer.objects.filter(
+        customers = customers.filter(
             name__icontains=query
-        ) | Customer.objects.filter(
+        ) | customers.filter(
             contact_name__icontains=query
-        ) | Customer.objects.filter(
+        ) | customers.filter(
             mc_number__icontains=query
-        ) | Customer.objects.filter(
+        ) | customers.filter(
             city__icontains=query
-        ) | Customer.objects.filter(
+        ) | customers.filter(
             phone_number__icontains=query
         )
-    else:
-        customers = Customer.objects.all().order_by('name')
 
     paginator = Paginator(customers, 10)
     page_number = request.GET.get('page')
@@ -155,16 +152,15 @@ def customer_detail(request, slug):
     customer = get_object_or_404(Customer, slug=slug)
     return render(request, 'customers/customer_detail.html', {'customer': customer})
 
-
 # --- API Views ---
-@api_view(['GET'])
-def customer_detail_by_slug(request, slug):
+class CustomerDetailView(APIView):
     """
-    API View to get customer details by slug.
+    API view to retrieve a customer's details using its slug.
     """
-    customer = get_object_or_404(Customer, slug=slug)
-    serializer = CustomerSerializer(customer)
-    return Response(serializer.data)
+    def get(self, request, slug):
+        customer = get_object_or_404(Customer, slug=slug)
+        serializer = CustomerSerializer(customer)
+        return Response(serializer.data, status=status.HTTP_200_OK)
 
 
 class CustomerPagination(PageNumberPagination):
@@ -199,37 +195,26 @@ class AdminCustomerView(APIView):
     permission_classes = [IsAdminUser]
 
     def get(self, request, slug):
-        customer = Customer.objects.filter(slug=slug).first()
-        if not customer:
-            return Response({'error': 'Customer not found'}, status=404)
+        customer = get_object_or_404(Customer, slug=slug)
         serializer = CustomerFullSerializer(customer)
-        return Response(serializer.data)
+        return Response(serializer.data, status=status.HTTP_200_OK)
 
     def patch(self, request, slug):
-        customer = Customer.objects.filter(slug=slug).first()
-        if not customer:
-            return Response({'error': 'Customer not found'}, status=404)
+        customer = get_object_or_404(Customer, slug=slug)
         serializer = CustomerFullSerializer(customer, data=request.data, partial=True)
         if serializer.is_valid():
             serializer.save()
-            return Response(serializer.data)
-        return Response(serializer.errors, status=400)
+            return Response(serializer.data, status=status.HTTP_200_OK)
+        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
 
 class CustomerCreateView(APIView):
     """
-    Create a customer with credit limit sanitization.
+    API view to create a new customer.
     """
     def post(self, request, *args, **kwargs):
-        data = request.data.copy()
-        try:
-            if 'credit_limit' in data:
-                data['credit_limit'] = Decimal(str(data['credit_limit']).replace(",", ""))
-        except (ValueError, InvalidOperation):
-            return Response({'credit_limit': ['A valid number is required.']}, status=400)
-
-        serializer = CustomerSerializer(data=data)
+        serializer = CustomerSerializer(data=request.data)
         if serializer.is_valid():
             serializer.save()
             return Response(serializer.data, status=status.HTTP_201_CREATED)
-        return Response(serializer.errors, status=400)
+        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)

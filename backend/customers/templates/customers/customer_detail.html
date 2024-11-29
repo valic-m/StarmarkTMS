@@ -20,7 +20,7 @@
             <p><strong>Phone Number:</strong> {{ customer.phone_number }}</p>
             <p><strong>Cell Number:</strong> {{ customer.cell_number }}</p>
             <p><strong>Email:</strong> {{ customer.email }}</p>
-            <p><strong>Website:</strong> {{ customer.website }}</p>
+            <p><strong>Website:</strong> <a href="{{ customer.website }}" target="_blank">{{ customer.website }}</a></p>
         </div>
         <div class="col-md-6">
             <h4>Additional Information</h4>
@@ -30,7 +30,7 @@
             <p><strong>Active:</strong> {{ customer.is_active|yesno:"Yes,No" }}</p>
             <p><strong>Factoring:</strong> {{ customer.factoring|yesno:"Yes,No" }}</p>
             <p><strong>Do Not Use:</strong> {{ customer.do_not_use|yesno:"Yes,No" }}</p>
-            <p><strong>White List:</strong> {{ customer.white_list|yesno:"Yes,No" }}</p>
+            <p><strong>White List:</strong> {{ customer.whitelist|yesno:"Yes,No" }}</p>
             <p><strong>Notes:</strong> {{ customer.notes }}</p>
         </div>
     </div>
@@ -56,4 +56,11 @@
     </div>
 
     <!-- Documents Section -->
-    <div class=
+    <div class="row mb-3">
+        <div class="col-md-12">
+            <h4>Documents</h4>
+            <p>Document upload or links to be implemented here.</p>
+        </div>
+    </div>
+</div>
+{% endblock %}

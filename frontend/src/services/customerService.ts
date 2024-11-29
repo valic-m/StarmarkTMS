@@ -1,5 +1,6 @@
 import api from '../api'; // Import the shared API handler
 import { Customer } from '../types/Customer'; // Import the shared Customer type
+import axios from 'axios';
 
 // Fetch all customers
 export const getCustomers = async (): Promise<Customer[]> => {

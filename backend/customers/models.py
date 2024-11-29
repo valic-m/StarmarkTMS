@@ -43,7 +43,7 @@ class Customer(models.Model):
     # Contact Information
     contact_name = models.CharField(max_length=255, blank=True, null=True)
     phone_number = models.CharField(
-        max_length=14,  # (000)000-0000 format has 14 characters including parentheses and hyphen
+        max_length=14,
         validators=[
             RegexValidator(
                 regex=r'^\(\d{3}\)\d{3}-\d{4}$',

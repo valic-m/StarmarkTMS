@@ -12,6 +12,7 @@ import { Customer } from '../../types/Customer';
 
 const TmsCustomerDetails: React.FC = () => {
   const { slug } = useParams<{ slug: string }>(); // Use slug instead of ID
+  console.log('Slug from URL:', slug);
   const [customer, setCustomer] = useState<Customer | null>(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
