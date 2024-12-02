@@ -40,13 +40,12 @@ INSTALLED_APPS = [
     'backend.equipment',
     'backend.repair_shops',
     'backend.shippers_receivers',
-    'backend.users',
+    'backend.users',  # Add the backend prefix
     'backend.vendors',
     'backend.warehouses_crossdocks',
     'backend.loads',
     'backend.dispatch',
     'backend.samsara',
-    'backend',
 
     # Third-party apps
     'rest_framework',

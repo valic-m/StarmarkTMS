@@ -83,8 +83,12 @@ const AddCustomer: React.FC = () => {
   const handleFinalSubmit = async () => {
     try {
       console.log('Submitting form data:', form.formData);
+
+      // Call the API to create a customer
       const result = await createCustomer(form.formData as CustomerFormData);
-      console.log('Customer created:', result);
+      console.log('Customer created successfully:', result);
+
+      // Show success alert
       setAlert({
         show: true,
         message: 'Customer data saved successfully',
@@ -92,6 +96,8 @@ const AddCustomer: React.FC = () => {
       });
     } catch (error) {
       console.error('Error saving customer data:', error);
+
+      // Show error alert
       setAlert({
         show: true,
         message: 'Failed to save customer data',
@@ -99,7 +105,6 @@ const AddCustomer: React.FC = () => {
       });
     }
   };
-
   return (
     <div className="mb-9">
       <PageBreadcrumb items={defaultBreadcrumbItems} />

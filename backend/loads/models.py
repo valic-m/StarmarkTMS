@@ -1,7 +1,8 @@
 from django.db import models
 from backend.customers.models import Customer  # Ensure correct import for Customer model
 from backend.shippers_receivers.models import ShipperReceiverCompany  # Ensure correct import for ShipperReceiverCompany
-from backend.users.models import CustomUser  # Ensure correct import for CustomUser model
+from django.conf import settings
+CustomUser = settings.AUTH_USER_MODEL
 
 # Load model
 class Load(models.Model):

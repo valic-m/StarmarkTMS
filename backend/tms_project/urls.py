@@ -5,10 +5,9 @@ from django.http import HttpResponse
 from django.template.loader import render_to_string, TemplateDoesNotExist
 from dispatch import views as dispatch_views
 from backend.tms_project import views  # Project-level views (dashboard, companies_list)
-from users import views as user_views  # Views from the 'users' app
 from backend.customers.views import CustomerListCreate, get_fmcsa_data  # Import necessary views
 from .views import test_template_view  # Import your test view
-import traceback  # Import traceback for more detailed error reporting
+import traceback  # Import traceback for detailed error reporting
 
 # Debug login view to test if the login.html template can be found
 def debug_login_view(request):
@@ -48,7 +47,7 @@ urlpatterns = [
     path('equipment/', include('equipment.urls')),
 
     # Customers routes
-    path('client-management/customers/', include('backend.customers.urls', namespace='customers')),  # Use correct namespace for customers app
+    path('client-management/customers/', include('backend.customers.urls', namespace='customers')),  # Namespace for customers
 
     # API endpoint for customers
     path('api/customers/', CustomerListCreate.as_view(), name='customer_list_api'),
@@ -78,10 +77,7 @@ urlpatterns = [
     path('companies/', include('companies.urls')),
 
     # User-related routes
-    path('active_users/', user_views.active_users, name='active_users'),
-    path('user_activity/', user_views.user_activity, name='user_activity'),
-    path('inactive_users/', user_views.inactive_users, name='inactive_users'),
-    path('user_commission/', user_views.user_commission, name='user_commission'),
+    path('users/', include('users.urls')),  # Delegate to users.urls for modularity
 
     # Samsara-related routes
     path('samsara/', include('samsara.urls')),
@@ -91,9 +87,4 @@ urlpatterns = [
 
     # Debug login route
     path('login-debug/', debug_login_view, name='login_debug'),
-
-    # Authentication-related URLs
-    path('auth/', include('authentication.urls')),
-path('api/customers/', include('backend.customers.urls', namespace='customers')),
-
 ]

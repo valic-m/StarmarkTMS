@@ -1,4 +1,3 @@
-import AddressSection from 'components/modules/landing/alternate/AddressSection';
 import Cta from 'components/modules/landing/alternate/Cta';
 import Footer from 'components/modules/landing/alternate/Footer';
 import Gallery from 'components/modules/landing/alternate/Gallery';
@@ -33,7 +32,6 @@ const Alternate = () => {
       <Stats />
       <Pricing />
       <Blogs />
-      <AddressSection />
       <TeamSection />
       <Cta />
       <Footer />

@@ -178,8 +178,7 @@ $font-sizes: (
   // 12.80px
   10: math.div(1, pow($type-scale, 2)) * $font-size-base,
   // 10.24px
-  11: math.div(1, pow($type-scale, 3)) * $font-size-base,
-  // 8.19px
+  11: math.div(1, pow($type-scale, 3)) * $font-size-base // 8.19px
 ) !default;
 
 $font-weight-thin: 100 !default;

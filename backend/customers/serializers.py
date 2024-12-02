@@ -1,5 +1,3 @@
-# File: customers/serializers.py
-
 from rest_framework import serializers
 from decimal import Decimal
 from .models import Customer
@@ -18,8 +16,7 @@ class CustomerSerializer(serializers.ModelSerializer):
         if value is None:
             return value
         try:
-            sanitized_value = Decimal(str(value).replace(",", ""))
-            return sanitized_value
+            return Decimal(str(value).replace(",", ""))
         except (ValueError, TypeError):
             raise serializers.ValidationError("A valid number is required.")
 
@@ -53,8 +50,7 @@ class CustomerFullSerializer(serializers.ModelSerializer):
         if value is None:
             return value
         try:
-            sanitized_value = Decimal(str(value).replace(",", ""))
-            return sanitized_value
+            return Decimal(str(value).replace(",", ""))
         except (ValueError, TypeError):
             raise serializers.ValidationError("A valid number is required.")
 
@@ -63,7 +59,7 @@ class CustomerFullSerializer(serializers.ModelSerializer):
         Validates and formats the phone_number field.
         """
         if value and len(value) == 10 and value.isdigit():
-            return f"({value[:3]}){value[3:6]}-{value[6:]}"
+            return f"({value[:3]}) {value[3:6]}-{value[6:]}"
         return value
 
     class Meta:
@@ -84,8 +80,7 @@ class CustomerCompleteSerializer(serializers.ModelSerializer):
         if value is None:
             return value
         try:
-            sanitized_value = Decimal(str(value).replace(",", ""))
-            return sanitized_value
+            return Decimal(str(value).replace(",", ""))
         except (ValueError, TypeError):
             raise serializers.ValidationError("A valid number is required.")
 
@@ -94,7 +89,7 @@ class CustomerCompleteSerializer(serializers.ModelSerializer):
         Validates and formats the phone_number field.
         """
         if value and len(value) == 10 and value.isdigit():
-            return f"({value[:3]}){value[3:6]}-{value[6:]}"
+            return f"({value[:3]}) {value[3:6]}-{value[6:]}"
         return value
 
     class Meta:

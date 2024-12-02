@@ -9,7 +9,7 @@ class Customer(models.Model):
 
     # General Information
     name = models.CharField(max_length=255)
-    slug = models.SlugField(max_length=50, unique=True, blank=True)  # Add slug field
+    slug = models.SlugField(max_length=255, unique=True, blank=True)  # Unique slug field
     mc_number = models.CharField(
         max_length=7,
         blank=True,
@@ -43,7 +43,9 @@ class Customer(models.Model):
     # Contact Information
     contact_name = models.CharField(max_length=255, blank=True, null=True)
     phone_number = models.CharField(
-        max_length=14,
+        max_length=20,
+        blank=True,
+        null=True,
         validators=[
             RegexValidator(
                 regex=r'^\(\d{3}\)\d{3}-\d{4}$',
@@ -53,7 +55,7 @@ class Customer(models.Model):
         ]
     )
     cell_number = models.CharField(
-        max_length=14,
+        max_length=20,
         blank=True,
         null=True,
         validators=[
@@ -64,7 +66,7 @@ class Customer(models.Model):
             )
         ]
     )
-    email = models.EmailField()
+    email = models.EmailField(blank=True, null=True)
     website = models.URLField(blank=True, null=True)
     accounting_email = models.EmailField(blank=True, null=True)
     broker_email = models.EmailField(blank=True, null=True)
@@ -76,7 +78,7 @@ class Customer(models.Model):
         default='Net 30'
     )
     tax_id = models.CharField(max_length=50, blank=True, null=True)
-    credit_limit = models.DecimalField(max_digits=10, decimal_places=2, blank=True, null=True)
+    credit_limit = models.DecimalField(max_digits=15, decimal_places=2, blank=True, null=True)
 
     # Flags and Statuses
     is_active = models.BooleanField(default=True)
@@ -113,7 +115,7 @@ class Customer(models.Model):
     def save(self, *args, **kwargs):
         """
         Automatically generate a unique slug based on the name field
-        and format the phone numbers.
+        and format phone numbers.
         """
         # Format phone_number
         if self.phone_number and len(self.phone_number) == 10 and self.phone_number.isdigit():
@@ -125,7 +127,7 @@ class Customer(models.Model):
 
         # Automatically generate slug
         if not self.slug:
-            base_slug = slugify(self.name[:5])  # Create a slug from the first 5 characters of the name
+            base_slug = slugify(self.name[:50])  # Create a slug from the first 50 characters of the name
             slug = base_slug
             counter = 1
             while Customer.objects.filter(slug=slug).exists():
