@@ -2,7 +2,7 @@
 
 import React from 'react';
 import ReactDOM from 'react-dom/client';
-import { BrowserRouter, RouterProvider } from 'react-router-dom';
+import { RouterProvider } from 'react-router-dom';
 import AppProvider from 'providers/AppProvider';
 import BreakpointsProvider from 'providers/BreakpointsProvider';
 import SettingsPanelProvider from 'providers/SettingsPanelProvider';

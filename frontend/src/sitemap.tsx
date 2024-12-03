@@ -1,13 +1,10 @@
 import { IconProp } from '@fortawesome/fontawesome-svg-core';
 import { faGear } from '@fortawesome/free-solid-svg-icons';
-import { faHourglassHalf } from '@fortawesome/free-regular-svg-icons';
 import {
   Icon,
   UilChartPie,
   UilCube,
-  UilDocumentLayoutRight,
-  UilFilesLandscapesAlt,
-  UilPuzzlePiece
+  UilFilesLandscapesAlt
 } from '@iconscout/react-unicons';
 
 export interface Route {
