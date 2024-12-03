@@ -173,6 +173,7 @@ import DeliveredLoads from 'pages/operations/DeliveredLoads';
 import CreateDispatch from 'pages/operations/CreateDispatch';
 import ActiveTrips from 'pages/operations/ActiveTrips';
 import DispatchHistory from 'pages/operations/DispatchHistory';
+import SettingsSitemap from 'pages/settings/SettingsPage';
 // Updated imports in Routes.tsx
 import AddCustomer from 'pages/client-management/AddCustomer';
 import CustomerListPage from 'pages/client-management/CustomerListPage';
@@ -331,6 +332,10 @@ const routes: RouteObject[] = [
                 ]
               }
             ]
+          },
+          {
+            path: '/settings',
+            element: <SettingsSitemap />
           },
           {
             path: '/apps',

@@ -1,5 +1,5 @@
 import { IconProp } from '@fortawesome/fontawesome-svg-core';
-import { faArrowsTurnRight } from '@fortawesome/free-solid-svg-icons';
+import { faGear } from '@fortawesome/free-solid-svg-icons';
 import { faHourglassHalf } from '@fortawesome/free-regular-svg-icons';
 import {
   Icon,
@@ -655,8 +655,9 @@ export const routes: RouteItems[] = [
         ]
       },
       {
-        name: 'Settings Panel',
-        icon: faArrowsTurnRight, // Settings icon
+        name: 'Settings',
+        icon: faGear,
+        iconSet: 'font-awesome', // Explicitly state the icon set
         path: '/settings',
         pathName: 'settings-panel',
         active: true

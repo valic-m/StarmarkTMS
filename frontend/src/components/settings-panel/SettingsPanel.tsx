@@ -76,15 +76,6 @@ const SettingsPanel = () => {
         <VerticalNavbarAppearance />
         <HorizontalNavbarShape />
         <TopNavbarAppearance className="mb-5" />
-        <Button
-          as="a"
-          target="_blank"
-          href={`${process.env.REACT_APP_PURCHASE_LINK}`}
-          className="w-100 mb-3 text-white"
-          variant="primary"
-        >
-          Purchase template
-        </Button>
       </Offcanvas.Body>
     </Offcanvas>
   );

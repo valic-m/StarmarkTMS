@@ -1,22 +1,32 @@
-import AppProvider from 'providers/AppProvider';
+// File: C:\Users\valic\PycharmProjects\StarmarkTMS\frontend\src\index.tsx
+
 import React from 'react';
 import ReactDOM from 'react-dom/client';
+import { BrowserRouter } from 'react-router-dom';
+import App from './App';
+import AppProvider from 'providers/AppProvider';
 import BreakpointsProvider from 'providers/BreakpointsProvider';
 import SettingsPanelProvider from 'providers/SettingsPanelProvider';
-import { RouterProvider } from 'react-router-dom';
-import { router } from './Routes'; // Make sure the path is correct
 import ChatWidgetProvider from 'providers/ChatWidgetProvider';
+import { AuthProvider } from 'context/AuthProvider'; // Import AuthProvider
+
+const roles = ['admin', 'manager']; // Example roles (fetch or manage dynamically after login)
 
 const root = ReactDOM.createRoot(
   document.getElementById('root') as HTMLElement
 );
+
 root.render(
   <React.StrictMode>
     <AppProvider>
       <SettingsPanelProvider>
         <ChatWidgetProvider>
           <BreakpointsProvider>
-            <RouterProvider router={router} />
+            <AuthProvider roles={roles}>
+              <BrowserRouter>
+                <App />
+              </BrowserRouter>
+            </AuthProvider>
           </BreakpointsProvider>
         </ChatWidgetProvider>
       </SettingsPanelProvider>
