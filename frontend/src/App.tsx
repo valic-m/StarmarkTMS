@@ -1,10 +1,7 @@
 // File: C:\Users\valic\PycharmProjects\StarmarkTMS\frontend\src\App.tsx
 
 import React, { useEffect } from 'react';
-import { Routes, Route } from 'react-router-dom';
-import MainLayout from './layouts/MainLayout'; // Main layout with navbar, footer, etc.
-import Ecommerce from './pages/dashboard/ecommerce'; // Dashboard page
-import SettingsPage from './pages/settings/SettingsPage'; // Settings page
+import { Outlet } from 'react-router-dom';
 import SettingsPanel from 'components/settings-panel/SettingsPanel';
 import SettingsToggle from 'components/settings-panel/SettingsToggle';
 import useToggleStyle from 'hooks/useToggleStyle';
@@ -42,16 +39,7 @@ const App: React.FC = () => {
 
   return (
     <>
-      <Routes>
-        {/* Use MainLayout for all routes */}
-        <Route element={<MainLayout />}>
-          <Route path="/" element={<Ecommerce />} /> {/* Dashboard */}
-          <Route path="/settings/*" element={<SettingsPage />} />{' '}
-          {/* Settings */}
-        </Route>
-      </Routes>
-
-      {/* Render Settings Panel and Toggle outside <Routes> */}
+      <Outlet /> {/* Render routed child components */}
       {showSettingPanelButton && (
         <>
           <SettingsToggle />

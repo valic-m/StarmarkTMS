@@ -2,13 +2,13 @@
 
 import React from 'react';
 import ReactDOM from 'react-dom/client';
-import { BrowserRouter } from 'react-router-dom';
-import App from './App';
+import { BrowserRouter, RouterProvider } from 'react-router-dom';
 import AppProvider from 'providers/AppProvider';
 import BreakpointsProvider from 'providers/BreakpointsProvider';
 import SettingsPanelProvider from 'providers/SettingsPanelProvider';
 import ChatWidgetProvider from 'providers/ChatWidgetProvider';
 import { AuthProvider } from 'context/AuthProvider'; // Import AuthProvider
+import { router } from 'Routes';
 
 const roles = ['admin', 'manager']; // Example roles (fetch or manage dynamically after login)
 
@@ -23,9 +23,7 @@ root.render(
         <ChatWidgetProvider>
           <BreakpointsProvider>
             <AuthProvider roles={roles}>
-              <BrowserRouter>
-                <App />
-              </BrowserRouter>
+              <RouterProvider router={router} />
             </AuthProvider>
           </BreakpointsProvider>
         </ChatWidgetProvider>
