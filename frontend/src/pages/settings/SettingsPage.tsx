@@ -4,6 +4,8 @@ import React from 'react';
 import { Card, Row, Col } from 'react-bootstrap';
 import { useAuth } from 'hooks/useAuth';
 import { useNavigate } from 'react-router-dom';
+import SettingsToggle from 'components/settings-panel/SettingsToggle';
+import SettingsPanel from 'components/settings-panel/SettingsPanel';
 
 const SETTINGS_OPTIONS = [
   {
@@ -16,7 +18,6 @@ const SETTINGS_OPTIONS = [
     path: '/settings/drivers',
     requiredRole: 'manager'
   }
-  // Add more settings options here if needed
 ];
 
 const SettingsPage: React.FC = () => {
@@ -31,6 +32,8 @@ const SettingsPage: React.FC = () => {
   return (
     <div>
       <h2>Settings</h2>
+      <SettingsToggle /> {/* Add SettingsToggle here */}
+      <SettingsPanel /> {/* Add SettingsPanel here */}
       <Row>
         {visibleSettings.map(setting => (
           <Col md={4} className="mb-4" key={setting.name}>

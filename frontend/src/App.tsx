@@ -2,8 +2,6 @@
 
 import React, { useEffect } from 'react';
 import { Outlet } from 'react-router-dom';
-import SettingsPanel from 'components/settings-panel/SettingsPanel';
-import SettingsToggle from 'components/settings-panel/SettingsToggle';
 import useToggleStyle from 'hooks/useToggleStyle';
 import { useAppContext } from 'providers/AppProvider';
 import { useSettingsPanelContext } from 'providers/SettingsPanelProvider';
@@ -40,12 +38,6 @@ const App: React.FC = () => {
   return (
     <>
       <Outlet /> {/* Render routed child components */}
-      {showSettingPanelButton && (
-        <>
-          <SettingsToggle />
-          <SettingsPanel />
-        </>
-      )}
     </>
   );
 };
