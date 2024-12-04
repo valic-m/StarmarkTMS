@@ -7,14 +7,12 @@ import HorizontalNavbarShape from './HorizontalNavbarShape';
 import ColorScheme from './ColorScheme';
 import VerticalNavbarAppearance from './VerticalNavbarAppearance';
 import TopNavbarAppearance from './TopNavbarAppearance';
-import RTLMode from './RTLMode';
 import { useSettingsPanelContext } from 'providers/SettingsPanelProvider';
 import {
   faArrowsRotate,
   faPalette,
   faTimes
 } from '@fortawesome/free-solid-svg-icons';
-import ChatWidgetVisibility from './ChatWidgetVisibility';
 import { RESET } from 'reducers/ConfigReducer';
 
 const SettingsPanel = () => {
@@ -70,8 +68,6 @@ const SettingsPanel = () => {
       </Offcanvas.Header>
       <Offcanvas.Body className="px-card scrollbar">
         <ColorScheme />
-        <RTLMode />
-        <ChatWidgetVisibility />
         <NavigationType />
         <VerticalNavbarAppearance />
         <HorizontalNavbarShape />

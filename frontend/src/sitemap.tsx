@@ -476,31 +476,6 @@ export const routes: RouteItems[] = [
         active: true
       },
       {
-        name: 'errors',
-        icon: 'alert-triangle',
-        active: true,
-        pages: [
-          {
-            name: '403',
-            path: 'pages/errors/403',
-            pathName: 'error403',
-            active: true
-          },
-          {
-            name: '404',
-            path: 'pages/errors/404',
-            pathName: 'error404',
-            active: true
-          },
-          {
-            name: '500',
-            path: 'pages/errors/500',
-            pathName: 'error500',
-            active: true
-          }
-        ]
-      },
-      {
         name: 'authentication',
         icon: 'lock',
         active: true,
