@@ -1,13 +1,13 @@
 import classNames from 'classnames';
 import { Col, Row } from 'react-bootstrap';
-import netflix from 'assets/img/brands/netflix.png';
-import blender from 'assets/img/brands/blender.png';
-import upwork from 'assets/img/brands/upwork.png';
-import facebook from 'assets/img/brands/facebook.png';
-import pocket from 'assets/img/brands/pocket.png';
-import mailBluster from 'assets/img/brands/mail-bluster.png';
-import discord from 'assets/img/brands/discord.png';
-import google from 'assets/img/brands/google.png';
+import garison from 'assets/img/brands/garrison.png';
+import molo from 'assets/img/brands/molo.png';
+import megac from 'assets/img/brands/megac.png';
+import dsg from 'assets/img/brands/dsg.png';
+import echo from 'assets/img/brands/echo.png';
+import gampac from 'assets/img/brands/gampac.avif';
+import nfi from 'assets/img/brands/nfi.png';
+import roar from 'assets/img/brands/roar.png';
 
 const Brand = ({ image, className }: { image: string; className?: string }) => {
   return (
@@ -29,46 +29,46 @@ const Brands = ({ className }: { className?: string }) => {
         <Row className="g-0">
           <Col xs={6} md={3}>
             <Brand
-              image={netflix}
+              image={garison}
               className="border-bottom border-end border-translucent"
             />
           </Col>
           <Col xs={6} md={3}>
             <Brand
-              image={blender}
+              image={molo}
               className="border-bottom border-end-md border-translucent"
             />
           </Col>
           <Col xs={6} md={3}>
             <Brand
-              image={upwork}
+              image={megac}
               className="border-bottom border-end border-end-md border-translucent"
             />
           </Col>
           <Col xs={6} md={3}>
             <Brand
-              image={facebook}
+              image={dsg}
               className="border-bottom border-end-lg-0 border-translucent"
             />
           </Col>
           <Col xs={6} md={3}>
             <Brand
-              image={pocket}
+              image={echo}
               className="border-end border-bottom border-bottom-md-0 border-translucent"
             />
           </Col>
           <Col xs={6} md={3}>
             <Brand
-              image={mailBluster}
+              image={gampac}
               className="border-end-md border-bottom border-bottom-md-0 border-translucent"
             />
           </Col>
           <Col xs={6} md={3}>
-            <Brand image={discord} className="border-end border-translucent" />
+            <Brand image={nfi} className="border-end border-translucent" />
           </Col>
           <Col xs={6} md={3}>
             <Brand
-              image={google}
+              image={roar}
               className="border-end-lg-0 border-translucent"
             />
           </Col>

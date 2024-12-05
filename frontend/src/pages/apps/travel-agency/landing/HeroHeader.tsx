@@ -1,5 +1,5 @@
-import travelImg from 'assets/video/travel.png';
-import travelVideo from 'assets/video/travel.mp4';
+import travelImg from 'assets/video/landingphoto.png';
+import travelVideo from 'assets/video/landingvideo.mp4';
 import { Dropdown, Form, InputGroup } from 'react-bootstrap';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import {
@@ -24,16 +24,28 @@ const HeroHeader = () => {
       </div>
       <div className="container-medium position-relative z-5">
         <h2 className="text-secondary-lighter fs-5 fs-md-3 fw-normal mb-3">
-          Where is your
+          STARMARK! The future of
+        </h2>
+        <h2 className="text-secondary-lighter fs-5 fs-md-3 fw-normal mb-3">
+          Transportation Excellence
         </h2>
         <h1 className="fs-4 fs-md-1 text-white fw-normal mb-6 overflow-hidden">
-          NEXT{' '}
+          WHERE{' '}
           <ReactTyped
             strings={[
-              '<span class=text-primary>TRIP!</span>',
-              '<span class=text-warning>TOUR!</span>',
-              '<span class=text-info>SOJOURN!</span>',
-              '<span class=text-success>VACAY!</span>'
+              '<span class=text-primary>SERVICE SHINES!</span>',
+              '<span class=text-warning>EXPECTATIONS ARE MET!</span>',
+              '<span class=text-info>PARTNERSHIPS GROW!</span>',
+              '<span class=text-success>DRIVERS THRIVE!</span>',
+              '<span class=text-primary>EFFICIENCY RULES!</span>',
+              '<span class=text-warning>TECHNOLOGY LEADS!</span>',
+              '<span class=text-success>RESULTS MATTER!</span>',
+              '<span class=text-primary>ROUTES CONNECT!</span>',
+              '<span class=text-warning>INTEGRITY DRIVES US!</span>',
+              '<span class=text-info>TEAMS COLLABORATE!</span>',
+              '<span class=text-success>SAFETY COMES FIRST!</span>',
+              '<span class=text-primary>PERFORMANCE EXCELS!</span>',
+              '<span class=text-warning>OPPORTUNITIES GROW!</span>'
             ]}
             typeSpeed={70}
             backSpeed={70}
@@ -41,48 +53,6 @@ const HeroHeader = () => {
             backDelay={1000}
           />
         </h1>
-        <InputGroup className="rounded-2 py-1 ps-2 w-lg-50 border border-light">
-          <div className="form-icon-container flex-1 d-flex align-items-center">
-            <FontAwesomeIcon
-              icon={faLocationDot}
-              className="form-icon text-danger-light"
-            />
-            <Form.Control
-              type="text"
-              placeholder="Search Destination"
-              className="form-icon-input bg-transparent border-0 outline-none fs-8 fs-md-7 text-secondary-light"
-            />
-          </div>
-          {/* dropdwon class not added */}
-          <Dropdown align="end">
-            <div className="d-flex align-items-center">
-              <Dropdown.Toggle
-                as="button"
-                id="dropdown-basic"
-                className="btn dropdown-caret-none py-0 bg-transparent text-secondary-light fs-8 fs-md-7 fw-semibold border-0 border-start border-light rounded-0"
-              >
-                Flight
-                <FontAwesomeIcon
-                  className="ms-2"
-                  icon={faChevronDown}
-                  transform="down-1 shrink-4"
-                />
-              </Dropdown.Toggle>
-
-              <Dropdown.Menu data-bs-theme="dark" className="dropdown-menu-end">
-                <Dropdown.Item to="#!" as={Link}>
-                  Flight
-                </Dropdown.Item>
-                <Dropdown.Item to="#!" as={Link}>
-                  Trip
-                </Dropdown.Item>
-                <Dropdown.Item to="#!" as={Link}>
-                  Hotel
-                </Dropdown.Item>
-              </Dropdown.Menu>
-            </div>
-          </Dropdown>
-        </InputGroup>
       </div>
     </div>
   );
