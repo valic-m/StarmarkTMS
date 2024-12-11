@@ -185,14 +185,10 @@ export default [
       'src/data/travel-agency/customer/hotel.ts',
       'src/data/travel-agency/roomListing.ts',
       'src/data/wizard/wizard.ts',
-      'src/layouts/TravelAgencyLayout.tsx',
-      'src/layouts/TravelLandingLayout.tsx',
       'src/pages/apps/travel-agency/hotel/admin/AddProperty.tsx',
       'src/pages/apps/travel-agency/hotel/admin/AddRoom.tsx',
       'src/pages/apps/travel-agency/hotel/admin/RoomListing.tsx',
       'src/pages/apps/travel-agency/hotel/admin/SearchRoom.tsx',
-      'src/pages/apps/travel-agency/hotel/customer/HotelGallery.tsx',
-      'src/pages/apps/travel-agency/hotel/customer/homepage/Homepage.tsx',
       'src/pages/modules/forms/advance/RangeExample.tsx'
     ],
     update: [
@@ -363,7 +359,6 @@ export default [
       'src/pages/apps/travel-agency/landing/LatestPhotos.tsx',
       'src/pages/apps/travel-agency/landing/LatestPosts.tsx',
       'src/pages/apps/travel-agency/landing/SeasonOfTour.tsx',
-      'src/pages/apps/travel-agency/landing/TopNav.tsx',
       'src/pages/dashboard/TravelAgency.tsx'
     ],
     update: [

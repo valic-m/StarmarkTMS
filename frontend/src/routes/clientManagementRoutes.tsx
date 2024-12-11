@@ -1,0 +1,60 @@
+import { RouteObject } from 'react-router-dom'; // Import RouteObject for type definition
+import AddCustomer from 'pages/client-management/AddCustomer';
+import CustomerListPage from 'pages/client-management/CustomerListPage';
+import AddShipperReceiver from 'pages/client-management/AddShipperReceiver';
+import ShipperReceiverListPage from 'pages/client-management/ShipperReceiverListPage';
+import AddCrossDock from 'pages/client-management/AddCrossDock';
+import CrossDockListPage from 'pages/client-management/CrossDockListPage';
+import TmsCustomerDetails from '../pages/client-management/tmsCustomerDetails';
+
+// Define the client management routes
+export const clientManagementRoutes: RouteObject[] = [
+  {
+    path: '/client-management',
+    children: [
+      {
+        path: 'customers',
+        children: [
+          {
+            path: 'add',
+            element: <AddCustomer />
+          },
+          {
+            path: 'list',
+            element: <CustomerListPage />
+          },
+          {
+            path: ':slug', // Route for TmsCustomerDetails
+            element: <TmsCustomerDetails />
+          }
+        ]
+      },
+      {
+        path: 'shippers-receivers',
+        children: [
+          {
+            path: 'add',
+            element: <AddShipperReceiver />
+          },
+          {
+            path: 'list',
+            element: <ShipperReceiverListPage />
+          }
+        ]
+      },
+      {
+        path: 'cross-dock',
+        children: [
+          {
+            path: 'add',
+            element: <AddCrossDock />
+          },
+          {
+            path: 'list',
+            element: <CrossDockListPage />
+          }
+        ]
+      }
+    ]
+  }
+];

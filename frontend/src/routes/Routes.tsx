@@ -165,23 +165,7 @@ import CalendarExample from 'pages/modules/components/CalendarExample';
 import DraggableExample from 'pages/modules/components/DraggableExample';
 import Widgets from 'pages/modules/Widgets';
 import ComingSoon from 'pages/ComingSoon';
-import CreateNewLoad from 'pages/operations/CreateNewLoad';
-import LoadList from 'pages/operations/LoadList';
-import AvailableLoads from 'pages/operations/AvailableLoads';
-import DispatchedLoads from 'pages/operations/DispatchedLoads';
-import DeliveredLoads from 'pages/operations/DeliveredLoads';
-import CreateDispatch from 'pages/operations/CreateDispatch';
-import ActiveTrips from 'pages/operations/ActiveTrips';
-import DispatchHistory from 'pages/operations/DispatchHistory';
-import SettingsSitemap from 'pages/settings/SettingsPage';
 // Updated imports in Routes.tsx
-import AddCustomer from 'pages/client-management/AddCustomer';
-import CustomerListPage from 'pages/client-management/CustomerListPage';
-import AddShipperReceiver from 'pages/client-management/AddShipperReceiver';
-import ShipperReceiverListPage from 'pages/client-management/ShipperReceiverListPage';
-import AddCrossDock from 'pages/client-management/AddCrossDock';
-import CrossDockListPage from 'pages/client-management/CrossDockListPage';
-import TmsCustomerDetails from './pages/client-management/tmsCustomerDetails';
 const FontAwesomeExample = lazy(
   () => import('pages/modules/components/FontAwesomeExample')
 );
@@ -193,18 +177,12 @@ const FeatherIconsExample = lazy(
 const UniconsExample = lazy(
   () => import('pages/modules/components/UniconsExample')
 );
-import Color from './pages/documentation/customization/Color';
+import Color from '../pages/documentation/customization/Color';
 import TravelAgency from 'pages/dashboard/TravelAgency';
-import TravelLanding from 'pages/apps/travel-agency/landing/Landing';
 import RoomListing from 'pages/apps/travel-agency/hotel/admin/RoomListing';
-import HotelHomepage from 'pages/apps/travel-agency/hotel/customer/homepage/Homepage';
-import HotelGallery from 'pages/apps/travel-agency/hotel/customer/HotelGallery';
 import AddProperty from 'pages/apps/travel-agency/hotel/admin/AddProperty';
 import AddRoom from 'pages/apps/travel-agency/hotel/admin/AddRoom';
 import SearchRoom from 'pages/apps/travel-agency/hotel/admin/SearchRoom';
-import TravelAgencyLayout from 'layouts/TravelAgencyLayout';
-import TravelLandingLayout from 'layouts/TravelLandingLayout';
-
 const routes: RouteObject[] = [
   {
     element: <App />,
@@ -237,105 +215,6 @@ const routes: RouteObject[] = [
                 element: <TravelAgency />
               }
             ]
-          },
-          {
-            path: '/operations-management',
-            children: [
-              {
-                path: 'load',
-                children: [
-                  {
-                    path: 'create-new-load',
-                    element: <CreateNewLoad />
-                  },
-                  {
-                    path: 'load-list',
-                    element: <LoadList />
-                  },
-                  {
-                    path: 'available-loads',
-                    element: <AvailableLoads />
-                  },
-                  {
-                    path: 'dispatched-loads',
-                    element: <DispatchedLoads />
-                  },
-                  {
-                    path: 'delivered-loads',
-                    element: <DeliveredLoads />
-                  }
-                ]
-              },
-              {
-                path: 'dispatch',
-                children: [
-                  {
-                    path: 'create-dispatch',
-                    element: <CreateDispatch />
-                  },
-                  {
-                    path: 'active-trips',
-                    element: <ActiveTrips />
-                  },
-                  {
-                    path: 'dispatch-history',
-                    element: <DispatchHistory />
-                  }
-                ]
-              }
-            ]
-          },
-          {
-            path: '/client-management',
-            children: [
-              {
-                path: 'customers',
-                children: [
-                  {
-                    path: 'add',
-                    element: <AddCustomer />
-                  },
-                  {
-                    path: 'list',
-                    element: <CustomerListPage />
-                  },
-                  {
-                    path: ':slug', // Added route for TmsCustomerDetails
-                    element: <TmsCustomerDetails />
-                  }
-                ]
-              },
-              {
-                path: 'shippers-receivers',
-                children: [
-                  {
-                    path: 'add',
-                    element: <AddShipperReceiver />
-                  },
-                  {
-                    path: 'list',
-                    element: <ShipperReceiverListPage />
-                  }
-                ]
-              },
-              {
-                path: 'cross-dock',
-                children: [
-                  {
-                    path: 'add',
-                    element: <AddCrossDock />
-                  },
-                  {
-                    path: 'list',
-                    element: <CrossDockListPage />
-                  }
-                ]
-              }
-            ]
-          },
-          {
-            path: '/settings',
-            element: <SettingsSitemap />
           },
           {
             path: '/apps',
@@ -1034,35 +913,6 @@ const routes: RouteObject[] = [
           }
         ]
       },
-      {
-        element: <TravelLandingLayout />,
-        path: 'apps/travel-agency',
-        children: [
-          {
-            path: 'landing',
-            element: <TravelLanding />
-          }
-        ]
-      },
-      {
-        element: <TravelAgencyLayout />,
-        path: 'apps/travel-agency',
-        children: [
-          {
-            children: [
-              {
-                path: 'hotel/customer/homepage',
-                element: <HotelHomepage />
-              },
-              {
-                path: 'hotel/customer/gallery',
-                element: <HotelGallery />
-              }
-            ]
-          }
-        ]
-      },
-
       {
         path: '/pages/errors/',
         children: [
