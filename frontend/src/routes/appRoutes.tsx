@@ -1,15 +1,36 @@
 import { RouteObject } from 'react-router-dom';
-
-// Import feature-specific routes
-import { operationsManagementRoutes } from './operationsManagementRoutes';
+import App from 'App'; // Top-level wrapper
+import MainLayout from 'layouts/MainLayout';
+import MainLayoutProvider from 'providers/MainLayoutProvider';
 import { dashboardRoutes } from './dashboardRoutes';
 import { clientManagementRoutes } from './clientManagementRoutes';
+import { operationsManagementRoutes } from './operationsManagementRoutes';
 import { settingsRoutes } from './settingsRoutes';
+import Error404 from 'pages/error/Error404';
+import { themeRoutes } from './Routes'; // Import from Routes.tsx
 
-// Combine all feature-specific routes into one export
 export const appRoutes: RouteObject[] = [
-  ...operationsManagementRoutes, // Routes for Operations Management
-  ...dashboardRoutes, // Routes for Dashboard
-  ...clientManagementRoutes, // Routes for Client Management
-  ...settingsRoutes // Routes for Settings
+  {
+    element: <App />,
+    children: [
+      {
+        element: (
+          <MainLayoutProvider>
+            <MainLayout />
+          </MainLayoutProvider>
+        ),
+        children: [
+          ...dashboardRoutes,
+          ...clientManagementRoutes,
+          ...operationsManagementRoutes,
+          ...settingsRoutes,
+          ...themeRoutes, // Include theme-specific routes
+          {
+            path: '*',
+            element: <Error404 /> // Catch-all route
+          }
+        ]
+      }
+    ]
+  }
 ];

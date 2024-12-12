@@ -1,4 +1,3 @@
-import MainLayout from 'layouts/MainLayout';
 import Starter from 'pages/pages/Starter';
 import { RouteObject, createBrowserRouter } from 'react-router-dom';
 import ButtonExample from 'pages/modules/components/ButtonExample';
@@ -57,7 +56,6 @@ import ChangeLog from 'pages/documentation/ChangeLog';
 import NavsExample from 'pages/modules/components/NavsExample';
 import TabsExample from 'pages/modules/components/TabsExample';
 import NavbarExample from 'pages/modules/components/NavbarExample';
-import Ecommerce from 'pages/dashboard/ecommerce';
 import EcommerceLayout from 'layouts/EcommerceLayout';
 import Homepage from 'pages/apps/e-commerce/customer/Homepage';
 import ProductDetails from 'pages/apps/e-commerce/customer/ProductDetails';
@@ -75,11 +73,9 @@ import Products from 'pages/apps/e-commerce/admin/Products';
 import Customers from 'pages/apps/e-commerce/admin/Customers';
 import Orders from 'pages/apps/e-commerce/admin/Orders';
 import Refund from 'pages/apps/e-commerce/admin/Refund';
-import ProjectManagement from 'pages/dashboard/ProjectManagement';
 import CreateNew from 'pages/apps/project-management/CreateNew';
 import ProjectListView from 'pages/apps/project-management/ProjectListView';
 import ProjectDetails from 'pages/apps/project-management/ProjectDetails';
-import MainLayoutProvider from 'providers/MainLayoutProvider';
 import ProjectTodoList from 'pages/apps/project-management/ProjectTodoList';
 import ProjectBoardView from 'pages/apps/project-management/ProjectBoardView';
 import ProjectCardView from 'pages/apps/project-management/ProjectCardView';
@@ -128,8 +124,6 @@ import ECharts from 'pages/modules/charts/ECharts';
 import GanttChart from 'pages/modules/charts/GanttChart';
 import Members from 'pages/Members';
 import DualNav from 'pages/pages/layouts/DualNav';
-import App from 'App';
-import Crm from 'pages/dashboard/Crm';
 import LeadDetails from 'pages/apps/crm/LeadDetails';
 import Analytics from 'pages/apps/crm/Analytics';
 import DealDetails from 'pages/apps/crm/DealDetails';
@@ -183,860 +177,823 @@ import RoomListing from 'pages/apps/travel-agency/hotel/admin/RoomListing';
 import AddProperty from 'pages/apps/travel-agency/hotel/admin/AddProperty';
 import AddRoom from 'pages/apps/travel-agency/hotel/admin/AddRoom';
 import SearchRoom from 'pages/apps/travel-agency/hotel/admin/SearchRoom';
-const routes: RouteObject[] = [
+export const themeRoutes: RouteObject[] = [
   {
-    element: <App />,
+    path: '/apps',
     children: [
       {
-        path: '/',
-        element: (
-          <MainLayoutProvider>
-            <MainLayout />
-          </MainLayoutProvider>
-        ),
+        path: 'e-commerce/admin',
+        children: [
+          {
+            path: 'add-product',
+            element: <AddProduct />
+          },
+          {
+            path: 'products',
+            element: <Products />
+          },
+          {
+            path: 'customers',
+            element: <Customers />
+          },
+          {
+            path: 'orders',
+            element: <Orders />
+          },
+          {
+            path: 'refund',
+            element: <Refund />
+          }
+        ]
+      },
+      {
+        path: 'crm',
+        children: [
+          {
+            path: 'analytics',
+            element: <Analytics />
+          },
+          {
+            path: 'deals',
+            element: <Deals />
+          },
+          {
+            path: 'deal-details',
+            element: <DealDetails />
+          },
+          {
+            path: 'report-details',
+            element: <ReportDetails />
+          },
+          {
+            path: 'leads',
+            element: <Leads />
+          },
+          {
+            path: 'lead-details',
+            element: <LeadDetails />
+          },
+          {
+            path: 'reports',
+            element: <Reports />
+          },
+          {
+            path: 'add-contact',
+            element: <AddContact />
+          }
+        ]
+      },
+      {
+        path: 'project-management',
+        children: [
+          {
+            path: 'create-new',
+            element: <CreateNew />
+          },
+          {
+            path: 'project-list-view',
+            element: <ProjectListView />
+          },
+          {
+            path: 'project-card-view',
+            element: <ProjectCardView />
+          },
+          {
+            path: 'project-board-view',
+            element: <ProjectBoardView />
+          },
+          {
+            path: 'todo-list',
+            element: <ProjectTodoList />
+          },
+          {
+            path: 'project-details',
+            element: <ProjectDetails />
+          }
+        ]
+      },
+      {
+        path: 'chat',
+        element: <Chat />,
         children: [
           {
             index: true,
-            element: <Ecommerce />
+            element: <ChatHomepage />
           },
           {
-            path: '/dashboard',
-            children: [
-              {
-                path: 'project-management',
-                element: <ProjectManagement />
-              },
-              {
-                path: 'crm',
-                element: <Crm />
-              },
-              {
-                path: 'travel-agency',
-                element: <TravelAgency />
-              }
-            ]
-          },
-          {
-            path: '/apps',
-            children: [
-              {
-                path: 'e-commerce/admin',
-                children: [
-                  {
-                    path: 'add-product',
-                    element: <AddProduct />
-                  },
-                  {
-                    path: 'products',
-                    element: <Products />
-                  },
-                  {
-                    path: 'customers',
-                    element: <Customers />
-                  },
-                  {
-                    path: 'orders',
-                    element: <Orders />
-                  },
-                  {
-                    path: 'refund',
-                    element: <Refund />
-                  }
-                ]
-              },
-              {
-                path: 'crm',
-                children: [
-                  {
-                    path: 'analytics',
-                    element: <Analytics />
-                  },
-                  {
-                    path: 'deals',
-                    element: <Deals />
-                  },
-                  {
-                    path: 'deal-details',
-                    element: <DealDetails />
-                  },
-                  {
-                    path: 'report-details',
-                    element: <ReportDetails />
-                  },
-                  {
-                    path: 'leads',
-                    element: <Leads />
-                  },
-                  {
-                    path: 'lead-details',
-                    element: <LeadDetails />
-                  },
-                  {
-                    path: 'reports',
-                    element: <Reports />
-                  },
-                  {
-                    path: 'add-contact',
-                    element: <AddContact />
-                  }
-                ]
-              },
-              {
-                path: 'project-management',
-                children: [
-                  {
-                    path: 'create-new',
-                    element: <CreateNew />
-                  },
-                  {
-                    path: 'project-list-view',
-                    element: <ProjectListView />
-                  },
-                  {
-                    path: 'project-card-view',
-                    element: <ProjectCardView />
-                  },
-                  {
-                    path: 'project-board-view',
-                    element: <ProjectBoardView />
-                  },
-                  {
-                    path: 'todo-list',
-                    element: <ProjectTodoList />
-                  },
-                  {
-                    path: 'project-details',
-                    element: <ProjectDetails />
-                  }
-                ]
-              },
-              {
-                path: 'chat',
-                element: <Chat />,
-                children: [
-                  {
-                    index: true,
-                    element: <ChatHomepage />
-                  },
-                  {
-                    path: ':userId/conversation',
-                    element: <ChatConversation />
-                  }
-                ]
-              },
-              {
-                path: 'calendar',
-                element: <Calendar />
-              },
-              {
-                path: 'email',
-                children: [
-                  {
-                    path: 'inbox',
-                    element: <Inbox />
-                  },
-                  {
-                    path: 'email-detail',
-                    element: <EmailDetail />
-                  },
-                  {
-                    path: 'compose',
-                    element: <Compose />
-                  }
-                ]
-              },
-              {
-                path: 'travel-agency',
-                children: [
-                  {
-                    path: 'hotel/admin/add-property',
-                    element: <AddProperty />
-                  }
-                ]
-              },
-              {
-                path: 'travel-agency',
-                children: [
-                  {
-                    path: 'hotel/admin/add-room',
-                    element: <AddRoom />
-                  },
-                  {
-                    path: 'hotel/admin/search-room',
-                    element: <SearchRoom />
-                  }
-                ]
-              },
-              {
-                path: 'travel-agency',
-                children: [
-                  {
-                    path: 'hotel/admin/room-listing',
-                    element: <RoomListing />
-                  }
-                ]
-              }
-            ]
-          },
-          {
-            path: '/pages',
-            children: [
-              {
-                path: 'starter',
-                element: <Starter />
-              },
-              {
-                path: 'faq',
-                children: [
-                  {
-                    path: 'faq-accordion',
-                    element: <FaqAccordion />
-                  },
-                  {
-                    path: 'faq-tab',
-                    element: <FaqTab />
-                  }
-                ]
-              },
-              {
-                path: 'pricing',
-                children: [
-                  {
-                    path: 'pricing-column',
-                    element: <PricingColumn />
-                  },
-                  {
-                    path: 'pricing-grid',
-                    element: <PricingGrid />
-                  }
-                ]
-              },
-              {
-                path: 'notifications',
-                element: <Notification />
-              },
-              {
-                path: 'members',
-                element: <Members />
-              },
-              {
-                path: 'timeline',
-                element: <Timeline />
-              },
-              {
-                path: 'coming-soon',
-                element: <ComingSoon />
-              },
-              {
-                path: 'demo',
-                children: [
-                  {
-                    path: 'vertical-sidenav',
-                    element: <VerticalSidenav />
-                  },
-                  {
-                    path: 'dark-mode',
-                    element: <DarkModeDemo />
-                  },
-                  {
-                    path: 'sidenav-collapse',
-                    element: <SidenavCollapse />
-                  },
-                  {
-                    path: 'darknav',
-                    element: <Darknav />
-                  },
-                  {
-                    path: 'topnav-slim',
-                    element: <TopnavSlim />
-                  },
-                  {
-                    path: 'navbar-top-slim',
-                    element: <NavbarTopSlim />
-                  },
-                  {
-                    path: 'navbar-top',
-                    element: <NavbarTop />
-                  },
-                  {
-                    path: 'horizontal-slim',
-                    element: <NavbarHorizontalSlim />
-                  },
-                  {
-                    path: 'combo-nav',
-                    element: <ComboNav />
-                  },
-                  {
-                    path: 'combo-nav-slim',
-                    element: <ComboNavSlim />
-                  },
-                  {
-                    path: 'dual-nav',
-                    element: <DualNav />
-                  }
-                ]
-              }
-            ]
-          },
-          {
-            path: '/modules',
-            children: [
-              {
-                path: 'tables',
-                children: [
-                  {
-                    path: 'basic-tables',
-                    element: <BasicTableExample />
-                  },
-                  {
-                    path: 'advance-tables',
-                    element: <AdvanceTableExample />
-                  }
-                ]
-              },
-              {
-                path: 'charts',
-                children: [
-                  {
-                    path: 'e-charts',
-                    element: <ECharts />
-                  },
-                  {
-                    path: 'gantt-chart',
-                    element: <GanttChart />
-                  }
-                ]
-              },
-              {
-                path: 'icons',
-                children: [
-                  {
-                    path: 'font-awesome',
-                    element: (
-                      <Suspense fallback={<PhoenixLoader />}>
-                        <FontAwesomeExample />
-                      </Suspense>
-                    )
-                  },
-                  {
-                    path: 'feather',
-                    element: (
-                      <Suspense fallback={<PhoenixLoader />}>
-                        <FeatherIconsExample />
-                      </Suspense>
-                    )
-                  },
-                  {
-                    path: 'unicons',
-                    element: (
-                      <Suspense fallback={<PhoenixLoader />}>
-                        <UniconsExample />
-                      </Suspense>
-                    )
-                  }
-                ]
-              },
-              {
-                path: 'components',
-                children: [
-                  {
-                    path: 'accordion',
-                    element: <AccordionExample />
-                  },
-                  {
-                    path: 'avatar',
-                    element: <AvatarExample />
-                  },
-                  {
-                    path: 'alerts',
-                    element: <AlertsExample />
-                  },
-                  {
-                    path: 'button',
-                    element: <ButtonExample />
-                  },
-                  {
-                    path: 'badge',
-                    element: <BadgeExample />
-                  },
-                  {
-                    path: 'breadcrumb',
-                    element: <BreadcrumbExample />
-                  },
-                  {
-                    path: 'card',
-                    element: <CardExample />
-                  },
-                  {
-                    path: 'carousel/bootstrap',
-                    element: <BootstrapCarousel />
-                  },
-                  {
-                    path: 'carousel/swiper',
-                    element: <SwiperCarousel />
-                  },
-                  {
-                    path: 'collapse',
-                    element: <CollapseExample />
-                  },
-                  {
-                    path: 'dropdown',
-                    element: <DropdownExample />
-                  },
-                  {
-                    path: 'list-group',
-                    element: <ListGroupExample />
-                  },
-                  {
-                    path: 'countup',
-                    element: <CountupExample />
-                  },
-                  {
-                    path: 'draggable',
-                    element: <DraggableExample />
-                  },
-                  {
-                    path: 'modal',
-                    element: <ModalExample />
-                  },
-                  {
-                    path: 'offcanvas',
-                    element: <OffcanvasExample />
-                  },
-                  {
-                    path: 'progress-bar',
-                    element: <ProgressbarExample />
-                  },
-                  {
-                    path: 'placeholder',
-                    element: <PlaceholderExample />
-                  },
-                  {
-                    path: 'pagination',
-                    element: <PaginationExample />
-                  },
-                  {
-                    path: 'popovers',
-                    element: <PopoversExample />
-                  },
-                  {
-                    path: 'spinners',
-                    element: <SpinnerExample />
-                  },
-                  {
-                    path: 'toast',
-                    element: <ToastsExample />
-                  },
-                  {
-                    path: 'tooltips',
-                    element: <TooltipExample />
-                  },
-                  {
-                    path: 'calendar',
-                    element: <CalendarExample />
-                  },
-                  {
-                    path: 'navs-and-tabs/navs',
-                    element: <NavsExample />
-                  },
-                  {
-                    path: 'navs-and-tabs/tabs',
-                    element: <TabsExample />
-                  },
-                  {
-                    path: 'navs-and-tabs/navbar',
-                    element: <NavbarExample />
-                  },
-                  {
-                    path: 'pictures/lightbox',
-                    element: <LightboxExample />
-                  }
-                ]
-              },
-              {
-                path: 'forms',
-                children: [
-                  {
-                    path: 'form-control',
-                    element: <FormControlExample />
-                  },
-                  {
-                    path: 'input-group',
-                    element: <InputGroupExample />
-                  },
-                  {
-                    path: 'select',
-                    element: <SelectExample />
-                  },
-                  {
-                    path: 'checks',
-                    element: <ChecksExample />
-                  },
-                  {
-                    path: 'range',
-                    element: <RangeExample />
-                  },
-                  {
-                    path: 'floating-labels',
-                    element: <FloatingLabelExample />
-                  },
-                  {
-                    path: 'layout',
-                    element: <FormLayoutExample />
-                  },
-                  {
-                    path: 'editor',
-                    element: <EditorExample />
-                  },
-                  {
-                    path: 'advance-select',
-                    element: <AdvanceSelectExample />
-                  },
-                  {
-                    path: 'date-picker',
-                    element: <DatePickerExample />
-                  },
-                  {
-                    path: 'emoji-button',
-                    element: <EmojiButtonExample />
-                  },
-                  {
-                    path: 'file-uploader',
-                    element: <FileUploaderExample />
-                  },
-                  {
-                    path: 'advance/range',
-                    element: <ReactRangeExample />
-                  },
-                  {
-                    path: 'rating',
-                    element: <RatingExample />
-                  },
-                  {
-                    path: 'validation',
-                    element: <FormValidationExample />
-                  },
-                  {
-                    path: 'wizard',
-                    element: <WizardExample />
-                  }
-                ]
-              },
-              {
-                path: 'utilities',
-                children: [
-                  {
-                    path: 'background',
-                    element: <BackgroundExample />
-                  },
-                  {
-                    path: 'borders',
-                    element: <BorderExample />
-                  },
-                  {
-                    path: 'colors',
-                    element: <ColorsExample />
-                  },
-                  {
-                    path: 'display',
-                    element: <DisplayExample />
-                  },
-                  {
-                    path: 'grid',
-                    element: <GridExample />
-                  },
-                  {
-                    path: 'flex',
-                    element: <FlexExample />
-                  },
-                  {
-                    path: 'stack',
-                    element: <StackExample />
-                  },
-                  {
-                    path: 'float',
-                    element: <FloatExample />
-                  },
-                  {
-                    path: 'interactions',
-                    element: <InteractionsExample />
-                  },
-                  {
-                    path: 'opacity',
-                    element: <OpacityExample />
-                  },
-                  {
-                    path: 'overflow',
-                    element: <OverflowExample />
-                  },
-                  {
-                    path: 'position',
-                    element: <PositionExample />
-                  },
-                  {
-                    path: 'shadows',
-                    element: <ShadowsExample />
-                  },
-                  {
-                    path: 'sizing',
-                    element: <SizingExample />
-                  },
-                  {
-                    path: 'spacing',
-                    element: <SpacingExample />
-                  },
-                  {
-                    path: 'typography',
-                    element: <TypographyExample />
-                  },
-                  {
-                    path: 'vertical-align',
-                    element: <VerticalAlignExample />
-                  },
-                  {
-                    path: 'visibility',
-                    element: <VisibilityExample />
-                  }
-                ]
-              }
-            ]
-          },
-          {
-            path: '/documentation',
-            children: [
-              {
-                path: 'getting-started',
-                element: <GettingStarted />
-              },
-              {
-                path: 'design-file',
-                element: <DesignFile />
-              },
-              {
-                path: 'customization',
-                children: [
-                  {
-                    path: 'configuration',
-                    element: <Configuration />
-                  },
-                  {
-                    path: 'color',
-                    element: <Color />
-                  },
-                  {
-                    path: 'styling',
-                    element: <Styling />
-                  },
-                  {
-                    path: 'dark-mode',
-                    element: <DarkMode />
-                  }
-                ]
-              }
-            ]
-          },
-          {
-            path: 'changelog',
-            element: <ChangeLog />
-          },
-          {
-            path: 'migrations',
-            element: <Migrations />
-          },
-          {
-            path: 'widgets',
-            element: <Widgets />
+            path: ':userId/conversation',
+            element: <ChatConversation />
           }
         ]
       },
-
       {
-        element: <EcommerceLayout />,
-        path: '/apps/e-commerce/customer/',
+        path: 'calendar',
+        element: <Calendar />
+      },
+      {
+        path: 'email',
         children: [
           {
-            path: 'homepage',
-            element: <Homepage />
+            path: 'inbox',
+            element: <Inbox />
           },
           {
-            path: 'product-details',
-            element: <ProductDetails />
+            path: 'email-detail',
+            element: <EmailDetail />
           },
           {
-            path: 'cart',
-            element: <Cart />
-          },
-          {
-            path: 'checkout',
-            element: <Checkout />
-          },
-          {
-            path: 'shipping-info',
-            element: <ShippingInfo />
-          },
-          {
-            path: 'profile',
-            element: <Profile />
-          },
-          {
-            path: 'products-filter',
-            element: <ProductsFilter />
-          },
-          {
-            path: 'wishlist',
-            element: <Wishlist />
-          },
-          {
-            path: 'favorite-stores',
-            element: <FavoriteStores />
-          },
-          {
-            path: 'order-tracking',
-            element: <OrderTracking />
-          },
-          {
-            path: 'invoice',
-            element: <Invoice />
+            path: 'compose',
+            element: <Compose />
           }
         ]
       },
       {
-        path: 'pages/landing',
+        path: 'travel-agency',
         children: [
           {
-            path: 'default',
-            element: <Default />
-          },
-          {
-            path: 'alternate',
-            element: <Alternate />
+            path: 'hotel/admin/add-property',
+            element: <AddProperty />
           }
         ]
       },
       {
-        path: '/pages/errors/',
+        path: 'travel-agency',
         children: [
           {
-            path: '404',
-            element: <Error404 />
+            path: 'hotel/admin/add-room',
+            element: <AddRoom />
           },
           {
-            path: '403',
-            element: <Error403 />
-          },
-          {
-            path: '500',
-            element: <Error500 />
+            path: 'hotel/admin/search-room',
+            element: <SearchRoom />
           }
         ]
       },
       {
-        path: '/pages/authentication/simple/',
+        path: 'travel-agency',
         children: [
           {
-            path: 'sign-in',
-            element: <SimpleSignIn />
-          },
-          {
-            path: 'sign-up',
-            element: <SimpleSignUp />
-          },
-          {
-            path: 'sign-out',
-            element: <SimpleSignOut />
-          },
-          {
-            path: 'forgot-password',
-            element: <SimpleForgotPassword />
-          },
-          {
-            path: 'reset-password',
-            element: <SimpleResetPassword />
-          },
-          {
-            path: 'lock-screen',
-            element: <SimpleLockScreen />
-          },
-          {
-            path: '2FA',
-            element: <SimpleTwoFA />
+            path: 'hotel/admin/room-listing',
+            element: <RoomListing />
           }
         ]
-      },
-      {
-        path: '/pages/authentication/split/',
-        children: [
-          {
-            path: 'sign-in',
-            element: <SplitSignIn />
-          },
-          {
-            path: 'sign-up',
-            element: <SplitSignUp />
-          },
-          {
-            path: 'sign-out',
-            element: <SplitSignOut />
-          },
-          {
-            path: 'forgot-password',
-            element: <SplitForgotPassword />
-          },
-          {
-            path: 'reset-password',
-            element: <SplitResetPassword />
-          },
-          {
-            path: 'lock-screen',
-            element: <SplitLockScreen />
-          },
-          {
-            path: '2FA',
-            element: <SplitTwoFA />
-          }
-        ]
-      },
-      {
-        path: '/pages/authentication/card/',
-        children: [
-          {
-            path: 'sign-in',
-            element: <CardSignIn />
-          },
-          {
-            path: 'sign-up',
-            element: <CardSignUp />
-          },
-          {
-            path: 'sign-out',
-            element: <CardSignOut />
-          },
-          {
-            path: 'forgot-password',
-            element: <CardForgotPassword />
-          },
-          {
-            path: 'reset-password',
-            element: <CardResetPassword />
-          },
-          {
-            path: 'lock-screen',
-            element: <CardLockScreen />
-          },
-          {
-            path: '2FA',
-            element: <CardTwoFA />
-          }
-        ]
-      },
-      {
-        path: '*',
-        element: <Error404 />
       }
     ]
+  },
+  {
+    path: '/pages',
+    children: [
+      {
+        path: 'starter',
+        element: <Starter />
+      },
+      {
+        path: 'faq',
+        children: [
+          {
+            path: 'faq-accordion',
+            element: <FaqAccordion />
+          },
+          {
+            path: 'faq-tab',
+            element: <FaqTab />
+          }
+        ]
+      },
+      {
+        path: 'pricing',
+        children: [
+          {
+            path: 'pricing-column',
+            element: <PricingColumn />
+          },
+          {
+            path: 'pricing-grid',
+            element: <PricingGrid />
+          }
+        ]
+      },
+      {
+        path: 'notifications',
+        element: <Notification />
+      },
+      {
+        path: 'members',
+        element: <Members />
+      },
+      {
+        path: 'timeline',
+        element: <Timeline />
+      },
+      {
+        path: 'coming-soon',
+        element: <ComingSoon />
+      },
+      {
+        path: 'demo',
+        children: [
+          {
+            path: 'vertical-sidenav',
+            element: <VerticalSidenav />
+          },
+          {
+            path: 'dark-mode',
+            element: <DarkModeDemo />
+          },
+          {
+            path: 'sidenav-collapse',
+            element: <SidenavCollapse />
+          },
+          {
+            path: 'darknav',
+            element: <Darknav />
+          },
+          {
+            path: 'topnav-slim',
+            element: <TopnavSlim />
+          },
+          {
+            path: 'navbar-top-slim',
+            element: <NavbarTopSlim />
+          },
+          {
+            path: 'navbar-top',
+            element: <NavbarTop />
+          },
+          {
+            path: 'horizontal-slim',
+            element: <NavbarHorizontalSlim />
+          },
+          {
+            path: 'combo-nav',
+            element: <ComboNav />
+          },
+          {
+            path: 'combo-nav-slim',
+            element: <ComboNavSlim />
+          },
+          {
+            path: 'dual-nav',
+            element: <DualNav />
+          }
+        ]
+      }
+    ]
+  },
+  {
+    path: '/modules',
+    children: [
+      {
+        path: 'tables',
+        children: [
+          {
+            path: 'basic-tables',
+            element: <BasicTableExample />
+          },
+          {
+            path: 'advance-tables',
+            element: <AdvanceTableExample />
+          }
+        ]
+      },
+      {
+        path: 'charts',
+        children: [
+          {
+            path: 'e-charts',
+            element: <ECharts />
+          },
+          {
+            path: 'gantt-chart',
+            element: <GanttChart />
+          }
+        ]
+      },
+      {
+        path: 'icons',
+        children: [
+          {
+            path: 'font-awesome',
+            element: (
+              <Suspense fallback={<PhoenixLoader />}>
+                <FontAwesomeExample />
+              </Suspense>
+            )
+          },
+          {
+            path: 'feather',
+            element: (
+              <Suspense fallback={<PhoenixLoader />}>
+                <FeatherIconsExample />
+              </Suspense>
+            )
+          },
+          {
+            path: 'unicons',
+            element: (
+              <Suspense fallback={<PhoenixLoader />}>
+                <UniconsExample />
+              </Suspense>
+            )
+          }
+        ]
+      },
+      {
+        path: 'components',
+        children: [
+          {
+            path: 'accordion',
+            element: <AccordionExample />
+          },
+          {
+            path: 'avatar',
+            element: <AvatarExample />
+          },
+          {
+            path: 'alerts',
+            element: <AlertsExample />
+          },
+          {
+            path: 'button',
+            element: <ButtonExample />
+          },
+          {
+            path: 'badge',
+            element: <BadgeExample />
+          },
+          {
+            path: 'breadcrumb',
+            element: <BreadcrumbExample />
+          },
+          {
+            path: 'card',
+            element: <CardExample />
+          },
+          {
+            path: 'carousel/bootstrap',
+            element: <BootstrapCarousel />
+          },
+          {
+            path: 'carousel/swiper',
+            element: <SwiperCarousel />
+          },
+          {
+            path: 'collapse',
+            element: <CollapseExample />
+          },
+          {
+            path: 'dropdown',
+            element: <DropdownExample />
+          },
+          {
+            path: 'list-group',
+            element: <ListGroupExample />
+          },
+          {
+            path: 'countup',
+            element: <CountupExample />
+          },
+          {
+            path: 'draggable',
+            element: <DraggableExample />
+          },
+          {
+            path: 'modal',
+            element: <ModalExample />
+          },
+          {
+            path: 'offcanvas',
+            element: <OffcanvasExample />
+          },
+          {
+            path: 'progress-bar',
+            element: <ProgressbarExample />
+          },
+          {
+            path: 'placeholder',
+            element: <PlaceholderExample />
+          },
+          {
+            path: 'pagination',
+            element: <PaginationExample />
+          },
+          {
+            path: 'popovers',
+            element: <PopoversExample />
+          },
+          {
+            path: 'spinners',
+            element: <SpinnerExample />
+          },
+          {
+            path: 'toast',
+            element: <ToastsExample />
+          },
+          {
+            path: 'tooltips',
+            element: <TooltipExample />
+          },
+          {
+            path: 'calendar',
+            element: <CalendarExample />
+          },
+          {
+            path: 'navs-and-tabs/navs',
+            element: <NavsExample />
+          },
+          {
+            path: 'navs-and-tabs/tabs',
+            element: <TabsExample />
+          },
+          {
+            path: 'navs-and-tabs/navbar',
+            element: <NavbarExample />
+          },
+          {
+            path: 'pictures/lightbox',
+            element: <LightboxExample />
+          }
+        ]
+      },
+      {
+        path: 'forms',
+        children: [
+          {
+            path: 'form-control',
+            element: <FormControlExample />
+          },
+          {
+            path: 'input-group',
+            element: <InputGroupExample />
+          },
+          {
+            path: 'select',
+            element: <SelectExample />
+          },
+          {
+            path: 'checks',
+            element: <ChecksExample />
+          },
+          {
+            path: 'range',
+            element: <RangeExample />
+          },
+          {
+            path: 'floating-labels',
+            element: <FloatingLabelExample />
+          },
+          {
+            path: 'layout',
+            element: <FormLayoutExample />
+          },
+          {
+            path: 'editor',
+            element: <EditorExample />
+          },
+          {
+            path: 'advance-select',
+            element: <AdvanceSelectExample />
+          },
+          {
+            path: 'date-picker',
+            element: <DatePickerExample />
+          },
+          {
+            path: 'emoji-button',
+            element: <EmojiButtonExample />
+          },
+          {
+            path: 'file-uploader',
+            element: <FileUploaderExample />
+          },
+          {
+            path: 'advance/range',
+            element: <ReactRangeExample />
+          },
+          {
+            path: 'rating',
+            element: <RatingExample />
+          },
+          {
+            path: 'validation',
+            element: <FormValidationExample />
+          },
+          {
+            path: 'wizard',
+            element: <WizardExample />
+          }
+        ]
+      },
+      {
+        path: 'utilities',
+        children: [
+          {
+            path: 'background',
+            element: <BackgroundExample />
+          },
+          {
+            path: 'borders',
+            element: <BorderExample />
+          },
+          {
+            path: 'colors',
+            element: <ColorsExample />
+          },
+          {
+            path: 'display',
+            element: <DisplayExample />
+          },
+          {
+            path: 'grid',
+            element: <GridExample />
+          },
+          {
+            path: 'flex',
+            element: <FlexExample />
+          },
+          {
+            path: 'stack',
+            element: <StackExample />
+          },
+          {
+            path: 'float',
+            element: <FloatExample />
+          },
+          {
+            path: 'interactions',
+            element: <InteractionsExample />
+          },
+          {
+            path: 'opacity',
+            element: <OpacityExample />
+          },
+          {
+            path: 'overflow',
+            element: <OverflowExample />
+          },
+          {
+            path: 'position',
+            element: <PositionExample />
+          },
+          {
+            path: 'shadows',
+            element: <ShadowsExample />
+          },
+          {
+            path: 'sizing',
+            element: <SizingExample />
+          },
+          {
+            path: 'spacing',
+            element: <SpacingExample />
+          },
+          {
+            path: 'typography',
+            element: <TypographyExample />
+          },
+          {
+            path: 'vertical-align',
+            element: <VerticalAlignExample />
+          },
+          {
+            path: 'visibility',
+            element: <VisibilityExample />
+          }
+        ]
+      }
+    ]
+  },
+  {
+    path: '/documentation',
+    children: [
+      {
+        path: 'getting-started',
+        element: <GettingStarted />
+      },
+      {
+        path: 'design-file',
+        element: <DesignFile />
+      },
+      {
+        path: 'customization',
+        children: [
+          {
+            path: 'configuration',
+            element: <Configuration />
+          },
+          {
+            path: 'color',
+            element: <Color />
+          },
+          {
+            path: 'styling',
+            element: <Styling />
+          },
+          {
+            path: 'dark-mode',
+            element: <DarkMode />
+          }
+        ]
+      }
+    ]
+  },
+  {
+    path: 'changelog',
+    element: <ChangeLog />
+  },
+  {
+    path: 'migrations',
+    element: <Migrations />
+  },
+  {
+    path: 'widgets',
+    element: <Widgets />
+  },
+
+  {
+    element: <EcommerceLayout />,
+    path: '/apps/e-commerce/customer/',
+    children: [
+      {
+        path: 'homepage',
+        element: <Homepage />
+      },
+      {
+        path: 'product-details',
+        element: <ProductDetails />
+      },
+      {
+        path: 'cart',
+        element: <Cart />
+      },
+      {
+        path: 'checkout',
+        element: <Checkout />
+      },
+      {
+        path: 'shipping-info',
+        element: <ShippingInfo />
+      },
+      {
+        path: 'profile',
+        element: <Profile />
+      },
+      {
+        path: 'products-filter',
+        element: <ProductsFilter />
+      },
+      {
+        path: 'wishlist',
+        element: <Wishlist />
+      },
+      {
+        path: 'favorite-stores',
+        element: <FavoriteStores />
+      },
+      {
+        path: 'order-tracking',
+        element: <OrderTracking />
+      },
+      {
+        path: 'invoice',
+        element: <Invoice />
+      }
+    ]
+  },
+  {
+    path: 'pages/landing',
+    children: [
+      {
+        path: 'default',
+        element: <Default />
+      },
+      {
+        path: 'alternate',
+        element: <Alternate />
+      }
+    ]
+  },
+  {
+    path: '/pages/errors/',
+    children: [
+      {
+        path: '404',
+        element: <Error404 />
+      },
+      {
+        path: '403',
+        element: <Error403 />
+      },
+      {
+        path: '500',
+        element: <Error500 />
+      }
+    ]
+  },
+  {
+    path: '/pages/authentication/simple/',
+    children: [
+      {
+        path: 'sign-in',
+        element: <SimpleSignIn />
+      },
+      {
+        path: 'sign-up',
+        element: <SimpleSignUp />
+      },
+      {
+        path: 'sign-out',
+        element: <SimpleSignOut />
+      },
+      {
+        path: 'forgot-password',
+        element: <SimpleForgotPassword />
+      },
+      {
+        path: 'reset-password',
+        element: <SimpleResetPassword />
+      },
+      {
+        path: 'lock-screen',
+        element: <SimpleLockScreen />
+      },
+      {
+        path: '2FA',
+        element: <SimpleTwoFA />
+      }
+    ]
+  },
+  {
+    path: '/pages/authentication/split/',
+    children: [
+      {
+        path: 'sign-in',
+        element: <SplitSignIn />
+      },
+      {
+        path: 'sign-up',
+        element: <SplitSignUp />
+      },
+      {
+        path: 'sign-out',
+        element: <SplitSignOut />
+      },
+      {
+        path: 'forgot-password',
+        element: <SplitForgotPassword />
+      },
+      {
+        path: 'reset-password',
+        element: <SplitResetPassword />
+      },
+      {
+        path: 'lock-screen',
+        element: <SplitLockScreen />
+      },
+      {
+        path: '2FA',
+        element: <SplitTwoFA />
+      }
+    ]
+  },
+  {
+    path: '/pages/authentication/card/',
+    children: [
+      {
+        path: 'sign-in',
+        element: <CardSignIn />
+      },
+      {
+        path: 'sign-up',
+        element: <CardSignUp />
+      },
+      {
+        path: 'sign-out',
+        element: <CardSignOut />
+      },
+      {
+        path: 'forgot-password',
+        element: <CardForgotPassword />
+      },
+      {
+        path: 'reset-password',
+        element: <CardResetPassword />
+      },
+      {
+        path: 'lock-screen',
+        element: <CardLockScreen />
+      },
+      {
+        path: '2FA',
+        element: <CardTwoFA />
+      }
+    ]
+  },
+  {
+    path: '*',
+    element: <Error404 />
   }
 ];
 
-export const router = createBrowserRouter(routes);
-
-export default routes;
+export const router = createBrowserRouter(themeRoutes);
+export default themeRoutes;

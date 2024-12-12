@@ -6,7 +6,7 @@ import BreakpointsProvider from 'providers/BreakpointsProvider';
 import SettingsPanelProvider from 'providers/SettingsPanelProvider';
 import ChatWidgetProvider from 'providers/ChatWidgetProvider';
 import { AuthProvider } from 'context/AuthProvider'; // Import AuthProvider
-import { appRoutes } from 'routes/appRoutes'; // Use centralized app routes
+import { appRoutes } from './routes/appRoutes'; // Centralized routes
 
 const roles = ['admin', 'manager']; // Example roles (fetch or manage dynamically after login)
 
@@ -20,11 +20,21 @@ const root = ReactDOM.createRoot(
 root.render(
   <React.StrictMode>
     <AppProvider>
+      {' '}
+      {/* Global App Context */}
       <SettingsPanelProvider>
+        {' '}
+        {/* Settings Panel Context */}
         <ChatWidgetProvider>
+          {' '}
+          {/* Chat Widget Context */}
           <BreakpointsProvider>
+            {' '}
+            {/* Breakpoints (e.g., responsive design) Context */}
             <AuthProvider roles={roles}>
-              <RouterProvider router={router} /> {/* Use the new router */}
+              {' '}
+              {/* Authentication Context */}
+              <RouterProvider router={router} /> {/* React Router */}
             </AuthProvider>
           </BreakpointsProvider>
         </ChatWidgetProvider>
