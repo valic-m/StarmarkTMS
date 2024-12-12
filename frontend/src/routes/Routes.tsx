@@ -79,7 +79,6 @@ import ProjectDetails from 'pages/apps/project-management/ProjectDetails';
 import ProjectTodoList from 'pages/apps/project-management/ProjectTodoList';
 import ProjectBoardView from 'pages/apps/project-management/ProjectBoardView';
 import ProjectCardView from 'pages/apps/project-management/ProjectCardView';
-import Default from 'pages/pages/landing/Default';
 import Chat from 'pages/apps/chat/Chat';
 import ChatHomepage from 'pages/apps/chat/ChatHomepage';
 import ChatConversation from 'pages/apps/chat/ChatConversation';
@@ -139,20 +138,12 @@ import Leads from 'pages/apps/crm/Leads';
 import Reports from 'pages/apps/crm/Reports';
 import AddContact from 'pages/apps/crm/AddContact';
 import PricingGrid from 'pages/pages/pricing/PricingGrid';
-import SplitSignIn from 'pages/pages/authentication/split/SignIn';
-import SplitSignUp from 'pages/pages/authentication/split/SignUp';
-import SplitSignOut from 'pages/pages/authentication/split/SignOut';
-import SplitForgotPassword from 'pages/pages/authentication/split/ForgotPassword';
-import SplitResetPassword from 'pages/pages/authentication/split/ResetPassword';
-import SplitLockScreen from 'pages/pages/authentication/split/LockScreen';
-import SplitTwoFA from 'pages/pages/authentication/split/TwoFA';
 import { Suspense, lazy } from 'react';
 import PhoenixLoader from 'components/common/PhoenixLoader';
 import Migrations from 'pages/documentation/Migrations';
 import WizardExample from 'pages/modules/forms/WizardExample';
 import Deals from 'pages/apps/crm/Deals';
 import FaqTab from 'pages/faq/FaqTab';
-import Alternate from 'pages/pages/landing/Alternate';
 import Calendar from 'pages/apps/calendar/Calendar';
 import Timeline from 'pages/pages/Timeline';
 import CalendarExample from 'pages/modules/components/CalendarExample';
@@ -172,7 +163,6 @@ const UniconsExample = lazy(
   () => import('pages/modules/components/UniconsExample')
 );
 import Color from '../pages/documentation/customization/Color';
-import TravelAgency from 'pages/dashboard/TravelAgency';
 import RoomListing from 'pages/apps/travel-agency/hotel/admin/RoomListing';
 import AddProperty from 'pages/apps/travel-agency/hotel/admin/AddProperty';
 import AddRoom from 'pages/apps/travel-agency/hotel/admin/AddRoom';
@@ -861,19 +851,6 @@ export const themeRoutes: RouteObject[] = [
     ]
   },
   {
-    path: 'pages/landing',
-    children: [
-      {
-        path: 'default',
-        element: <Default />
-      },
-      {
-        path: 'alternate',
-        element: <Alternate />
-      }
-    ]
-  },
-  {
     path: '/pages/errors/',
     children: [
       {
@@ -924,40 +901,7 @@ export const themeRoutes: RouteObject[] = [
     ]
   },
   {
-    path: '/pages/authentication/split/',
-    children: [
-      {
-        path: 'sign-in',
-        element: <SplitSignIn />
-      },
-      {
-        path: 'sign-up',
-        element: <SplitSignUp />
-      },
-      {
-        path: 'sign-out',
-        element: <SplitSignOut />
-      },
-      {
-        path: 'forgot-password',
-        element: <SplitForgotPassword />
-      },
-      {
-        path: 'reset-password',
-        element: <SplitResetPassword />
-      },
-      {
-        path: 'lock-screen',
-        element: <SplitLockScreen />
-      },
-      {
-        path: '2FA',
-        element: <SplitTwoFA />
-      }
-    ]
-  },
-  {
-    path: '/pages/authentication/card/',
+    path: '/path/SignIn/',
     children: [
       {
         path: 'sign-in',

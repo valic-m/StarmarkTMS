@@ -534,7 +534,7 @@ export const routes: RouteItems[] = [
             pages: [
               {
                 name: 'sign-in',
-                path: '/pages/authentication/split/sign-in',
+                path: '/sign-in',
                 pathName: 'split-signin',
                 active: true
               },

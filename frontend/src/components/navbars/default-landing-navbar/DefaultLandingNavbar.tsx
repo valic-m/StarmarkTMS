@@ -1,14 +1,9 @@
 import Logo from 'components/common/Logo';
-import { Modal, Nav, Navbar } from 'react-bootstrap';
+import { Nav, Navbar } from 'react-bootstrap';
 import { Link } from 'react-router-dom';
-import FeatherIcon from 'feather-icons-react';
-import SearchBox from 'components/common/SearchBox';
-import Button from 'components/base/Button';
 import ThemeToggler from 'components/common/ThemeToggler';
 import classNames from 'classnames';
-import { useEffect, useRef, useState } from 'react';
-import DropdownSearchBox from 'components/common/DropdownSearchBox';
-import SearchResult from 'components/common/SearchResult';
+import { useEffect, useRef } from 'react';
 
 const NavItem = ({
   label,
@@ -35,8 +30,6 @@ const NavItem = ({
 
 const DefaultLandingNavbar = ({ className }: { className?: string }) => {
   const containerRef = useRef<HTMLDivElement | null>(null);
-  const [openSearchModal, setOpenSearchModal] = useState(false);
-
   useEffect(() => {
     const toggleShadowClass = () => {
       if (window.scrollY > 300) {
@@ -71,13 +64,7 @@ const DefaultLandingNavbar = ({ className }: { className?: string }) => {
           <ThemeToggler className="mx-2 d-lg-none" />
           <Navbar.Toggle aria-controls="basic-navbar-nav" />
           <Navbar.Collapse>
-            <div className="border-bottom border-translucent d-lg-none mb-2">
-              <SearchBox
-                placeholder="Search"
-                className="w-100"
-                inputClassName="rounded-pill my-4"
-              />
-            </div>
+            <div className="border-bottom border-translucent d-lg-none mb-2"></div>
             <Nav className="me-auto mb-2 mb-lg-0" as="ul">
               <NavItem label="Home" url="#home" />
               <NavItem label="Features" url="#features" />
@@ -87,41 +74,17 @@ const DefaultLandingNavbar = ({ className }: { className?: string }) => {
 
             <div className="d-grid d-lg-flex gap-4 align-items-center">
               <ThemeToggler className="d-none d-lg-block" />
-              <Button
-                className="p-0 text-body-tertiary text-body-emphasis-hover d-none d-lg-inline lh-sm"
-                onClick={() => setOpenSearchModal(!openSearchModal)}
-              >
-                <FeatherIcon icon="search" size={20} />
-              </Button>
+
               <Link
-                to="#!"
+                to="auth/SignIn"
                 className="btn btn-link p-0 text-body order-1 order-lg-0"
               >
                 Sign in
-              </Link>
-              <Link to="#!" className="btn btn-phoenix-primary order-0">
-                Sign up
               </Link>
             </div>
           </Navbar.Collapse>
         </Navbar>
       </div>
-      <Modal
-        show={openSearchModal}
-        onHide={() => setOpenSearchModal(false)}
-        className="search-box-modal mt-15"
-      >
-        <Modal.Body className="p-0 bg-transparent">
-          <DropdownSearchBox
-            size="lg"
-            className="navbar-top-search-box"
-            inputClassName="rounded-pill"
-            style={{ width: 'auto' }}
-          >
-            <SearchResult />
-          </DropdownSearchBox>
-        </Modal.Body>
-      </Modal>
     </>
   );
 };
