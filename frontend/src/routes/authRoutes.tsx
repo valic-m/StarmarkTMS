@@ -1,3 +1,5 @@
+// C:\Users\valic\PycharmProjects\StarmarkTMS\frontend\src\routes\authRoutes.tsx
+
 import { RouteObject } from 'react-router-dom';
 import SplitSignIn from 'auth/SignIn';
 import SplitSignUp from 'auth/SignUp';

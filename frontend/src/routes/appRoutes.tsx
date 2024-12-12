@@ -6,21 +6,28 @@ import { dashboardRoutes } from './dashboardRoutes';
 import { clientManagementRoutes } from './clientManagementRoutes';
 import { operationsManagementRoutes } from './operationsManagementRoutes';
 import { settingsRoutes } from './settingsRoutes';
-import { themeRoutes } from './Routes'; // Import from Routes.tsx
+import { themeRoutes } from './Routes'; // Import theme-specific routes
+import { authRoutes } from './authRoutes'; // Import authentication routes
 import Error404 from 'pages/error/Error404'; // Import Error404 component
 import Default from 'pages/pages/landing/Default'; // Import Default Landing Page
 import Ecommerce from 'pages/dashboard/ecommerce'; // Main landing page
-import { authRoutes } from './authRoutes'; // Import auth routes
 
 export const appRoutes: RouteObject[] = [
   {
-    element: <App />,
+    element: <App />, // Top-level wrapper
     children: [
-      // Route without MainLayout for Default Landing Page
+      // Routes without MainLayout (standalone)
       {
         path: '/pages/landing/default',
-        element: <Default /> // Default landing page
+        element: <Default /> // Default Landing Page
       },
+      {
+        path: '/auth',
+        children: [
+          ...authRoutes // Authentication routes without MainLayout
+        ]
+      },
+      // Routes with MainLayout
       {
         element: (
           <MainLayoutProvider>
@@ -30,14 +37,13 @@ export const appRoutes: RouteObject[] = [
         children: [
           {
             index: true, // Default route for "/"
-            element: <Ecommerce /> // Render Ecommerce as the landing page
+            element: <Ecommerce />
           },
-          ...dashboardRoutes, // Include dashboard routes
-          ...clientManagementRoutes, // Include client management routes
-          ...operationsManagementRoutes, // Include operations management routes
-          ...settingsRoutes, // Include settings routes
-          ...themeRoutes, // Include theme-specific routes
-          ...authRoutes, // Include authentication routes
+          ...dashboardRoutes,
+          ...clientManagementRoutes,
+          ...operationsManagementRoutes,
+          ...settingsRoutes,
+          ...themeRoutes,
           {
             path: '*',
             element: <Error404 /> // Catch-all route
