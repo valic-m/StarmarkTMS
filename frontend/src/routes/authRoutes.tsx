@@ -15,7 +15,7 @@ export const authRoutes: RouteObject[] = [
     children: [
       {
         path: 'sign-in',
-        element: <SplitSignIn />
+        element: <SplitSignIn /> // Correct path
       },
       {
         path: 'sign-up',

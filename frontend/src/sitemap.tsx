@@ -481,145 +481,49 @@ export const routes: RouteItems[] = [
         active: true,
         pages: [
           {
-            name: 'simple',
-            active: true,
-            pages: [
-              {
-                name: 'sign-in',
-                path: '/pages/authentication/simple/sign-in',
-                pathName: 'simple-signin',
-                active: true
-              },
-              {
-                name: 'sign-up',
-                path: '/pages/authentication/simple/sign-up',
-                pathName: 'simple-signup',
-                active: true
-              },
-              {
-                name: 'sign-out',
-                path: '/pages/authentication/simple/sign-out',
-                pathName: 'simple-signout',
-                active: true
-              },
-              {
-                name: 'forgot-password',
-                path: '/pages/authentication/simple/forgot-password',
-                pathName: 'simple-forgot-password',
-                active: true
-              },
-              {
-                name: 'reset-password',
-                path: '/pages/authentication/simple/reset-password',
-                pathName: 'simple-reset-password',
-                active: true
-              },
-              {
-                name: 'lock-screen',
-                path: '/pages/authentication/simple/lock-screen',
-                pathName: 'simple-lock-screen',
-                active: true
-              },
-              {
-                name: '2FA',
-                path: '/pages/authentication/simple/2FA',
-                pathName: 'simple-2FA',
-                active: true
-              }
-            ]
-          },
-          {
             name: 'split',
             active: true,
             pages: [
               {
                 name: 'sign-in',
-                path: '/sign-in',
+                path: '/auth/sign-in',
                 pathName: 'split-signin',
                 active: true
               },
               {
                 name: 'sign-up',
-                path: '/pages/authentication/split/sign-up',
+                path: '/auth/sign-up',
                 pathName: 'split-signup',
                 active: true
               },
               {
                 name: 'sign-out',
-                path: '/pages/authentication/split/sign-out',
+                path: '/auth/sign-out',
                 pathName: 'split-signout',
                 active: true
               },
               {
                 name: 'forgot-password',
-                path: '/pages/authentication/split/forgot-password',
+                path: '/auth/forgot-password',
                 pathName: 'split-forgot-password',
                 active: true
               },
               {
                 name: 'reset-password',
-                path: '/pages/authentication/split/reset-password',
+                path: '/auth/reset-password',
                 pathName: 'split-reset-password',
                 active: true
               },
               {
                 name: 'lock-screen',
-                path: '/pages/authentication/split/lock-screen',
+                path: '/auth/lock-screen',
                 pathName: 'split-lock-screen',
                 active: true
               },
               {
                 name: '2FA',
-                path: '/pages/authentication/split/2FA',
+                path: '/auth/2FA',
                 pathName: 'split-2FA',
-                active: true
-              }
-            ]
-          },
-          {
-            name: 'Card',
-            active: true,
-            pages: [
-              {
-                name: 'sign-in',
-                path: 'pages/authentication/card/sign-in',
-                pathName: 'card-signin',
-                active: true
-              },
-              {
-                name: 'sign-up',
-                path: 'pages/authentication/card/sign-up',
-                pathName: 'card-signup',
-                active: true
-              },
-              {
-                name: 'sign-out',
-                path: 'pages/authentication/card/sign-out',
-                pathName: 'card-signout',
-                active: true
-              },
-              {
-                name: 'forgot-password',
-                path: 'pages/authentication/card/forgot-password',
-                pathName: 'card-forgot-password',
-                active: true
-              },
-              {
-                name: 'reset-password',
-                path: 'pages/authentication/card/reset-password',
-                pathName: 'card-reset-password',
-                active: true
-              },
-              {
-                name: 'lock-screen',
-                path: 'pages/authentication/card/lock-screen',
-                pathName: 'card-lock-screen',
-                active: true
-              },
-              {
-                name: '2FA',
-                path: '/pages/authentication/card/2FA',
-                pathName: 'card-2FA',
                 active: true
               }
             ]

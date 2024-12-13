@@ -76,7 +76,7 @@ const DefaultLandingNavbar = ({ className }: { className?: string }) => {
               <ThemeToggler className="d-none d-lg-block" />
 
               <Link
-                to="auth/SignIn"
+                to="/auth/sign-in"
                 className="btn btn-link p-0 text-body order-1 order-lg-0"
               >
                 Sign in
