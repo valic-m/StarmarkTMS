@@ -9,7 +9,7 @@ interface LogoProps {
   className?: string;
 }
 
-const Logo = ({ width = 27, text = true, textClass, className }: LogoProps) => {
+const Logo = ({ width = 60, text = true, textClass, className }: LogoProps) => {
   return (
     <div className={classNames(className, 'd-flex align-items-center')}>
       <img
@@ -18,7 +18,9 @@ const Logo = ({ width = 27, text = true, textClass, className }: LogoProps) => {
         style={{ width: `${width}px`, height: 'auto' }} // Dynamically set the width
       />
       {text && (
-        <p className={classNames(textClass, 'logo-text ms-2')}>STARMARK</p>
+        <p className={classNames(textClass, 'logo-text ms-2')}>
+          S T A R M A R K
+        </p>
       )}
     </div>
   );

@@ -1,16 +1,17 @@
-// File: C:\Users\valic\PycharmProjects\StarmarkTMS\frontend\src\index.tsx
-
 import React from 'react';
 import ReactDOM from 'react-dom/client';
-import { RouterProvider } from 'react-router-dom';
+import { RouterProvider, createBrowserRouter } from 'react-router-dom';
 import AppProvider from 'providers/AppProvider';
 import BreakpointsProvider from 'providers/BreakpointsProvider';
 import SettingsPanelProvider from 'providers/SettingsPanelProvider';
 import ChatWidgetProvider from 'providers/ChatWidgetProvider';
 import { AuthProvider } from 'context/AuthProvider'; // Import AuthProvider
-import { router } from 'Routes';
+import { appRoutes } from './routes/appRoutes'; // Centralized routes
 
 const roles = ['admin', 'manager']; // Example roles (fetch or manage dynamically after login)
+
+// Create the router using the centralized appRoutes
+const router = createBrowserRouter(appRoutes);
 
 const root = ReactDOM.createRoot(
   document.getElementById('root') as HTMLElement
@@ -19,11 +20,21 @@ const root = ReactDOM.createRoot(
 root.render(
   <React.StrictMode>
     <AppProvider>
+      {' '}
+      {/* Global App Context */}
       <SettingsPanelProvider>
+        {' '}
+        {/* Settings Panel Context */}
         <ChatWidgetProvider>
+          {' '}
+          {/* Chat Widget Context */}
           <BreakpointsProvider>
+            {' '}
+            {/* Breakpoints (e.g., responsive design) Context */}
             <AuthProvider roles={roles}>
-              <RouterProvider router={router} />
+              {' '}
+              {/* Authentication Context */}
+              <RouterProvider router={router} /> {/* React Router */}
             </AuthProvider>
           </BreakpointsProvider>
         </ChatWidgetProvider>

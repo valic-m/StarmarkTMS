@@ -1,3 +1,5 @@
+import { useEffect, useState } from 'react';
+import { format } from 'date-fns'; // Add date-fns for formatting
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import Button from 'components/base/Button';
 import PageBreadcrumb from 'components/common/PageBreadcrumb';
@@ -6,13 +8,61 @@ import useAdvanceTable from 'hooks/useAdvanceTable';
 import AdvanceTableProvider from 'providers/AdvanceTableProvider';
 import { ChangeEvent } from 'react';
 import { Col, Row } from 'react-bootstrap';
-import { memberBreadcrumbItems, members } from 'data/members';
+import { memberBreadcrumbItems } from 'data/members';
 import MembersTable, {
   membersTablecolumns
 } from 'components/tables/MembersTable';
 import { faFileExport, faPlus } from '@fortawesome/free-solid-svg-icons';
+import api from 'api'; // Import the API utility
+
+// Define the Member type
+type Member = {
+  id: number;
+  avatar?: string;
+  name: string;
+  email: string;
+  city: string;
+  mobile: string;
+  lastActive: string;
+  joined: string;
+};
+
+const formatDate = (dateString: string | null): string => {
+  if (!dateString) return 'N/A';
+  const date = new Date(dateString);
+  return format(date, 'MMM dd, yyyy HH:mm'); // Example: Dec 12, 2024 14:48
+};
 
 const Members = () => {
+  const [members, setMembers] = useState<Member[]>([]);
+  const [isLoading, setIsLoading] = useState(true);
+
+  // Fetch users from the backend
+  useEffect(() => {
+    const fetchMembers = async () => {
+      try {
+        const response = await api('/api/users/');
+        const transformedMembers = response.map((user: any) => ({
+          id: user.id,
+          avatar: null, // Add avatar logic later if needed
+          name: `${user.first_name} ${user.last_name}`,
+          email: user.email,
+          city: user.city || 'N/A',
+          mobile: user.mobile || 'N/A',
+          lastActive: formatDate(user.last_login), // Format last login
+          joined: formatDate(user.date_joined) // Format date joined
+        }));
+        setMembers(transformedMembers);
+      } catch (error) {
+        console.error('Failed to fetch members:', error);
+      } finally {
+        setIsLoading(false);
+      }
+    };
+
+    fetchMembers();
+  }, []);
+
   const table = useAdvanceTable({
     data: members,
     columns: membersTablecolumns,
@@ -59,7 +109,7 @@ const Members = () => {
           </div>
 
           <div className="mx-n4 px-4 mx-lg-n6 px-lg-6 bg-body-emphasis border-top border-bottom border-translucent position-relative top-1">
-            <MembersTable />
+            {isLoading ? <p>Loading...</p> : <MembersTable />}
           </div>
         </AdvanceTableProvider>
       </div>

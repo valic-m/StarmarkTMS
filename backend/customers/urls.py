@@ -7,17 +7,15 @@ from .views import (
     get_fmcsa_data            # API for FMCSA data
 )
 
-# Namespace for app-specific URLs
 app_name = 'customers'
 
-# URL patterns
 urlpatterns = [
     # API Endpoints for Customer Management
-    path('api/customers/', CustomerListCreate.as_view(), name='customer_list_create'),  # List & create customers
-    path('api/customers/create/', CustomerCreateView.as_view(), name='create_customer'),  # Create a new customer (API)
-    path('api/customers/<slug:slug>/', CustomerDetailView.as_view(), name='customer_detail'),  # Retrieve customer details by slug
-    path('api/customers/admin/<slug:slug>/', AdminCustomerView.as_view(), name='admin_customer'),  # Admin-only view for a customer
+    path('', CustomerListCreate.as_view(), name='customer_list_create'),  # List & create customers
+    path('create/', CustomerCreateView.as_view(), name='create_customer'),  # Create a new customer
+    path('<slug:slug>/', CustomerDetailView.as_view(), name='customer_detail'),  # Retrieve customer details by slug
+    path('admin/<slug:slug>/', AdminCustomerView.as_view(), name='admin_customer'),  # Admin-only view for a customer
 
     # FMCSA Data API
-    path('api/fmcsa/', get_fmcsa_data, name='get_fmcsa_data'),  # Fetch FMCSA data for a customer
+    path('fmcsa/', get_fmcsa_data, name='get_fmcsa_data'),  # Fetch FMCSA data for a customer
 ]
