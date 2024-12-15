@@ -13,6 +13,7 @@ const TMSCustomerOrdersTable: React.FC<TMSCustomerOrdersTableProps> = ({
       <thead>
         <tr>
           <th>Order ID</th>
+          <th>Trip No</th>
           <th>Date</th>
           <th>Amount</th>
           <th>Status</th>

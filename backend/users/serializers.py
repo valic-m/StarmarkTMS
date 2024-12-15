@@ -1,44 +1,39 @@
 from rest_framework import serializers
 from django.contrib.auth import get_user_model
+from django.utils.timezone import localtime
+
 CustomUser = get_user_model()
 
 class CustomUserSerializer(serializers.ModelSerializer):
-    email = serializers.EmailField(required=True)  # Ensures email is valid
-    username = serializers.CharField(required=True)  # Ensures username is required
+    # Add SerializerMethodField for formatted dates
+    date_joined_formatted = serializers.SerializerMethodField()
+    last_login_formatted = serializers.SerializerMethodField()
 
     class Meta:
         model = CustomUser
         fields = [
             'id',
-            'username',
-            'email',
             'first_name',
             'last_name',
+            'email',
+            'role',
             'is_active',
-            'date_joined',
+            'is_staff',
             'last_login',
-        ]  # List the specific fields for clarity
-        read_only_fields = ['date_joined', 'last_login']  # Make read-only fields explicit
+            'date_joined',
+            'last_login_formatted',  # Include formatted last login
+            'date_joined_formatted',  # Include formatted date joined
+        ]
+        read_only_fields = ['date_joined', 'last_login']
 
-    def validate_email(self, value):
+    def get_date_joined_formatted(self, obj):
         """
-        Check that the email is valid and not already in use.
+        Return the date_joined in a more readable format.
         """
-        if CustomUser.objects.filter(email=value).exists():
-            raise serializers.ValidationError("This email is already in use.")
-        return value
+        return localtime(obj.date_joined).strftime('%b %d, %Y %H:%M') if obj.date_joined else None
 
-    def create(self, validated_data):
+    def get_last_login_formatted(self, obj):
         """
-        Custom creation logic if needed.
+        Return the last_login in a more readable format, or None if not available.
         """
-        return CustomUser.objects.create_user(**validated_data)
-
-    def update(self, instance, validated_data):
-        """
-        Custom update logic if needed.
-        """
-        for attr, value in validated_data.items():
-            setattr(instance, attr, value)
-        instance.save()
-        return instance
+        return localtime(obj.last_login).strftime('%b %d, %Y %H:%M') if obj.last_login else None

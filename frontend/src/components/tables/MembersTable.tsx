@@ -3,8 +3,20 @@ import AdvanceTable from 'components/base/AdvanceTable';
 import { Link } from 'react-router-dom';
 import AdvanceTableFooter from 'components/base/AdvanceTableFooter';
 import Avatar from 'components/base/Avatar';
-import { Member } from 'data/members';
 
+// Define the Member type
+type Member = {
+  id: number;
+  avatar?: string;
+  name: string;
+  email: string;
+  city: string;
+  mobile: string;
+  lastActive: string;
+  joined: string;
+};
+
+// Define all the columns for the table
 export const membersTablecolumns: ColumnDef<Member>[] = [
   {
     accessorKey: 'name',
@@ -12,7 +24,7 @@ export const membersTablecolumns: ColumnDef<Member>[] = [
     cell: ({ row: { original } }) => {
       const { name, avatar } = original;
       return (
-        <Link to="#!" className=" d-flex align-items-center text-body">
+        <Link to="#!" className="d-flex align-items-center text-body">
           <Avatar src={avatar} size="m" />
           <p className="mb-0 ms-3 text-body-emphasis fw-semibold">{name}</p>
         </Link>
