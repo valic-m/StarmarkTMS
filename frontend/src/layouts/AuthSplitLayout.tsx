@@ -33,8 +33,8 @@ const AuthSplitLayout = ({
                   className="d-inline-block text-decoration-none mb-4"
                 >
                   <Logo
-                    text={false}
-                    width={58}
+                    text={true}
+                    width={100}
                     className="fw-bolder fs-5 d-inline-block"
                   />
                 </Link>

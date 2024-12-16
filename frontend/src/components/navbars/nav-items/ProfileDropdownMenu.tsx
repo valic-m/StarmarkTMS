@@ -3,10 +3,10 @@ import { useState } from 'react';
 import { Card, Dropdown, Form, Nav } from 'react-bootstrap';
 import avatar from 'assets/img/team/72x72/57.webp';
 import FeatherIcon from 'feather-icons-react';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import Scrollbar from 'components/base/Scrollbar';
 import classNames from 'classnames';
-
+import { logout } from 'api/auth';
 const ProfileDropdownMenu = ({ className }: { className?: string }) => {
   const [navItems] = useState([
     {
@@ -34,6 +34,15 @@ const ProfileDropdownMenu = ({ className }: { className?: string }) => {
       icon: 'globe'
     }
   ]);
+
+  const navigate = useNavigate(); // Hook for navigation
+
+  // Handle sign-out logic
+  const handleSignOut = () => {
+    logout(); // Clear auth token and user data
+    navigate('/auth/sign-out'); // Redirect to SignOut page
+  };
+
   return (
     <Dropdown.Menu
       align="end"
@@ -46,7 +55,7 @@ const ProfileDropdownMenu = ({ className }: { className?: string }) => {
         <Card.Body className="p-0">
           <div className="d-flex flex-column align-items-center justify-content-center gap-2 pt-4 pb-3">
             <Avatar src={avatar} size="xl" />
-            <h6 className="text-body-emphasis">Jerry Seinfield</h6>
+            <h6 className="text-body-emphasis">Val</h6>
           </div>
           <div className="mb-3 mx-3">
             <Form.Control
@@ -89,13 +98,13 @@ const ProfileDropdownMenu = ({ className }: { className?: string }) => {
           </Nav>
           <hr />
           <div className="px-3">
-            <Link
-              to="#!"
+            <button
               className="btn btn-phoenix-secondary d-flex flex-center w-100"
+              onClick={handleSignOut} // Trigger logout on click
             >
               <FeatherIcon icon="log-out" className="me-2" size={16} />
               Sign out
-            </Link>
+            </button>
           </div>
           <div className="my-2 text-center fw-bold fs-10 text-body-quaternary">
             <Link className="text-body-quaternary me-1" to="#!">
