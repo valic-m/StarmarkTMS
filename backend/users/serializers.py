@@ -5,6 +5,9 @@ from django.utils.timezone import localtime
 CustomUser = get_user_model()
 
 class CustomUserSerializer(serializers.ModelSerializer):
+    """
+    Serializer for the CustomUser model with additional formatted fields.
+    """
     # Add SerializerMethodField for formatted dates
     date_joined_formatted = serializers.SerializerMethodField()
     last_login_formatted = serializers.SerializerMethodField()
@@ -18,22 +21,30 @@ class CustomUserSerializer(serializers.ModelSerializer):
             'email',
             'role',
             'is_active',
-            'is_staff',
+            'is_staff',  # Include staff status
             'last_login',
             'date_joined',
             'last_login_formatted',  # Include formatted last login
             'date_joined_formatted',  # Include formatted date joined
         ]
-        read_only_fields = ['date_joined', 'last_login']
+        read_only_fields = ['date_joined', 'last_login']  # Make date fields read-only
 
     def get_date_joined_formatted(self, obj):
         """
         Return the date_joined in a more readable format.
         """
-        return localtime(obj.date_joined).strftime('%b %d, %Y %H:%M') if obj.date_joined else None
+        return (
+            localtime(obj.date_joined).strftime('%b %d, %Y %H:%M')
+            if obj.date_joined
+            else None
+        )
 
     def get_last_login_formatted(self, obj):
         """
         Return the last_login in a more readable format, or None if not available.
         """
-        return localtime(obj.last_login).strftime('%b %d, %Y %H:%M') if obj.last_login else None
+        return (
+            localtime(obj.last_login).strftime('%b %d, %Y %H:%M')
+            if obj.last_login
+            else None
+        )

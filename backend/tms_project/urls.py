@@ -46,4 +46,7 @@ urlpatterns = [
 
     # Samsara-related routes
     path('samsara/', include('samsara.urls')),
+
+    # OpenAI routes
+    path('api/openai/', include('openai_app.urls')),  # Include OpenAI API routes
 ]

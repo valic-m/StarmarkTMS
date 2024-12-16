@@ -81,8 +81,12 @@ SIMPLE_JWT = {
 }
 
 # CORS configuration
-CORS_ALLOWED_ORIGINS = config("CORS_ALLOWED_ORIGINS", default="http://localhost:3000").split(",")
-CORS_ALLOW_CREDENTIALS = True  # Allows credentials like cookies to be sent with cross-origin requests
+CORS_ALLOWED_ORIGINS = [
+    "http://localhost:3000",  # React default development server
+    "http://127.0.0.1:3000", # Alternate localhost IP
+]
+CORS_ALLOW_CREDENTIALS = True
+
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',

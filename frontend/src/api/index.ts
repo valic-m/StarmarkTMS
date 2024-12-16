@@ -1,5 +1,14 @@
-const baseUrl = process.env.REACT_APP_API_URL || 'http://localhost:8000';
+const baseUrl = process.env.REACT_APP_API_URL || 'http://127.0.0.1:8000';
 
+// Debug log to confirm correct value of baseUrl
+console.log('Exporting baseUrl:', baseUrl);
+
+/**
+ * Centralized API function for making HTTP requests.
+ * @param url - The relative API endpoint.
+ * @param options - Configuration for the request (method, body, headers).
+ * @returns The JSON response from the API.
+ */
 interface ApiOptions {
   method?: 'GET' | 'POST' | 'PUT' | 'DELETE'; // Allowable HTTP methods
   body?: Record<string, unknown> | string; // Allow JSON object or raw string
@@ -28,6 +37,14 @@ const api = async (url: string, options: ApiOptions = {}) => {
   }
 
   try {
+    // Debug log the full API request details
+    console.log('Making API request:', {
+      url: `${baseUrl}${url}`,
+      method: config.method,
+      headers: config.headers,
+      body: config.body
+    });
+
     // Make the API request
     const response = await fetch(`${baseUrl}${url}`, config);
 
@@ -38,14 +55,20 @@ const api = async (url: string, options: ApiOptions = {}) => {
     }
 
     // Return the parsed JSON response
-    return await response.json();
+    const data = await response.json();
+    console.log('API response:', data); // Debug log the API response
+    return data;
   } catch (error) {
     // Enhance error reporting for network issues or other unexpected issues
     if (error instanceof TypeError) {
+      console.error('Network error or invalid response:', error.message);
       throw new Error(`Network error or invalid response: ${error.message}`);
     }
+    console.error('Unexpected error during API request:', error);
     throw error; // Re-throw for further handling in calling code
   }
 };
 
+// Export `baseUrl` and `api` for use in other modules
 export default api;
+export { baseUrl };
