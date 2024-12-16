@@ -8,7 +8,6 @@ import {
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import Avatar from 'components/base/Avatar';
 import Badge, { BadgeBg } from 'components/base/Badge';
-import { KanbanBoardItem, KanbanBoardTask } from 'data/kanban';
 import { Card, Dropdown } from 'react-bootstrap';
 import KanbanTaskDetailsModal from './KanbanTaskDetailsModal';
 import { Fragment, useState } from 'react';

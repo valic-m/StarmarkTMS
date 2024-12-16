@@ -1,4 +1,3 @@
-import { KanbanBoardItem, kanbanItems } from 'data/kanban';
 import React, {
   Dispatch,
   PropsWithChildren,

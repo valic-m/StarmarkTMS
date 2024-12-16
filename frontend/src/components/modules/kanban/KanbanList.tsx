@@ -1,6 +1,5 @@
 import classNames from 'classnames';
 import Button from 'components/base/Button';
-import { KanbanBoardItem } from 'data/kanban';
 import React, { useState } from 'react';
 import KanbanListItemCard from './KanbanListItemCard';
 import { Form } from 'react-bootstrap';

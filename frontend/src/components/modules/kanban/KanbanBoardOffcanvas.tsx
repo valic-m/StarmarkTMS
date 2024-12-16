@@ -8,7 +8,6 @@ import classNames from 'classnames';
 import Button from 'components/base/Button';
 import PhoenixOffcanvas from 'components/base/PhoenixOffcanvas';
 import AvatarDropdown from 'components/common/AvatarDropdown';
-import { kanbanBoardMembers } from 'data/kanban';
 import { useKanbanContext } from 'providers/KanbanProvider';
 import { Offcanvas } from 'react-bootstrap';
 import { Link } from 'react-router-dom';

@@ -9,7 +9,6 @@ import {
   UilLeftArrowToLeft
 } from '@iconscout/react-unicons';
 import Button from 'components/base/Button';
-import { KanbanBoardItem } from 'data/kanban';
 import { Dropdown } from 'react-bootstrap';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faAngleRight, faEllipsisH } from '@fortawesome/free-solid-svg-icons';

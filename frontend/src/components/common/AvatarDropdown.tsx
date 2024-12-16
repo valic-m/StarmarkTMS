@@ -4,7 +4,6 @@ import Avatar, { Size } from 'components/base/Avatar';
 import Button from 'components/base/Button';
 import FeatherIcon from 'feather-icons-react';
 import { Dropdown, Nav } from 'react-bootstrap';
-import { Member } from 'data/users';
 import {
   faChevronRight,
   faCircle,

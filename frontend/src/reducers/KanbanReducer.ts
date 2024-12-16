@@ -1,4 +1,3 @@
-import { KanbanBoardItem } from 'data/kanban';
 import { KanbanState } from 'providers/KanbanProvider';
 import { DraggableLocation } from 'react-beautiful-dnd';
 

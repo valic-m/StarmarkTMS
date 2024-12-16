@@ -14,7 +14,6 @@ import {
   kanbanActions,
   kanbanActivities,
   kanbanAttachments
-} from 'data/kanban';
 import { Col, Modal, Row } from 'react-bootstrap';
 import KanbanAttachment from './KanbanAttachment';
 import { faClock } from '@fortawesome/free-regular-svg-icons';

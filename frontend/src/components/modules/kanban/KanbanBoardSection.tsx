@@ -1,5 +1,4 @@
 import KanbanBoardCard from 'components/modules/kanban/KanbanBoardCard';
-import { KanbanBoard } from 'data/kanban';
 import { Link } from 'react-router-dom';
 import { SwiperSlide } from 'swiper/react';
 import Swiper from 'components/base/Swiper';

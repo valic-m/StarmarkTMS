@@ -121,7 +121,7 @@ import AdvanceSelectExample from 'pages/modules/forms/advance/AdvanceSelectExamp
 import DatePickerExample from 'pages/modules/forms/advance/DatePickerExample';
 import ECharts from 'pages/modules/charts/ECharts';
 import GanttChart from 'pages/modules/charts/GanttChart';
-import Members from 'pages/Members';
+import Members from 'pages/pages/Users/Users';
 import DualNav from 'pages/pages/layouts/DualNav';
 import LeadDetails from 'pages/apps/crm/LeadDetails';
 import Analytics from 'pages/apps/crm/Analytics';

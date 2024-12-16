@@ -13,7 +13,6 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import Avatar from 'components/base/Avatar';
 import Button from 'components/base/Button';
 import AvatarDropdown from 'components/common/AvatarDropdown';
-import { kanbanBoardMembers } from 'data/kanban';
 import { Col, Dropdown, Nav, Row } from 'react-bootstrap';
 import { useKanbanContext } from 'providers/KanbanProvider';
 import { useState } from 'react';

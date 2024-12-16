@@ -5,7 +5,6 @@ import {
 } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import Avatar from 'components/base/Avatar';
-import { KanbanBoard } from 'data/kanban';
 import { Card } from 'react-bootstrap';
 import { Link } from 'react-router-dom';
 
