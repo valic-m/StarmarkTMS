@@ -75,10 +75,7 @@ import Orders from 'pages/apps/e-commerce/admin/Orders';
 import Refund from 'pages/apps/e-commerce/admin/Refund';
 import CreateNew from 'pages/apps/project-management/CreateNew';
 import ProjectListView from 'pages/apps/project-management/ProjectListView';
-import ProjectDetails from 'pages/apps/project-management/ProjectDetails';
 import ProjectTodoList from 'pages/apps/project-management/ProjectTodoList';
-import ProjectBoardView from 'pages/apps/project-management/ProjectBoardView';
-import ProjectCardView from 'pages/apps/project-management/ProjectCardView';
 import Chat from 'pages/apps/chat/Chat';
 import ChatHomepage from 'pages/apps/chat/ChatHomepage';
 import ChatConversation from 'pages/apps/chat/ChatConversation';
@@ -121,7 +118,7 @@ import AdvanceSelectExample from 'pages/modules/forms/advance/AdvanceSelectExamp
 import DatePickerExample from 'pages/modules/forms/advance/DatePickerExample';
 import ECharts from 'pages/modules/charts/ECharts';
 import GanttChart from 'pages/modules/charts/GanttChart';
-import Members from 'pages/pages/Users/Users';
+import Users from 'pages//Users/Users';
 import DualNav from 'pages/pages/layouts/DualNav';
 import LeadDetails from 'pages/apps/crm/LeadDetails';
 import Analytics from 'pages/apps/crm/Analytics';
@@ -243,22 +240,6 @@ export const themeRoutes: RouteObject[] = [
           {
             path: 'project-list-view',
             element: <ProjectListView />
-          },
-          {
-            path: 'project-card-view',
-            element: <ProjectCardView />
-          },
-          {
-            path: 'project-board-view',
-            element: <ProjectBoardView />
-          },
-          {
-            path: 'todo-list',
-            element: <ProjectTodoList />
-          },
-          {
-            path: 'project-details',
-            element: <ProjectDetails />
           }
         ]
       },
@@ -368,8 +349,8 @@ export const themeRoutes: RouteObject[] = [
         element: <Notification />
       },
       {
-        path: 'members',
-        element: <Members />
+        path: 'users',
+        element: <Users />
       },
       {
         path: 'timeline',

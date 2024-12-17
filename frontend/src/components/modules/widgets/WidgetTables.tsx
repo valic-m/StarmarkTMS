@@ -9,7 +9,6 @@ import { dealsReportData } from 'data/crm/reportsData';
 import { Col, Row } from 'react-bootstrap';
 import EcomTopRegions from '../e-commerce/dashboard/EcomTopRegions';
 import DealForecast from '../crm/DealForecast';
-import ProjectDashboard from '../project-management/dashboard/ProjectDashboard';
 import TodoList from '../project-management/todo-list/TodoList';
 import ProjectActivityCard from 'components/cards/ProjectActivityCard';
 import EcomLatestReviewsTable from 'components/tables/EcomLatestReviewsTable';
@@ -42,9 +41,7 @@ const WidgetTables = () => {
           <DealForecast />
         </Col>
       </Row>
-      <div className="mx-n4 px-4 mx-lg-n6 px-lg-6 bg-body-emphasis py-5 border-y">
-        <ProjectDashboard />
-      </div>
+      <div className="mx-n4 px-4 mx-lg-n6 px-lg-6 bg-body-emphasis py-5 border-y"></div>
       <div className="mt-3 mx-lg-n4">
         <Row className="g-3">
           <Col xl={6} xxl={7}>

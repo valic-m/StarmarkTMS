@@ -7,7 +7,6 @@ import TodoList from 'components/modules/project-management/todo-list/TodoList';
 import { stats } from 'data/project-management/stats';
 import Stat from 'components/modules/project-management/dashboard/Stat';
 import ProjectElevenProgress from 'components/modules/project-management/dashboard/ProjectElevenProgress';
-import ProjectDashboard from 'components/modules/project-management/dashboard/ProjectDashboard';
 import ProjectActivityCard from 'components/cards/ProjectActivityCard';
 
 const ProjectManagement = () => {
@@ -74,9 +73,7 @@ const ProjectManagement = () => {
         </Row>
       </div>
 
-      <div className="mx-n4 px-4 mx-lg-n6 px-lg-6 bg-body-emphasis pt-6 border-top">
-        <ProjectDashboard />
-      </div>
+      <div className="mx-n4 px-4 mx-lg-n6 px-lg-6 bg-body-emphasis pt-6 border-top"></div>
     </>
   );
 };

@@ -14,9 +14,10 @@ import {
   faUserPlus,
   faVideo
 } from '@fortawesome/free-solid-svg-icons';
+import type { User } from 'pages/Users/Users'; // Correctly importing the User interface
 
 interface AvatarDropdownInterface {
-  user: Member;
+  user: User; // Use the User interface
   size: Size;
 }
 
@@ -40,7 +41,6 @@ const AvatarDropdown = ({ user, size }: AvatarDropdownInterface) => {
               backgroundSize: 'auto'
             }}
           />
-          {/*/.bg-holder*/}
           <div className="p-3">
             <div className="text-end">
               <button className="btn p-0 me-2">
@@ -129,7 +129,7 @@ const AvatarDropdown = ({ user, size }: AvatarDropdownInterface) => {
                 size={16}
                 className="me-2 text-body d-inline-block"
               />
-              <span className="text-body-highlight flex-1">View activiy</span>
+              <span className="text-body-highlight flex-1">View activity</span>
               <FontAwesomeIcon icon={faChevronRight} className="fs-11" />
             </Nav.Link>
           </Nav>

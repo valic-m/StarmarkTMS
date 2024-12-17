@@ -5,7 +5,6 @@ import Footer from 'components/modules/landing/default/Footer';
 import FunFacts from 'components/modules/landing/default/fun-facts/FunFacts';
 import Gallery from 'components/modules/landing/default/Gallery';
 import HeroHeader from 'pages/apps/travel-agency/landing/HeroHeader';
-import TeamSection from 'components/modules/landing/default/team/TeamSection';
 import Testimonial from 'components/modules/landing/default/testimonial/Testimonial';
 import DefaultLandingNavbar from 'components/navbars/default-landing-navbar/DefaultLandingNavbar';
 import useSettingsMountEffect from 'hooks/useSettingsMountEffect';
@@ -28,7 +27,6 @@ const Default = () => {
       <FunFacts />
       <Gallery />
       <AddressSection />
-      <TeamSection />
       <Footer />
     </div>
   );

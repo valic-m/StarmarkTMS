@@ -4,7 +4,8 @@ import {
   Icon,
   UilChartPie,
   UilCube,
-  UilFilesLandscapesAlt
+  UilFilesLandscapesAlt,
+  UilUsersAlt
 } from '@iconscout/react-unicons';
 
 export interface Route {
@@ -36,156 +37,23 @@ export interface RouteItems {
 export const routes: RouteItems[] = [
   {
     label: 'dashboard',
-    horizontalNavLabel: 'home',
+    horizontalNavLabel: 'Dashboard',
     active: true,
     icon: UilChartPie,
     labelDisabled: true,
     pages: [
       {
-        name: 'operations management',
-        icon: 'clipboard', // Replace with a compatible string if using FontAwesome
-        pages: [
-          {
-            name: 'load',
-            active: true,
-            pages: [
-              {
-                name: 'create new load',
-                path: '/operations-management/load/create-new-load',
-                pathName: 'operations-create-new-load',
-                active: true
-              },
-              {
-                name: 'load list',
-                path: '/operations-management/load/load-list',
-                pathName: 'operations-load-list',
-                active: true
-              },
-              {
-                name: 'available loads',
-                path: '/operations-management/load/available-loads',
-                pathName: 'operations-available-loads',
-                active: true
-              },
-              {
-                name: 'dispatched loads',
-                path: '/operations-management/load/dispatched-loads',
-                pathName: 'operations-dispatched-loads',
-                active: true
-              },
-              {
-                name: 'delivered loads',
-                path: '/operations-management/load/delivered-loads',
-                pathName: 'operations-delivered-loads',
-                active: true
-              }
-            ]
-          },
-          {
-            name: 'dispatch',
-            active: true,
-            pages: [
-              {
-                name: 'create dispatch',
-                path: '/operations-management/dispatch/create-dispatch',
-                pathName: 'operations-create-dispatch',
-                active: true
-              },
-              {
-                name: 'active trips',
-                path: '/operations-management/dispatch/active-trips',
-                pathName: 'operations-active-trips',
-                active: true
-              },
-              {
-                name: 'dispatch history',
-                path: '/operations-management/dispatch/dispatch-history',
-                pathName: 'operations-dispatch-history',
-                active: true
-              }
-            ]
-          }
-        ]
-      },
-      {
-        name: 'client management',
-        icon: 'users',
-        pages: [
-          {
-            name: 'customers',
-            active: true,
-            pages: [
-              {
-                name: 'add customer',
-                path: '/client-management/customers/add',
-                pathName: 'client-management-add-customer',
-                active: true
-              },
-              {
-                name: 'customer list',
-                path: '/client-management/customers/list',
-                pathName: 'client-management-customer-list',
-                active: true
-              }
-            ]
-          },
-          {
-            name: 'shippers & receivers',
-            active: true,
-            pages: [
-              {
-                name: 'add shipper/receiver',
-                path: '/client-management/shippers-receivers/add',
-                pathName: 'client-management-add-shipper-receiver',
-                active: true
-              },
-              {
-                name: 'shipper/receiver list',
-                path: '/client-management/shippers-receivers/list',
-                pathName: 'client-management-shipper-receiver-list',
-                active: true
-              }
-            ]
-          },
-          {
-            name: 'cross-dock',
-            active: true,
-            pages: [
-              {
-                name: 'add cross-dock',
-                path: '/client-management/cross-dock/add',
-                pathName: 'client-management-add-cross-dock',
-                active: true
-              },
-              {
-                name: 'cross-dock list',
-                path: '/client-management/cross-dock/list',
-                pathName: 'client-management-cross-dock-list',
-                active: true
-              }
-            ]
-          }
-        ]
-      },
-      {
-        name: 'home',
+        name: 'Dashboard',
         icon: 'pie-chart',
         active: true,
         flat: true,
         hasNew: true,
         pages: [
           {
-            name: 'Dispatch Dashboard',
+            name: 'Dispatch',
             path: '/',
             pathName: 'default-dashboard',
             topNavIcon: 'shopping-cart',
-            active: true
-          },
-          {
-            name: 'project-management',
-            path: '/dashboard/project-management',
-            pathName: 'project-management-dashbaord',
-            topNavIcon: 'clipboard',
             active: true
           },
           {
@@ -199,6 +67,138 @@ export const routes: RouteItems[] = [
       }
     ]
   },
+  {
+    label: 'Dispatch',
+    icon: UilCube,
+    pages: [
+      {
+        name: 'loads',
+        icon: 'truck', // Replace with an appropriate icon for "load"
+        active: true,
+        pages: [
+          {
+            name: 'create new load',
+            path: '/operations-management/load/create-new-load',
+            pathName: 'operations-create-new-load',
+            active: true
+          },
+          {
+            name: 'load list',
+            path: '/operations-management/load/load-list',
+            pathName: 'operations-load-list',
+            active: true
+          },
+          {
+            name: 'available loads',
+            path: '/operations-management/load/available-loads',
+            pathName: 'operations-available-loads',
+            active: true
+          },
+          {
+            name: 'dispatched loads',
+            path: '/operations-management/load/dispatched-loads',
+            pathName: 'operations-dispatched-loads',
+            active: true
+          },
+          {
+            name: 'delivered loads',
+            path: '/operations-management/load/delivered-loads',
+            pathName: 'operations-delivered-loads',
+            active: true
+          }
+        ]
+      },
+      {
+        name: 'dispatch',
+        icon: 'navigation', // Replace with an appropriate icon for "dispatch"
+        active: true,
+        pages: [
+          {
+            name: 'create dispatch',
+            path: '/operations-management/dispatch/create-dispatch',
+            pathName: 'operations-create-dispatch',
+            active: true
+          },
+          {
+            name: 'active trips',
+            path: '/operations-management/dispatch/active-trips',
+            pathName: 'operations-active-trips',
+            active: true
+          },
+          {
+            name: 'dispatch history',
+            path: '/operations-management/dispatch/dispatch-history',
+            pathName: 'operations-dispatch-history',
+            active: true
+          }
+        ]
+      }
+    ]
+  },
+  {
+    label: 'Client Management',
+    icon: UilUsersAlt, // Replace with a compatible icon or import a specific one
+    pages: [
+      {
+        name: 'customers',
+        icon: 'users', // Replace with an appropriate icon
+        active: true,
+        pages: [
+          {
+            name: 'add customer',
+            path: '/client-management/customers/add',
+            pathName: 'client-management-add-customer',
+            active: true
+          },
+          {
+            name: 'customer list',
+            path: '/client-management/customers/list',
+            pathName: 'client-management-customer-list',
+            active: true
+          }
+        ]
+      },
+      {
+        name: 'shippers & receivers',
+        icon: 'truck', // Replace with an appropriate icon
+        active: true,
+        pages: [
+          {
+            name: 'add shipper/receiver',
+            path: '/client-management/shippers-receivers/add',
+            pathName: 'client-management-add-shipper-receiver',
+            active: true
+          },
+          {
+            name: 'shipper/receiver list',
+            path: '/client-management/shippers-receivers/list',
+            pathName: 'client-management-shipper-receiver-list',
+            active: true
+          }
+        ]
+      },
+      {
+        name: 'cross-dock',
+        icon: 'box',
+        active: true,
+        pages: [
+          {
+            name: 'add cross-dock',
+            path: '/client-management/cross-dock/add',
+            pathName: 'client-management-add-cross-dock',
+            active: true
+          },
+          {
+            name: 'cross-dock list',
+            path: '/client-management/cross-dock/list',
+            pathName: 'client-management-cross-dock-list',
+            active: true
+          }
+        ]
+      }
+    ]
+  },
+
   {
     label: 'apps',
     icon: UilCube,
@@ -257,148 +257,6 @@ export const routes: RouteItems[] = [
             path: '/apps/crm/add-contact',
             pathName: 'crm-add-contact',
             active: true
-          }
-        ]
-      },
-      {
-        name: 'project-management',
-        icon: 'clipboard',
-        active: true,
-        pages: [
-          {
-            name: 'create new',
-            path: '/apps/project-management/create-new',
-            pathName: 'project-management-create-new',
-            active: true
-          },
-          {
-            name: 'project-list-view',
-            path: '/apps/project-management/project-list-view',
-            pathName: 'project-management-project-list-view',
-            active: true
-          },
-          {
-            name: 'project-card-view',
-            path: '/apps/project-management/project-card-view',
-            pathName: 'project-management-project-card-view',
-            active: true
-          },
-          {
-            name: 'project-board-view',
-            path: '/apps/project-management/project-board-view',
-            pathName: 'project-management-project-board-view',
-            active: true
-          },
-          {
-            name: 'todo-list',
-            path: '/apps/project-management/todo-list',
-            pathName: 'project-management-todo-list',
-            active: true
-          },
-          {
-            name: 'project-details',
-            path: '/apps/project-management/project-details',
-            pathName: 'project-management-project-details',
-            active: true
-          }
-        ]
-      },
-      {
-        name: 'travel-agency',
-        hasNew: true,
-        icon: 'clipboard',
-        active: true,
-        pages: [
-          {
-            name: 'landing',
-            path: '/apps/travel-agency/landing',
-            pathName: 'travel-agency-landing',
-            active: true
-          },
-          {
-            name: 'hotel',
-            active: true,
-            new: true,
-            pages: [
-              {
-                name: 'admin',
-                active: true,
-                pages: [
-                  {
-                    name: 'add-property',
-                    path: '/apps/travel-agency/hotel/admin/add-property',
-                    pathName: 'travel-agency-add-property',
-                    active: true
-                  },
-                  {
-                    name: 'add-room',
-                    path: 'apps/travel-agency/hotel/admin/add-room',
-                    pathName: 'travel-agency-add-room',
-                    active: true
-                  },
-                  {
-                    name: 'room-listing',
-                    path: 'apps/travel-agency/hotel/admin/room-listing',
-                    pathName: 'travel-agency-room-listing',
-                    active: true
-                  },
-                  {
-                    name: 'search-room',
-                    path: 'apps/travel-agency/hotel/admin/search-room',
-                    pathName: 'travel-agency-search-room',
-                    active: true
-                  }
-                ]
-              },
-              {
-                name: 'customer',
-                active: true,
-                pages: [
-                  {
-                    name: 'homepage',
-                    path: '/apps/travel-agency/hotel/customer/homepage',
-                    pathName: 'hotel-homepage',
-                    active: true
-                  },
-                  {
-                    name: 'gallery',
-                    path: '/apps/travel-agency/hotel/customer/gallery',
-                    pathName: 'hotel-gallery',
-                    active: true
-                  },
-                  {
-                    name: 'hotel-details',
-                    path: '/pages/coming-soon',
-                    pathName: 'hotel-hotel-details',
-                    active: false
-                  },
-                  {
-                    name: 'hotel-compare',
-                    path: '/pages/coming-soon',
-                    pathName: 'hotel-hotel-compare',
-                    active: false
-                  },
-                  {
-                    name: 'checkout',
-                    path: '/pages/coming-soon',
-                    pathName: 'hotel-checkout',
-                    active: false
-                  },
-                  {
-                    name: 'payment',
-                    path: '/pages/coming-soon',
-                    pathName: 'hotel-payment',
-                    active: false
-                  }
-                ]
-              }
-            ]
-          },
-          {
-            name: 'flight',
-            next: true,
-            path: '/pages/coming-soon',
-            pathName: 'travel-agency-flight'
           }
         ]
       },
@@ -462,10 +320,10 @@ export const routes: RouteItems[] = [
         ]
       },
       {
-        name: 'members',
+        name: 'users',
         icon: 'users',
-        path: '/pages/members',
-        pathName: 'members-page',
+        path: '/pages/users',
+        pathName: 'users',
         active: true
       },
       {
