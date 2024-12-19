@@ -47,7 +47,6 @@ export const routes: RouteItems[] = [
         icon: 'pie-chart',
         active: true,
         flat: true,
-        hasNew: true,
         pages: [
           {
             name: 'Dispatch',
@@ -136,7 +135,7 @@ export const routes: RouteItems[] = [
     ]
   },
   {
-    label: 'Client Management',
+    label: 'CRM',
     icon: UilUsersAlt, // Replace with a compatible icon or import a specific one
     pages: [
       {
@@ -195,19 +194,11 @@ export const routes: RouteItems[] = [
             active: true
           }
         ]
-      }
-    ]
-  },
-
-  {
-    label: 'apps',
-    icon: UilCube,
-    pages: [
+      },
       {
         name: 'CRM',
         icon: 'phone',
         active: true,
-        hasNew: true,
         pages: [
           {
             name: 'analytics',
@@ -219,8 +210,7 @@ export const routes: RouteItems[] = [
             name: 'deals',
             path: '/apps/crm/deals',
             pathName: 'crm-deals',
-            active: true,
-            new: true
+            active: true
           },
           {
             name: 'deal-details',
@@ -259,7 +249,14 @@ export const routes: RouteItems[] = [
             active: true
           }
         ]
-      },
+      }
+    ]
+  },
+
+  {
+    label: 'apps',
+    icon: UilCube,
+    pages: [
       {
         name: 'chat',
         icon: 'message-square',
@@ -309,7 +306,6 @@ export const routes: RouteItems[] = [
         name: 'landing',
         icon: 'globe',
         active: true,
-        hasNew: true,
         pages: [
           {
             name: 'default',
