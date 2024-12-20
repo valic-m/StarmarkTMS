@@ -94,6 +94,22 @@ def receiver_detail(request, id):
         return Response(status=status.HTTP_204_NO_CONTENT)
 
 
+class LocationListCreateView(generics.ListCreateAPIView):
+    """
+    API view to list and create locations.
+    """
+    queryset = ShipperReceiverCompany.objects.all()
+    serializer_class = ShipperReceiverCompanySerializer
+
+
+class LocationRetrieveUpdateDestroyView(generics.RetrieveUpdateDestroyAPIView):
+    """
+    API view to retrieve, update, or delete a specific location.
+    """
+    queryset = ShipperReceiverCompany.objects.all()
+    serializer_class = ShipperReceiverCompanySerializer
+
+
 # Generic API View for Shipper and Receiver Listing
 class ShipperReceiverListAPIView(generics.ListAPIView):
     """
