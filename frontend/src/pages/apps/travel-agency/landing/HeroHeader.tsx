@@ -1,12 +1,5 @@
 import travelImg from 'assets/video/landingphoto.png';
 import travelVideo from 'assets/video/landingvideo.mp4';
-import { Dropdown, Form, InputGroup } from 'react-bootstrap';
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import {
-  faChevronDown,
-  faLocationDot
-} from '@fortawesome/free-solid-svg-icons';
-import { Link } from 'react-router-dom';
 import { ReactTyped } from 'react-typed';
 
 const HeroHeader = () => {

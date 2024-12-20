@@ -1,4 +1,3 @@
-import TestimonialCarousel from 'components/sliders/TestimonialCarousel';
 import React from 'react';
 import { Col, Row } from 'react-bootstrap';
 import bg12 from 'assets/img/bg/bg-12.png';
@@ -50,9 +49,7 @@ const Testimonial = () => {
                 </p>
               </div>
             </Col>
-            <Col lg={6} className="z-2">
-              <TestimonialCarousel />
-            </Col>
+            <Col lg={6} className="z-2"></Col>
           </Row>
         </div>
       </section>

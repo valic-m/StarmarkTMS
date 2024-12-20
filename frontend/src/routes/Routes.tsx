@@ -56,26 +56,8 @@ import ChangeLog from 'pages/documentation/ChangeLog';
 import NavsExample from 'pages/modules/components/NavsExample';
 import TabsExample from 'pages/modules/components/TabsExample';
 import NavbarExample from 'pages/modules/components/NavbarExample';
-import EcommerceLayout from 'layouts/EcommerceLayout';
-import Homepage from 'pages/apps/e-commerce/customer/Homepage';
-import ProductDetails from 'pages/apps/e-commerce/customer/ProductDetails';
-import Cart from 'pages/apps/e-commerce/customer/Cart';
-import Checkout from 'pages/apps/e-commerce/customer/checkout/Checkout';
-import ProductsFilter from 'pages/apps/e-commerce/customer/ProductsFilter';
-import ShippingInfo from 'pages/apps/e-commerce/customer/checkout/ShippingInfo';
-import Profile from 'pages/apps/e-commerce/customer/Profile';
-import Wishlist from 'pages/apps/e-commerce/customer/Wishlist';
-import FavoriteStores from 'pages/apps/e-commerce/customer/FavoriteStores';
-import Invoice from 'pages/apps/e-commerce/customer/Invoice';
-import OrderTracking from 'pages/apps/e-commerce/customer/OrderTracking';
-import AddProduct from 'pages/apps/e-commerce/admin/AddProduct';
-import Products from 'pages/apps/e-commerce/admin/Products';
-import Customers from 'pages/apps/e-commerce/admin/Customers';
-import Orders from 'pages/apps/e-commerce/admin/Orders';
-import Refund from 'pages/apps/e-commerce/admin/Refund';
 import CreateNew from 'pages/apps/project-management/CreateNew';
 import ProjectListView from 'pages/apps/project-management/ProjectListView';
-import ProjectTodoList from 'pages/apps/project-management/ProjectTodoList';
 import Chat from 'pages/apps/chat/Chat';
 import ChatHomepage from 'pages/apps/chat/ChatHomepage';
 import ChatConversation from 'pages/apps/chat/ChatConversation';
@@ -145,7 +127,6 @@ import Calendar from 'pages/apps/calendar/Calendar';
 import Timeline from 'pages/pages/Timeline';
 import CalendarExample from 'pages/modules/components/CalendarExample';
 import DraggableExample from 'pages/modules/components/DraggableExample';
-import Widgets from 'pages/modules/Widgets';
 import ComingSoon from 'pages/ComingSoon';
 // Updated imports in Routes.tsx
 const FontAwesomeExample = lazy(
@@ -170,28 +151,7 @@ export const themeRoutes: RouteObject[] = [
     children: [
       {
         path: 'e-commerce/admin',
-        children: [
-          {
-            path: 'add-product',
-            element: <AddProduct />
-          },
-          {
-            path: 'products',
-            element: <Products />
-          },
-          {
-            path: 'customers',
-            element: <Customers />
-          },
-          {
-            path: 'orders',
-            element: <Orders />
-          },
-          {
-            path: 'refund',
-            element: <Refund />
-          }
-        ]
+        children: []
       },
       {
         path: 'crm',
@@ -775,61 +735,6 @@ export const themeRoutes: RouteObject[] = [
   {
     path: 'migrations',
     element: <Migrations />
-  },
-  {
-    path: 'widgets',
-    element: <Widgets />
-  },
-
-  {
-    element: <EcommerceLayout />,
-    path: '/apps/e-commerce/customer/',
-    children: [
-      {
-        path: 'homepage',
-        element: <Homepage />
-      },
-      {
-        path: 'product-details',
-        element: <ProductDetails />
-      },
-      {
-        path: 'cart',
-        element: <Cart />
-      },
-      {
-        path: 'checkout',
-        element: <Checkout />
-      },
-      {
-        path: 'shipping-info',
-        element: <ShippingInfo />
-      },
-      {
-        path: 'profile',
-        element: <Profile />
-      },
-      {
-        path: 'products-filter',
-        element: <ProductsFilter />
-      },
-      {
-        path: 'wishlist',
-        element: <Wishlist />
-      },
-      {
-        path: 'favorite-stores',
-        element: <FavoriteStores />
-      },
-      {
-        path: 'order-tracking',
-        element: <OrderTracking />
-      },
-      {
-        path: 'invoice',
-        element: <Invoice />
-      }
-    ]
   },
   {
     path: '/pages/errors/',
