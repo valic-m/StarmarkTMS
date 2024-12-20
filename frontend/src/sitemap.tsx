@@ -1,5 +1,4 @@
 import { IconProp } from '@fortawesome/fontawesome-svg-core';
-import { faGear } from '@fortawesome/free-solid-svg-icons';
 import {
   Icon,
   UilChartPie,
@@ -383,14 +382,6 @@ export const routes: RouteItems[] = [
             ]
           }
         ]
-      },
-      {
-        name: 'Settings',
-        icon: faGear,
-        iconSet: 'font-awesome', // Explicitly state the icon set
-        path: '/settings',
-        pathName: 'settings-panel',
-        active: true
       }
     ]
   }

@@ -1,39 +1,14 @@
 import { useState } from 'react';
 import { Card, Col, Dropdown, Row } from 'react-bootstrap';
 import { Link } from 'react-router-dom';
-import behance from 'assets/img/nav-icons/behance.webp';
-import googleCloud from 'assets/img/nav-icons/google-cloud.webp';
-import slack from 'assets/img/nav-icons/slack.webp';
-import gitlab from 'assets/img/nav-icons/gitlab.webp';
-import bitbucket from 'assets/img/nav-icons/bitbucket.webp';
-import googleDrive from 'assets/img/nav-icons/google-drive.webp';
-import trello from 'assets/img/nav-icons/trello.webp';
-import figma from 'assets/img/nav-icons/figma.webp';
-import twitter from 'assets/img/nav-icons/twitter.webp';
-import pinterest from 'assets/img/nav-icons/pinterest.webp';
-import ln from 'assets/img/nav-icons/ln.webp';
-import googleMaps from 'assets/img/nav-icons/google-maps.webp';
-import googlePhotos from 'assets/img/nav-icons/google-photos.webp';
-import spotify from 'assets/img/nav-icons/spotify.webp';
+import settingsIcon from 'assets/img/nav-icons/settings.webp';
 import Scrollbar from 'components/base/Scrollbar';
 
 const NineDotMenu = () => {
   const [items] = useState([
-    { img: behance, title: 'Behance' },
-    { img: googleCloud, title: 'Cloud' },
-    { img: slack, title: 'Slack' },
-    { img: gitlab, title: 'Gitlab' },
-    { img: bitbucket, title: 'BitBucket' },
-    { img: googleDrive, title: 'Drive' },
-    { img: trello, title: 'Trello' },
-    { img: figma, title: 'Figma', width: '20' },
-    { img: twitter, title: 'Twitter' },
-    { img: pinterest, title: 'Pinterest' },
-    { img: ln, title: 'Linkedin' },
-    { img: googleMaps, title: 'Maps' },
-    { img: googlePhotos, title: 'Photos' },
-    { img: spotify, title: 'Spotify' }
+    { img: settingsIcon, title: 'Settings', width: '60', url: '/settings' }
   ]);
+
   return (
     <Dropdown.Menu
       align="end"
@@ -49,12 +24,12 @@ const NineDotMenu = () => {
               {items.map(item => (
                 <Col xs={4} key={item.title}>
                   <Link
-                    to="#!"
+                    to={item.url}
                     className="d-block bg-body-secondary-hover p-2 rounded-3 text-center text-decoration-none mb-3"
                   >
                     <img
                       src={item.img}
-                      alt="behance"
+                      alt={item.title}
                       width={item.width || 30}
                     />
                     <p className="mb-0 text-body-emphasis text-truncate fs-10 mt-1 pt-1">
