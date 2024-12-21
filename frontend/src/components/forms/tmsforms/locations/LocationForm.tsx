@@ -1,19 +1,21 @@
 import React from 'react';
 import { Col, FloatingLabel, Form, Row } from 'react-bootstrap';
 
-type FormControlElement =
-  | HTMLInputElement
-  | HTMLSelectElement
-  | HTMLTextAreaElement;
-
 interface LocationFormProps {
-  formData: { name: string; address: string; city: string; state: string };
+  formData: {
+    name: string;
+    address: string;
+    city: string;
+    state: string;
+    phone: string;
+  };
   setFormData: React.Dispatch<
     React.SetStateAction<{
       name: string;
       address: string;
       city: string;
       state: string;
+      phone: string;
     }>
   >;
 }
@@ -22,23 +24,13 @@ const LocationForm: React.FC<LocationFormProps> = ({
   formData,
   setFormData
 }) => {
-  const handleChange = (e: React.ChangeEvent<FormControlElement>) => {
-    const target = e.target as
-      | HTMLInputElement
-      | HTMLSelectElement
-      | HTMLTextAreaElement;
-    const { name, value, type } = target;
-    const isChecked =
-      type === 'checkbox' ? (target as HTMLInputElement).checked : undefined;
-
-    setFormData(prev => ({
-      ...prev,
-      [name]: isChecked !== undefined ? isChecked : value
-    }));
+  const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const { name, value } = e.target;
+    setFormData(prev => ({ ...prev, [name]: value }));
   };
 
   return (
-    <>
+    <div>
       <h3>Location Details</h3>
       <FloatingLabel label="Name" className="mb-3">
         <Form.Control
@@ -58,9 +50,9 @@ const LocationForm: React.FC<LocationFormProps> = ({
           onChange={handleChange}
         />
       </FloatingLabel>
-      <Row className="g-3">
-        <Col md={6}>
-          <FloatingLabel label="City">
+      <Row>
+        <Col>
+          <FloatingLabel label="City" className="mb-3">
             <Form.Control
               type="text"
               name="city"
@@ -70,19 +62,28 @@ const LocationForm: React.FC<LocationFormProps> = ({
             />
           </FloatingLabel>
         </Col>
-        <Col md={6}>
-          <FloatingLabel label="State (optional)">
+        <Col>
+          <FloatingLabel label="State" className="mb-3">
             <Form.Control
               type="text"
               name="state"
-              placeholder="State (optional)"
+              placeholder="State"
               value={formData.state}
               onChange={handleChange}
             />
           </FloatingLabel>
         </Col>
       </Row>
-    </>
+      <FloatingLabel label="Phone" className="mb-3">
+        <Form.Control
+          type="text"
+          name="phone"
+          placeholder="Phone"
+          value={formData.phone}
+          onChange={handleChange}
+        />
+      </FloatingLabel>
+    </div>
   );
 };
 
