@@ -1,38 +1,76 @@
-// File Path: C:\Users\valic\Documents\Github\StarmarkTMS\frontend\src\pages\client-management\AddLocation.tsx
-
-import React, { useRef, useState } from 'react';
-import { LoadScript, Autocomplete, Libraries } from '@react-google-maps/api'; // Import `Libraries` type
-import { createLocation } from 'api/locations';
+import React, { useState, useRef } from 'react';
+import { Col, Row } from 'react-bootstrap';
+import {
+  LoadScript,
+  GoogleMap,
+  Marker,
+  Autocomplete
+} from '@react-google-maps/api';
 import PageBreadcrumb from 'components/common/PageBreadcrumb';
+import { createLocation } from 'api/locations';
 
-const libraries: Libraries = ['places']; // Use `Libraries` type for `libraries`
+const libraries: 'places'[] = ['places']; // Fix for 'readonly' type
 
 const AddLocation: React.FC = () => {
   const [formData, setFormData] = useState({
     name: '',
     address: '',
     city: '',
-    state: ''
+    state: '',
+    phone: ''
   });
+  const [mapCenter, setMapCenter] = useState({ lat: 40.7128, lng: -74.006 });
   const [success, setSuccess] = useState<string | null>(null);
   const [error, setError] = useState<string | null>(null);
-  const autocompleteRef = useRef<any>(null);
 
-  const handlePlaceChange = () => {
-    const place = autocompleteRef.current?.getPlace();
+  const autocompleteRef = useRef<google.maps.places.Autocomplete | null>(null);
+
+  const handlePlaceSelected = () => {
+    if (!autocompleteRef.current) return;
+
+    const place = autocompleteRef.current.getPlace();
     if (place) {
-      setFormData(prev => ({
-        ...prev,
-        address: place.formatted_address || ''
-      }));
+      const addressComponents = place.address_components || [];
+      const name = place.name || '';
+      const formattedAddress = place.formatted_address || '';
+      const phone = place.formatted_phone_number || '';
+
+      // Extract City and State
+      const city = addressComponents.find(component =>
+        component.types.includes('locality')
+      )?.long_name;
+      const state = addressComponents.find(component =>
+        component.types.includes('administrative_area_level_1')
+      )?.short_name;
+
+      setFormData({
+        name,
+        address: formattedAddress,
+        city: city || '',
+        state: state || '',
+        phone: phone || ''
+      });
+
+      // Update map center
+      if (place.geometry && place.geometry.location) {
+        setMapCenter({
+          lat: place.geometry.location.lat(),
+          lng: place.geometry.location.lng()
+        });
+      }
     }
+  };
+
+  const handleFormChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const { name, value } = e.target;
+    setFormData(prev => ({ ...prev, [name]: value }));
   };
 
   const handleFormSubmit = async () => {
     try {
       await createLocation(formData);
       setSuccess('Location added successfully!');
-      setFormData({ name: '', address: '', city: '', state: '' });
+      setFormData({ name: '', address: '', city: '', state: '', phone: '' });
       setError(null);
     } catch (err) {
       console.error('Error adding location:', err);
@@ -54,78 +92,84 @@ const AddLocation: React.FC = () => {
 
       <LoadScript
         googleMapsApiKey={process.env.REACT_APP_GOOGLE_MAPS_API_KEY || ''}
-        libraries={libraries}
+        libraries={libraries} // Fixed libraries type
       >
-        <Autocomplete
-          onLoad={ref => (autocompleteRef.current = ref)}
-          onPlaceChanged={handlePlaceChange}
-        >
-          <input
-            type="text"
-            placeholder="Search for a location"
-            className="form-control mb-3"
-          />
-        </Autocomplete>
+        <Row>
+          {/* Search Box and Form */}
+          <Col xl={6}>
+            <div className="mb-4">
+              <Autocomplete
+                onLoad={ref => (autocompleteRef.current = ref)}
+                onPlaceChanged={handlePlaceSelected}
+              >
+                <input
+                  type="text"
+                  placeholder="Search for a location or address"
+                  className="form-control"
+                />
+              </Autocomplete>
+            </div>
+            <div>
+              <label>Name</label>
+              <input
+                type="text"
+                name="name"
+                value={formData.name}
+                onChange={handleFormChange}
+                className="form-control mb-3"
+              />
+              <label>Address</label>
+              <input
+                type="text"
+                name="address"
+                value={formData.address}
+                onChange={handleFormChange}
+                className="form-control mb-3"
+              />
+              <label>City</label>
+              <input
+                type="text"
+                name="city"
+                value={formData.city}
+                onChange={handleFormChange}
+                className="form-control mb-3"
+              />
+              <label>State</label>
+              <input
+                type="text"
+                name="state"
+                value={formData.state}
+                onChange={handleFormChange}
+                className="form-control mb-3"
+              />
+              <label>Phone</label>
+              <input
+                type="text"
+                name="phone"
+                value={formData.phone}
+                onChange={handleFormChange}
+                className="form-control mb-3"
+              />
+              <button className="btn btn-primary" onClick={handleFormSubmit}>
+                Save Location
+              </button>
+              {success && <p style={{ color: 'green' }}>{success}</p>}
+              {error && <p style={{ color: 'red' }}>{error}</p>}
+            </div>
+          </Col>
+
+          {/* Map Display */}
+          <Col xl={6}>
+            <GoogleMap
+              center={mapCenter}
+              zoom={15}
+              mapContainerStyle={{ width: '100%', height: '400px' }}
+            >
+              <Marker position={mapCenter} />
+            </GoogleMap>
+          </Col>
+        </Row>
       </LoadScript>
-
-      <form
-        onSubmit={e => {
-          e.preventDefault();
-          handleFormSubmit();
-        }}
-      >
-        <div className="mb-3">
-          <label htmlFor="name" className="form-label">
-            Name
-          </label>
-          <input
-            type="text"
-            className="form-control"
-            id="name"
-            name="name"
-            value={formData.name}
-            onChange={e =>
-              setFormData(prev => ({ ...prev, name: e.target.value }))
-            }
-          />
-        </div>
-        <div className="mb-3">
-          <label htmlFor="city" className="form-label">
-            City
-          </label>
-          <input
-            type="text"
-            className="form-control"
-            id="city"
-            name="city"
-            value={formData.city}
-            onChange={e =>
-              setFormData(prev => ({ ...prev, city: e.target.value }))
-            }
-          />
-        </div>
-        <div className="mb-3">
-          <label htmlFor="state" className="form-label">
-            State
-          </label>
-          <input
-            type="text"
-            className="form-control"
-            id="state"
-            name="state"
-            value={formData.state}
-            onChange={e =>
-              setFormData(prev => ({ ...prev, state: e.target.value }))
-            }
-          />
-        </div>
-        <button type="submit" className="btn btn-primary">
-          Save Location
-        </button>
-      </form>
-
-      {success && <p style={{ color: 'green' }}>{success}</p>}
-      {error && <p style={{ color: 'red' }}>{error}</p>}
     </div>
   );
 };
