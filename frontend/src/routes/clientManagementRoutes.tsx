@@ -1,7 +1,7 @@
 import { RouteObject } from 'react-router-dom'; // Import RouteObject for type definition
 import AddCustomer from 'pages/client-management/AddCustomer';
 import CustomerListPage from 'pages/client-management/CustomerListPage';
-import AddShipperReceiver from 'pages/client-management/AddShipperReceiver';
+import AddLocation from 'pages/client-management/AddLocation';
 import ShipperReceiverListPage from 'pages/client-management/ShipperReceiverListPage';
 import AddCrossDock from 'pages/client-management/AddCrossDock';
 import CrossDockListPage from 'pages/client-management/CrossDockListPage';
@@ -34,7 +34,7 @@ export const clientManagementRoutes: RouteObject[] = [
         children: [
           {
             path: 'add',
-            element: <AddShipperReceiver />
+            element: <AddLocation />
           },
           {
             path: 'list',
