@@ -1,8 +1,41 @@
 from rest_framework import serializers
-from backend.shippers_receivers.models import ShipperReceiverCompany
+from .models import Location, Customer, LocationPhoto, Category
 
-class ShipperReceiverCompanySerializer(serializers.ModelSerializer):
+
+class CategorySerializer(serializers.ModelSerializer):
+    """
+    Serializer for the Category model.
+    """
     class Meta:
-        model = ShipperReceiverCompany
-        fields = '__all__'  # Include all fields in the model
-        read_only_fields = ['id']  # ID should be read-only
+        model = Category
+        fields = '__all__'
+
+
+class LocationPhotoSerializer(serializers.ModelSerializer):
+    """
+    Serializer for the LocationPhoto model.
+    """
+    class Meta:
+        model = LocationPhoto
+        fields = '__all__'
+
+
+class LocationSerializer(serializers.ModelSerializer):
+    """
+    Serializer for the Location model.
+    """
+    categories = CategorySerializer(many=True, read_only=True)
+    photos = LocationPhotoSerializer(many=True, read_only=True)
+
+    class Meta:
+        model = Location
+        fields = '__all__'
+
+
+class CustomerSerializer(serializers.ModelSerializer):
+    """
+    Serializer for the Customer model.
+    """
+    class Meta:
+        model = Customer
+        fields = '__all__'

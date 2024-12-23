@@ -3,7 +3,8 @@ import { Location } from '../types/Location'; // Import the shared Location type
 
 // Fetch all locations
 export const getAllLocations = async (): Promise<Location[]> => {
-  const data = await api('/locations/');
+  console.log(`API URL being called: /api/locations/`);
+  const data = await api('/api/locations/');
   return data.map((item: any) => ({
     id: item.id,
     company_name: item.company_name,
@@ -29,7 +30,8 @@ export const getAllLocations = async (): Promise<Location[]> => {
 
 // Fetch a single location by ID
 export const getLocationById = async (id: string): Promise<Location> => {
-  const item = await api(`/locations/${id}/`);
+  console.log(`API URL being called: /api/locations/${id}/`);
+  const item = await api(`/api/locations/${id}/`);
   return {
     id: item.id,
     company_name: item.company_name,
@@ -57,7 +59,8 @@ export const getLocationById = async (id: string): Promise<Location> => {
 export const createLocation = async (
   locationData: Partial<Location>
 ): Promise<Location> => {
-  const item = await api('/locations/', {
+  console.log(`API URL being called: /api/locations/`);
+  const item = await api('/api/locations/', {
     method: 'POST',
     body: locationData
   });
@@ -89,7 +92,8 @@ export const updateLocation = async (
   id: string,
   updatedData: Partial<Location>
 ): Promise<Location> => {
-  const item = await api(`/locations/${id}/`, {
+  console.log(`API URL being called: /api/locations/${id}/`);
+  const item = await api(`/api/locations/${id}/`, {
     method: 'PUT',
     body: updatedData
   });
@@ -118,7 +122,8 @@ export const updateLocation = async (
 
 // Delete a location
 export const deleteLocation = async (id: string): Promise<void> => {
-  await api(`/locations/${id}/`, {
+  console.log(`API URL being called: /api/locations/${id}/`);
+  await api(`/api/locations/${id}/`, {
     method: 'DELETE'
   });
 };

@@ -1,29 +1,32 @@
 from django.urls import path
 from .views import (
-    shipper_list,
-    shipper_detail,
-    receiver_list,
-    receiver_detail,
     LocationListCreateView,
     LocationRetrieveUpdateDestroyView,
-    ShipperReceiverListAPIView,
+    CustomerListCreateView,
+    CustomerRetrieveUpdateDestroyView,
+    LocationPhotoListCreateView,
+    LocationPhotoRetrieveUpdateDestroyView,
+    CategoryListCreateView,
+    CategoryRetrieveUpdateDestroyView
 )
 
-app_name = 'shippers_receivers'
+app_name = 'logistics'
 
 urlpatterns = [
-    # Shipper-related endpoints
-    path('shippers/', shipper_list, name='shipper_list'),
-    path('shippers/<int:id>/', shipper_detail, name='shipper_detail'),
-
-    # Receiver-related endpoints
-    path('receivers/', receiver_list, name='receiver_list'),
-    path('receivers/<int:id>/', receiver_detail, name='receiver_detail'),
-
-    # Combined endpoint for companies
-    path('companies/', ShipperReceiverListAPIView.as_view(), name='company_list'),
-
-    # Location-related endpoints
+    # Locations
     path('locations/', LocationListCreateView.as_view(), name='location-list-create'),
     path('locations/<int:pk>/', LocationRetrieveUpdateDestroyView.as_view(), name='location-detail'),
+
+    # Customers
+    path('customers/', CustomerListCreateView.as_view(), name='customer-list-create'),
+    path('customers/<int:pk>/', CustomerRetrieveUpdateDestroyView.as_view(), name='customer-detail'),
+
+
+    # Photos
+    path('photos/', LocationPhotoListCreateView.as_view(), name='photo-list-create'),
+    path('photos/<int:pk>/', LocationPhotoRetrieveUpdateDestroyView.as_view(), name='photo-detail'),
+
+    # Categories
+    path('categories/', CategoryListCreateView.as_view(), name='category-list-create'),
+    path('categories/<int:pk>/', CategoryRetrieveUpdateDestroyView.as_view(), name='category-detail'),
 ]

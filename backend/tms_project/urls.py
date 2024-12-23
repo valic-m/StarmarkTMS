@@ -19,6 +19,9 @@ urlpatterns = [
     # Shippers and Receivers API
     path('api/shippers_receivers/', include('backend.shippers_receivers.urls')),
 
+    # Locations API
+    path('api/locations/', include('backend.shippers_receivers.urls')),  # Added the locations API route
+
     # Login and logout routes
     path('login/', auth_views.LoginView.as_view(template_name='registration/login.html'), name='login'),
     path('logout/', auth_views.LogoutView.as_view(), name='logout'),
@@ -49,4 +52,6 @@ urlpatterns = [
 
     # OpenAI routes
     path('api/openai/', include('openai_app.urls')),  # Include OpenAI API routes
+    path('api/contacts/', include('contacts.urls')),  # Add contacts API
+
 ]

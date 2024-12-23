@@ -1,6 +1,6 @@
 from django.db import models
 from backend.customers.models import Customer  # Ensure correct import for Customer model
-from backend.shippers_receivers.models import ShipperReceiverCompany  # Ensure correct import for ShipperReceiverCompany
+from backend.shippers_receivers.models import Location
 from django.conf import settings
 CustomUser = settings.AUTH_USER_MODEL
 
@@ -60,7 +60,7 @@ class Load(models.Model):
 # Pickup model
 class Pickup(models.Model):
     load = models.ForeignKey(Load, related_name='pickups', on_delete=models.CASCADE)  # Link to a Load
-    pickup_location = models.ForeignKey(ShipperReceiverCompany, on_delete=models.CASCADE, limit_choices_to={'is_shipper': True})  # Limit choices to companies marked as shippers
+    pickup_location = models.ForeignKey(Location, on_delete=models.CASCADE, limit_choices_to={'is_shipper': True})  # Limit choices to companies marked as shippers
     pickup_number = models.PositiveIntegerField()  # Manual or auto-incremented pickup number
     pickup_date = models.DateTimeField()  # Date and time of pickup
 
@@ -71,7 +71,7 @@ class Pickup(models.Model):
 # Delivery model
 class Delivery(models.Model):
     load = models.ForeignKey(Load, related_name='deliveries', on_delete=models.CASCADE)  # Link to a Load
-    delivery_location = models.ForeignKey(ShipperReceiverCompany, on_delete=models.CASCADE, limit_choices_to={'is_receiver': True})  # Limit choices to companies marked as receivers
+    delivery_location = models.ForeignKey(Location, on_delete=models.CASCADE, limit_choices_to={'is_receiver': True})  # Limit choices to companies marked as receivers
     delivery_number = models.PositiveIntegerField()  # Manual or auto-incremented delivery number
     delivery_date = models.DateTimeField()  # Date and time of delivery
 

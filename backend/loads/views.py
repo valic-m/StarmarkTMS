@@ -7,10 +7,11 @@ from backend.loads.models import Load
 from backend.customers.models import Customer
 from backend.loads.serializers import LoadSerializer
 from backend.customers.serializers import CustomerSerializer
-from backend.shippers_receivers.models import ShipperReceiverCompany
-from backend.shippers_receivers.serializers import ShipperReceiverCompanySerializer
+from backend.shippers_receivers.models import Location
+from backend.shippers_receivers.serializers import LocationSerializer
 from backend.users.models import CustomUser
 from backend.users.serializers import CustomUserSerializer
+
 
 # API to list and create loads
 class LoadListCreateAPIView(generics.ListCreateAPIView):
@@ -32,6 +33,7 @@ class LoadListCreateAPIView(generics.ListCreateAPIView):
         else:
             serializer.save()
 
+
 # API to retrieve, update, or delete a load by load_number
 class LoadDetailAPIView(APIView):
     def get(self, request, load_number):
@@ -52,10 +54,12 @@ class LoadDetailAPIView(APIView):
         load.delete()
         return Response(status=status.HTTP_204_NO_CONTENT)
 
-# API to fetch shippers and receivers
-class ShipperReceiverListAPIView(generics.ListAPIView):
-    queryset = ShipperReceiverCompany.objects.all()
-    serializer_class = ShipperReceiverCompanySerializer
+
+# API to fetch locations (shippers and receivers)
+class LocationListAPIView(generics.ListAPIView):
+    queryset = Location.objects.all()
+    serializer_class = LocationSerializer
+
 
 # API to fetch custom users for "Booked With"
 class CustomUserListAPIView(generics.ListAPIView):
