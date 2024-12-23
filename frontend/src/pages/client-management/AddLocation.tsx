@@ -9,73 +9,114 @@ import {
 import PageBreadcrumb from 'components/common/PageBreadcrumb';
 import LocationForm from 'components/forms/tmsforms/locations/LocationForm';
 import { createLocation } from 'api/locations';
+import { Location } from 'types/Location';
 
-// Google Maps Libraries
 const libraries: Array<'places'> = ['places'];
 
 const AddLocation: React.FC = () => {
-  const [formData, setFormData] = useState({
-    name: '',
-    address: '',
+  const [formData, setFormData] = useState<Partial<Location>>({
+    company_name: '',
+    address_line1: '',
+    address_line2: '',
     city: '',
     state: '',
-    phone: ''
+    zip_code: '',
+    contact_person: '',
+    phone_number: '',
+    email: '',
+    shipping_hours: '',
+    load_time: '',
+    shipping_manager_name: '',
+    shipping_manager_phone: '',
+    shipping_manager_email: '',
+    rating: 0,
+    comments: '',
+    directions: '',
+    do_not_load: false
   });
-  const [mapCenter, setMapCenter] = useState({ lat: 40.7128, lng: -74.006 }); // Default center (New York)
-  const [zoom, setZoom] = useState(15); // Default zoom level
+
+  const [mapCenter, setMapCenter] = useState({ lat: 40.7128, lng: -74.006 });
+  const [zoom, setZoom] = useState(15);
   const [success, setSuccess] = useState<string | null>(null);
   const [error, setError] = useState<string | null>(null);
 
   const autocompleteRef = useRef<google.maps.places.Autocomplete | null>(null);
 
-  // Handle Google Place selection
   const handlePlaceSelected = () => {
     if (!autocompleteRef.current) return;
 
     const place = autocompleteRef.current.getPlace();
     if (place) {
       const addressComponents = place.address_components || [];
-      const name = place.name || '';
-      const formattedAddress = place.formatted_address || '';
-      const phone = place.formatted_phone_number || '';
-
-      // Extract city and state from address components
-      const city = addressComponents.find(component =>
-        component.types.includes('locality')
+      const streetNumber = addressComponents.find(comp =>
+        comp.types.includes('street_number')
       )?.long_name;
-      const state = addressComponents.find(component =>
-        component.types.includes('administrative_area_level_1')
+      const route = addressComponents.find(comp => comp.types.includes('route'))
+        ?.long_name;
+      const subpremise = addressComponents.find(comp =>
+        comp.types.includes('subpremise')
+      )?.long_name;
+      const city = addressComponents.find(comp =>
+        comp.types.includes('locality')
+      )?.long_name;
+      const state = addressComponents.find(comp =>
+        comp.types.includes('administrative_area_level_1')
       )?.short_name;
+      const zipCode = addressComponents.find(comp =>
+        comp.types.includes('postal_code')
+      )?.long_name;
 
-      setFormData({
-        name,
-        address: formattedAddress,
+      const fullAddress = [streetNumber, route].filter(Boolean).join(' ');
+
+      setFormData(prev => ({
+        ...prev,
+        company_name: place.name || '',
+        address_line1: fullAddress,
+        address_line2: subpremise || '',
         city: city || '',
         state: state || '',
-        phone: phone || ''
-      });
+        zip_code: zipCode || '',
+        phone_number: place.formatted_phone_number || ''
+      }));
 
-      // Update map center and zoom in
-      if (place.geometry && place.geometry.location) {
+      if (place.geometry?.location) {
         setMapCenter({
           lat: place.geometry.location.lat(),
           lng: place.geometry.location.lng()
         });
-        setZoom(18); // Set zoom level to focus closely on the location
+        setZoom(18);
       }
     }
   };
 
   const handleFormSubmit = async () => {
     try {
-      await createLocation(formData);
+      await createLocation(formData as Location); // Cast formData to Location
       setSuccess('Location added successfully!');
-      setFormData({ name: '', address: '', city: '', state: '', phone: '' });
+      setFormData({
+        company_name: '',
+        address_line1: '',
+        address_line2: '',
+        city: '',
+        state: '',
+        zip_code: '',
+        contact_person: '',
+        phone_number: '',
+        email: '',
+        shipping_hours: '',
+        load_time: '',
+        shipping_manager_name: '',
+        shipping_manager_phone: '',
+        shipping_manager_email: '',
+        rating: 0,
+        comments: '',
+        directions: '',
+        do_not_load: false
+      });
       setError(null);
     } catch (err) {
       console.error('Error adding location:', err);
       setError('Failed to add location');
-      setSuccess(null);
     }
   };
 
@@ -112,7 +153,7 @@ const AddLocation: React.FC = () => {
             <button
               className="btn btn-primary"
               onClick={handleFormSubmit}
-              disabled={!formData.address}
+              disabled={!formData.address_line1 || !formData.company_name}
             >
               Save Location
             </button>
@@ -122,7 +163,7 @@ const AddLocation: React.FC = () => {
           <Col xl={6}>
             <GoogleMap
               center={mapCenter}
-              zoom={zoom} // Use the dynamic zoom state
+              zoom={zoom}
               mapContainerStyle={{ width: '100%', height: '400px' }}
             >
               <Marker position={mapCenter} />
