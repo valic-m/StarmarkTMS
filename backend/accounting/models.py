@@ -1,6 +1,6 @@
 from django.db import models
 from backend.loads.models import Load  # Adjusting import path for backend structure
-from backend.shippers_receivers.models import Location, Customer  # Updated to use new models
+from backend.shippers_receivers.models import Location  # Updated to use new models
 from backend.companies.models import OperationalCompany  # Corrected import for OperationalCompany
 from backend.users.models import CustomUser  # Updated import path for CustomUser model
 
@@ -21,14 +21,7 @@ class Invoice(models.Model):
         null=True,
         help_text="Location associated with this invoice"
     )
-    associated_customer = models.ForeignKey(
-        Customer,
-        on_delete=models.CASCADE,
-        related_name='invoices',
-        blank=True,
-        null=True,
-        help_text="Customer responsible for this invoice"
-    )
+    # Removed the associated_customer field as per your request
     issued_by = models.ForeignKey(
         CustomUser,
         on_delete=models.SET_NULL,

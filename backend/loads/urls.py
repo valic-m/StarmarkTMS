@@ -3,7 +3,7 @@ from backend.loads.views import (
     LoadListCreateAPIView,
     LoadDetailAPIView,
 )
-from backend.shippers_receivers.views import LocationListCreateView, CustomerListCreateView
+from backend.shippers_receivers.views import LocationListCreateView  # Removed CustomerListCreateView
 from backend.users.views import CustomUserListAPIView
 
 urlpatterns = [
@@ -13,7 +13,8 @@ urlpatterns = [
 
     # Shipper and receiver-related endpoints (now Locations)
     path('api/locations/', LocationListCreateView.as_view(), name='location_list_create'),  # List & create locations
-    path('api/customers/', CustomerListCreateView.as_view(), name='customer_list_create'),  # List & create customers
+    # Removed customer-related URL pattern
+    # path('api/customers/', CustomerListCreateView.as_view(), name='customer_list_create'),
 
     # User-related API endpoints
     path('api/users/', CustomUserListAPIView.as_view(), name='user_list'),  # List all custom users for "Booked With"

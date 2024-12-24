@@ -1,5 +1,5 @@
 from rest_framework import serializers
-from .models import Location, Customer, LocationPhoto, Category
+from .models import Location, LocationPhoto, Category
 
 
 class CategorySerializer(serializers.ModelSerializer):
@@ -29,13 +29,4 @@ class LocationSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = Location
-        fields = '__all__'
-
-
-class CustomerSerializer(serializers.ModelSerializer):
-    """
-    Serializer for the Customer model.
-    """
-    class Meta:
-        model = Customer
         fields = '__all__'
