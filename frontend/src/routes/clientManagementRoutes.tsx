@@ -6,6 +6,7 @@ import ShipperReceiverListPage from 'pages/client-management/ShipperReceiverList
 import AddCrossDock from 'pages/client-management/AddCrossDock';
 import CrossDockListPage from 'pages/client-management/CrossDockListPage';
 import TmsCustomerDetails from '../pages/client-management/tmsCustomerDetails';
+import LocationDetailPage from 'pages/client-management/LocationDetailPage'; // Unified Detail Page
 
 // Define the client management routes
 export const clientManagementRoutes: RouteObject[] = [
@@ -39,6 +40,10 @@ export const clientManagementRoutes: RouteObject[] = [
           {
             path: 'list',
             element: <ShipperReceiverListPage />
+          },
+          {
+            path: ':id', // Unified Detail Route
+            element: <LocationDetailPage /> // Unified Detail Page
           }
         ]
       },

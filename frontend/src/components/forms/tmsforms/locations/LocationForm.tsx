@@ -54,9 +54,9 @@ const LocationForm: React.FC<LocationFormProps> = ({
       <FloatingLabel label="Company Name" className="mb-3">
         <Form.Control
           type="text"
-          name="company_name"
+          name="name"
           placeholder="Enter company name"
-          value={formData.company_name || ''}
+          value={formData.name || ''}
           onChange={handleChange}
           required
         />

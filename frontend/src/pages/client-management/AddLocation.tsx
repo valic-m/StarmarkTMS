@@ -1,3 +1,5 @@
+// AddLocation.tsx
+
 import React, { useState, useRef, useEffect } from 'react';
 import { Col, Row, Button, Alert } from 'react-bootstrap';
 import {
@@ -16,13 +18,12 @@ const libraries: Array<'places'> = ['places'];
 
 const AddLocation: React.FC = () => {
   const [formData, setFormData] = useState<Partial<Location>>({
-    company_name: '',
+    name: '',
     address_line1: '',
     address_line2: '',
     city: '',
     state: '',
     zip_code: '',
-    contact_person: '',
     phone_number: '',
     email: '',
     shipping_hours_from: '',
@@ -62,54 +63,82 @@ const AddLocation: React.FC = () => {
     fetchCategoriesData();
   }, []);
 
-  const fetchPlaceDetails = async (placeId: string) => {
-    const service = new google.maps.places.PlacesService(
-      document.createElement('div')
-    );
-
-    service.getDetails(
-      { placeId, fields: ['opening_hours'] },
-      (placeDetails, status) => {
+  // Helper function to get place details as a promise
+  const getPlaceDetails = (
+    placeId: string,
+    fields: string[]
+  ): Promise<google.maps.places.PlaceResult> => {
+    return new Promise((resolve, reject) => {
+      const service = new google.maps.places.PlacesService(
+        document.createElement('div')
+      );
+      service.getDetails({ placeId, fields }, (placeDetails, status) => {
         if (
           status === google.maps.places.PlacesServiceStatus.OK &&
-          placeDetails &&
-          placeDetails.opening_hours?.periods
+          placeDetails
         ) {
-          console.log(
-            'Place Details (Opening Hours):',
-            placeDetails.opening_hours
-          );
-
-          const firstPeriod = placeDetails.opening_hours.periods[0];
-          let shippingHoursFrom = '';
-          let shippingHoursTo = '';
-
-          if (firstPeriod) {
-            shippingHoursFrom = firstPeriod.open.time
-              ? `${firstPeriod.open.time.slice(
-                  0,
-                  2
-                )}:${firstPeriod.open.time.slice(2)}`
-              : '';
-            shippingHoursTo = firstPeriod.close?.time
-              ? `${firstPeriod.close.time.slice(
-                  0,
-                  2
-                )}:${firstPeriod.close.time.slice(2)}`
-              : '';
-          }
-
-          setFormData(prev => ({
-            ...prev,
-            shipping_hours_from: shippingHoursFrom,
-            shipping_hours_to: shippingHoursTo
-          }));
+          resolve(placeDetails);
+        } else {
+          reject(status);
         }
-      }
-    );
+      });
+    });
   };
 
-  const handlePlaceSelected = () => {
+  const fetchPlaceDetails = async (placeId: string) => {
+    try {
+      const placeDetails = await getPlaceDetails(placeId, ['opening_hours']);
+      console.log('Place Details (Opening Hours):', placeDetails.opening_hours);
+
+      if (placeDetails.opening_hours?.periods) {
+        const targetDay = 1; // Monday (0 = Sunday, 1 = Monday, ..., 6 = Saturday)
+
+        // Filter periods for the target day
+        const periodsForDay = placeDetails.opening_hours.periods.filter(
+          period => period.open.day === targetDay
+        );
+
+        if (periodsForDay.length === 0) {
+          // The place is closed on the target day
+          setFormData(prev => ({
+            ...prev,
+            shipping_hours_from: '',
+            shipping_hours_to: ''
+          }));
+          console.warn(`The place is closed on day ${targetDay}.`);
+          return;
+        }
+
+        // Handle multiple periods if they exist
+        // For simplicity, we'll take the first period
+        const period = periodsForDay[0];
+
+        // Convert 'HHMM' to 'HH:MM'
+        const formatTime = (time: string): string => {
+          if (time.length !== 4) return '';
+          return `${time.slice(0, 2)}:${time.slice(2)}`;
+        };
+
+        const shippingHoursFrom = formatTime(period.open.time);
+        const shippingHoursTo = period.close?.time
+          ? formatTime(period.close.time)
+          : '';
+
+        setFormData(prev => ({
+          ...prev,
+          shipping_hours_from: shippingHoursFrom,
+          shipping_hours_to: shippingHoursTo
+        }));
+      } else {
+        console.warn('No opening hours available for this place.');
+      }
+    } catch (err) {
+      console.error('Error fetching place details:', err);
+      setError('Failed to fetch place details');
+    }
+  };
+
+  const handlePlaceSelected = async () => {
     if (!autocompleteRef.current) return;
 
     const place = autocompleteRef.current.getPlace();
@@ -139,7 +168,7 @@ const AddLocation: React.FC = () => {
 
       setFormData(prev => ({
         ...prev,
-        company_name: place.name || '',
+        name: place.name || '',
         address_line1: fullAddress,
         address_line2: subpremise || '',
         city: city || '',
@@ -149,7 +178,7 @@ const AddLocation: React.FC = () => {
       }));
 
       if (place.place_id) {
-        fetchPlaceDetails(place.place_id);
+        await fetchPlaceDetails(place.place_id);
       }
 
       if (place.geometry?.location) {
@@ -157,7 +186,7 @@ const AddLocation: React.FC = () => {
           lat: place.geometry.location.lat(),
           lng: place.geometry.location.lng()
         });
-        setZoom(25);
+        setZoom(25); // Adjusted zoom level for better visibility
       }
     }
   };
@@ -168,13 +197,12 @@ const AddLocation: React.FC = () => {
       await createLocation(formData as Location);
       setSuccess('Location added successfully!');
       setFormData({
-        company_name: '',
+        name: '',
         address_line1: '',
         address_line2: '',
         city: '',
         state: '',
         zip_code: '',
-        contact_person: '',
         phone_number: '',
         email: '',
         shipping_hours_from: '',
@@ -235,7 +263,7 @@ const AddLocation: React.FC = () => {
               <Button
                 type="submit"
                 variant="primary"
-                disabled={!formData.address_line1 || !formData.company_name}
+                disabled={!formData.address_line1 || !formData.name}
                 className="mt-3"
               >
                 Save Location

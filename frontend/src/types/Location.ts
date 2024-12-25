@@ -7,8 +7,8 @@ export interface Category {
 
 export interface Location {
   id: number;
-  company_name: string;
-  contact_person: string;
+  name: string; // Changed from 'company_name' to 'name'
+  // Removed 'contact_person' as it's not present in the backend
   phone_number: string;
   email: string;
   address_line1: string;

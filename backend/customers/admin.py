@@ -3,7 +3,9 @@ from django.urls import path, reverse
 from django.shortcuts import get_object_or_404
 from django.http import Http404
 from .models import Customer
+import logging
 
+logger = logging.getLogger(__name__)
 
 @admin.register(Customer)
 class CustomerAdmin(admin.ModelAdmin):
@@ -68,7 +70,7 @@ class CustomerAdmin(admin.ModelAdmin):
 
     def get_urls(self):
         """
-        Override the default admin URLs to use the slug instead of the ID.
+        Override the default admin URLs to use the identifier (pk or slug).
         """
         urls = super().get_urls()
         custom_urls = [
@@ -79,25 +81,28 @@ class CustomerAdmin(admin.ModelAdmin):
 
     def change_view_with_identifier(self, request, identifier, form_url='', extra_context=None):
         """
-        Custom change view that fetches the customer by slug or ID.
+        Custom change view that fetches the customer by pk or slug.
+        Prioritize pk lookup to avoid conflicts with numeric slugs.
         """
         try:
-            # First, attempt to fetch the customer by slug
-            customer = get_object_or_404(Customer, slug=identifier)
-        except Customer.DoesNotExist:
-            # If no customer matches the slug, fallback to ID
+            # Attempt to interpret identifier as pk
+            customer = get_object_or_404(Customer, pk=int(identifier))
+            logger.debug(f"Found Customer by pk={identifier}: {customer}")
+        except (ValueError, Customer.DoesNotExist):
             try:
-                customer = get_object_or_404(Customer, pk=int(identifier))
-            except (ValueError, Customer.DoesNotExist):
+                # Fallback to slug lookup
+                customer = get_object_or_404(Customer, slug=identifier)
+                logger.debug(f"Found Customer by slug='{identifier}': {customer}")
+            except Customer.DoesNotExist:
+                logger.error(f"No Customer matches the identifier '{identifier}'")
                 raise Http404(f"No Customer matches the given identifier '{identifier}'.")
-
-        return self.changeform_view(request, object_id=customer.pk, form_url=form_url, extra_context=extra_context)
+        return self.changeform_view(request, object_id=str(customer.pk), form_url=form_url, extra_context=extra_context)
 
     def url_for_result(self, result):
         """
-        Override this method to generate the correct change URL using the slug.
+        Override this method to generate the correct change URL using the pk.
         """
-        return reverse('admin:customer_change', args=[result.slug])
+        return reverse('admin:customer_change', args=[str(result.pk)])
 
     def get_queryset(self, request):
         """

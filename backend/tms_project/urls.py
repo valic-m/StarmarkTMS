@@ -17,10 +17,10 @@ urlpatterns = [
     path('api/fmcsa/', get_fmcsa_data, name='get_fmcsa_data'),
 
     # Shippers and Receivers API
-    path('api/shippers_receivers/', include('backend.shippers_receivers.urls')),
 
     # Locations API
-    path('api/locations/', include('backend.shippers_receivers.urls')),  # Added the locations API route
+    # Corrected code
+    path('api/', include('backend.shippers_receivers.urls')),
 
     # Login and logout routes
     path('login/', auth_views.LoginView.as_view(template_name='registration/login.html'), name='login'),

@@ -23,14 +23,13 @@ import { Location } from 'types/Location';
 const columns: ColumnDef<Location>[] = [
   {
     header: 'Company Name',
-    accessorKey: 'company_name',
+    accessorKey: 'name',
     cell: info => (
       <Link to={`/client-management/locations/${info.row.original.id}`}>
         {info.getValue<string>()}
       </Link>
     )
   },
-  { header: 'Contact Person', accessorKey: 'contact_person' },
   { header: 'Phone Number', accessorKey: 'phone_number' },
   { header: 'Email', accessorKey: 'email' },
   {
@@ -40,8 +39,8 @@ const columns: ColumnDef<Location>[] = [
       return `${address_line1}${address_line2 ? `, ${address_line2}` : ''}`;
     }
   },
-  { header: 'Shipping Hours', accessorKey: 'shipping_hours' },
-  { header: 'Load Time', accessorKey: 'load_time' },
+  { header: 'City', accessorKey: 'city' },
+  { header: 'State', accessorKey: 'state' },
   {
     header: 'Actions',
     cell: info => (
@@ -70,8 +69,8 @@ const filterMenus: FilterMenu[] = [
     ]
   },
   {
-    label: 'Country',
-    items: [{ label: 'USA' }, { label: 'Canada' }, { label: 'Others' }]
+    label: 'States',
+    items: [{ label: 'OR' }, { label: 'WA' }]
   }
 ];
 
