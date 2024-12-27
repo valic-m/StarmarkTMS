@@ -51,7 +51,7 @@ const columns: ColumnDef<Location>[] = [
 
 // Filter tab items
 const tabItems: FilterTabItem[] = [
-  { label: 'All', value: 'all', count: 100 },
+  { label: 'All', value: 'all', count: 100 }, // Replace count with dynamic values if needed
   { label: 'Shippers', value: 'shippers', count: 60 },
   { label: 'Receivers', value: 'receivers', count: 40 }
 ];
@@ -80,7 +80,7 @@ const ShipperReceiverListPage: React.FC = () => {
   const [error, setError] = useState<string | null>(null);
 
   useEffect(() => {
-    const fetchLocations = async () => {
+    (async () => {
       try {
         const data = await getAllLocations();
         setLocations(data);
@@ -90,9 +90,7 @@ const ShipperReceiverListPage: React.FC = () => {
       } finally {
         setLoading(false);
       }
-    };
-
-    fetchLocations();
+    })(); // IIFE
   }, []);
 
   const table = useReactTable({
@@ -129,10 +127,13 @@ const ShipperReceiverListPage: React.FC = () => {
                 <FontAwesomeIcon icon={faFileExport} className="fs-9 me-2" />
                 Export
               </Button>
-              <Button variant="primary">
+              <Link
+                to="/client-management/shippers-receivers/add"
+                className="btn btn-primary"
+              >
                 <FontAwesomeIcon icon={faPlus} className="me-2" />
                 Add Location
-              </Button>
+              </Link>
             </div>
           </div>
         </div>

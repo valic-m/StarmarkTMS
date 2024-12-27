@@ -1,5 +1,3 @@
-// AddLocation.tsx
-
 import React, { useState, useRef, useEffect } from 'react';
 import { Col, Row, Button, Alert } from 'react-bootstrap';
 import {
@@ -60,10 +58,10 @@ const AddLocation: React.FC = () => {
         setError('Failed to fetch categories');
       }
     };
-    fetchCategoriesData();
+
+    fetchCategoriesData().catch(console.error);
   }, []);
 
-  // Helper function to get place details as a promise
   const getPlaceDetails = (
     placeId: string,
     fields: string[]
@@ -91,15 +89,12 @@ const AddLocation: React.FC = () => {
       console.log('Place Details (Opening Hours):', placeDetails.opening_hours);
 
       if (placeDetails.opening_hours?.periods) {
-        const targetDay = 1; // Monday (0 = Sunday, 1 = Monday, ..., 6 = Saturday)
-
-        // Filter periods for the target day
+        const targetDay = 1; // Example: Monday (0 = Sunday, ..., 6 = Saturday)
         const periodsForDay = placeDetails.opening_hours.periods.filter(
           period => period.open.day === targetDay
         );
 
         if (periodsForDay.length === 0) {
-          // The place is closed on the target day
           setFormData(prev => ({
             ...prev,
             shipping_hours_from: '',
@@ -109,25 +104,16 @@ const AddLocation: React.FC = () => {
           return;
         }
 
-        // Handle multiple periods if they exist
-        // For simplicity, we'll take the first period
         const period = periodsForDay[0];
-
-        // Convert 'HHMM' to 'HH:MM'
-        const formatTime = (time: string): string => {
-          if (time.length !== 4) return '';
-          return `${time.slice(0, 2)}:${time.slice(2)}`;
-        };
-
-        const shippingHoursFrom = formatTime(period.open.time);
-        const shippingHoursTo = period.close?.time
-          ? formatTime(period.close.time)
-          : '';
+        const formatTime = (time: string): string =>
+          time.length === 4 ? `${time.slice(0, 2)}:${time.slice(2)}` : '';
 
         setFormData(prev => ({
           ...prev,
-          shipping_hours_from: shippingHoursFrom,
-          shipping_hours_to: shippingHoursTo
+          shipping_hours_from: formatTime(period.open.time),
+          shipping_hours_to: period.close?.time
+            ? formatTime(period.close.time)
+            : ''
         }));
       } else {
         console.warn('No opening hours available for this place.');
@@ -186,7 +172,7 @@ const AddLocation: React.FC = () => {
           lat: place.geometry.location.lat(),
           lng: place.geometry.location.lng()
         });
-        setZoom(25); // Adjusted zoom level for better visibility
+        setZoom(25);
       }
     }
   };
