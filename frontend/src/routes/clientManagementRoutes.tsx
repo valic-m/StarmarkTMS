@@ -59,6 +59,15 @@ export const clientManagementRoutes: RouteObject[] = [
             element: <CrossDockListPage />
           }
         ]
+      },
+      {
+        path: 'locations',
+        children: [
+          {
+            path: ':id',
+            element: <LocationDetailPage />
+          }
+        ]
       }
     ]
   }

@@ -81,6 +81,16 @@ class Location(Company):
         null=True,
         help_text="Directions to the location"
     )
+    lat = models.FloatField(
+        blank=True,
+        null=True,
+        help_text="Latitude of the location"
+    )
+    lng = models.FloatField(
+        blank=True,
+        null=True,
+        help_text="Longitude of the location"
+    )
 
     def __str__(self):
         return self.name

@@ -149,7 +149,6 @@ const AddLocation: React.FC = () => {
       const zipCode = addressComponents.find(comp =>
         comp.types.includes('postal_code')
       )?.long_name;
-
       const fullAddress = [streetNumber, route].filter(Boolean).join(' ');
 
       setFormData(prev => ({
@@ -180,6 +179,11 @@ const AddLocation: React.FC = () => {
   const handleFormSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     try {
+      const locationData = {
+        ...formData,
+        lat: mapCenter.lat, // Include latitude
+        lng: mapCenter.lng // Include longitude
+      };
       await createLocation(formData as Location);
       setSuccess('Location added successfully!');
       setFormData({

@@ -1,5 +1,3 @@
-// frontend/src/api/locations.ts
-
 import axios from 'axios';
 import { Location } from 'types/Location';
 
@@ -32,7 +30,9 @@ export const getAllLocations = async (): Promise<Location[]> => {
     lumper_fee: item.lumper_fee,
     rating: item.rating,
     comments: item.comments,
-    directions: item.directions
+    directions: item.directions,
+    lat: item.lat, // Added latitude
+    lng: item.lng // Added longitude
   }));
 };
 
@@ -58,12 +58,14 @@ export const getLocationById = async (id: number): Promise<Location> => {
     load_time: response.data.load_time,
     do_not_load: response.data.do_not_load,
     no_reefers: response.data.no_reefers,
-    categories: response.data.categories, // Now an array of Category objects
+    categories: response.data.categories,
     charges_lumper: response.data.charges_lumper,
     lumper_fee: response.data.lumper_fee,
     rating: response.data.rating,
     comments: response.data.comments,
-    directions: response.data.directions
+    directions: response.data.directions,
+    lat: response.data.lat, // Ensure these fields are included
+    lng: response.data.lng // Ensure these fields are included
   };
 };
 
@@ -96,7 +98,9 @@ export const createLocation = async (
     lumper_fee: response.data.lumper_fee,
     rating: response.data.rating,
     comments: response.data.comments,
-    directions: response.data.directions
+    directions: response.data.directions,
+    lat: response.data.lat, // Ensure these fields are included
+    lng: response.data.lng // Ensure these fields are included
   };
 };
 
@@ -134,7 +138,9 @@ export const updateLocation = async (
     lumper_fee: response.data.lumper_fee,
     rating: response.data.rating,
     comments: response.data.comments,
-    directions: response.data.directions
+    directions: response.data.directions,
+    lat: response.data.lat, // Ensure these fields are included
+    lng: response.data.lng // Ensure these fields are included
   };
 };
 

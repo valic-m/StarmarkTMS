@@ -1,5 +1,3 @@
-// src/types/Location.ts
-
 export interface Category {
   id: number;
   name: string;
@@ -7,8 +5,7 @@ export interface Category {
 
 export interface Location {
   id: number;
-  name: string; // Changed from 'company_name' to 'name'
-  // Removed 'contact_person' as it's not present in the backend
+  name: string;
   phone_number: string;
   email: string;
   address_line1: string;
@@ -27,5 +24,6 @@ export interface Location {
   rating?: number;
   comments?: string;
   directions?: string;
-  // Removed photos
+  lat: number; // Added latitude
+  lng: number; // Added longitude
 }

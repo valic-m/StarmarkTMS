@@ -31,7 +31,13 @@ class LocationSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = Location
-        fields = '__all__'
+        fields = [
+            'id', 'name', 'phone_number', 'email', 'address_line1',
+            'address_line2', 'city', 'state', 'zip_code', 'shipping_hours_from',
+            'shipping_hours_to', 'load_time', 'do_not_load', 'no_reefers',
+            'categories', 'charges_lumper', 'lumper_fee', 'comments',
+            'directions', 'lat', 'lng', 'photos'  # Added lat, lng, and photos
+        ]
 
     def create(self, validated_data):
         """
@@ -50,3 +56,7 @@ class LocationSerializer(serializers.ModelSerializer):
         if categories is not None:
             instance.categories.set(categories)  # Update categories
         return super().update(instance, validated_data)
+
+
+class ValidationError:
+    pass

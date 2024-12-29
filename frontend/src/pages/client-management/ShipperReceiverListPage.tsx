@@ -19,91 +19,108 @@ import { faFileExport, faPlus } from '@fortawesome/free-solid-svg-icons';
 import { getAllLocations } from 'api/locations';
 import { Location } from 'types/Location';
 
-// Define table columns
-const columns: ColumnDef<Location>[] = [
-  {
-    header: 'Company Name',
-    accessorKey: 'name',
-    cell: info => (
-      <Link to={`/client-management/locations/${info.row.original.id}`}>
-        {info.getValue<string>()}
-      </Link>
-    )
-  },
-  { header: 'Phone Number', accessorKey: 'phone_number' },
-  { header: 'Email', accessorKey: 'email' },
-  {
-    header: 'Address',
-    cell: info => {
-      const { address_line1, address_line2 } = info.row.original;
-      return `${address_line1}${address_line2 ? `, ${address_line2}` : ''}`;
-    }
-  },
-  { header: 'City', accessorKey: 'city' },
-  { header: 'State', accessorKey: 'state' },
-  {
-    header: 'Actions',
-    cell: info => (
-      <Link to={`/locations/${info.row.original.id}`}>View Details</Link>
-    )
-  }
-];
-
-// Filter tab items
-const tabItems: FilterTabItem[] = [
-  { label: 'All', value: 'all', count: 100 }, // Replace count with dynamic values if needed
-  { label: 'Shippers', value: 'shippers', count: 60 },
-  { label: 'Receivers', value: 'receivers', count: 40 }
-];
-
-// Filter menu items
-const filterMenus: FilterMenu[] = [
-  {
-    label: 'Rating',
-    items: [
-      { label: '1 Star' },
-      { label: '2 Stars' },
-      { label: '3 Stars' },
-      { label: '4 Stars' },
-      { label: '5 Stars' }
-    ]
-  },
-  {
-    label: 'States',
-    items: [{ label: 'OR' }, { label: 'WA' }]
-  }
-];
-
 const ShipperReceiverListPage: React.FC = () => {
   const [locations, setLocations] = useState<Location[]>([]);
+  const [filteredLocations, setFilteredLocations] = useState<Location[]>([]);
+  const [searchQuery, setSearchQuery] = useState<string>('');
   const [loading, setLoading] = useState<boolean>(true);
   const [error, setError] = useState<string | null>(null);
 
   useEffect(() => {
-    (async () => {
+    const fetchLocations = async () => {
       try {
         const data = await getAllLocations();
         setLocations(data);
+        setFilteredLocations(data); // Initialize filtered list
       } catch (err) {
         console.error('Error fetching locations:', err);
         setError('Failed to fetch locations. Please try again later.');
       } finally {
         setLoading(false);
       }
-    })(); // IIFE
+    };
+
+    fetchLocations();
   }, []);
 
+  useEffect(() => {
+    const filtered = locations.filter(location =>
+      location.name.toLowerCase().includes(searchQuery.toLowerCase())
+    );
+    setFilteredLocations(filtered);
+  }, [searchQuery, locations]);
+
+  // Define table columns
+  const columns: ColumnDef<Location>[] = [
+    {
+      header: 'Company Name',
+      accessorKey: 'name',
+      cell: info => (
+        <Link to={`/client-management/locations/${info.row.original.id}`}>
+          {info.getValue<string>()}
+        </Link>
+      )
+    },
+    { header: 'Phone Number', accessorKey: 'phone_number' },
+    { header: 'Email', accessorKey: 'email' },
+    {
+      header: 'Address',
+      cell: info => {
+        const { address_line1, address_line2 } = info.row.original;
+        return `${address_line1}${address_line2 ? `, ${address_line2}` : ''}`;
+      }
+    },
+    { header: 'City', accessorKey: 'city' },
+    { header: 'State', accessorKey: 'state' },
+    {
+      header: 'Actions',
+      cell: info => (
+        <Link to={`/client-management/locations/${info.row.original.id}`}>
+          View Details
+        </Link>
+      )
+    }
+  ];
+
   const table = useReactTable({
-    data: locations,
+    data: filteredLocations,
     columns,
     getCoreRowModel: getCoreRowModel(),
     getPaginationRowModel: getPaginationRowModel()
   });
 
-  const handleSearch = (value: string) => {
-    console.log('Search value:', value);
-    // Add search logic here if needed
-  };
+  const tabItems: FilterTabItem[] = [
+    { label: 'All', value: 'all', count: locations.length },
+    {
+      label: 'Shippers',
+      value: 'shippers',
+      count: locations.filter(loc => loc.categories?.includes(1)).length
+    },
+    {
+      label: 'Receivers',
+      value: 'receivers',
+      count: locations.filter(loc => loc.categories?.includes(2)).length
+    }
+  ];
+
+  const filterMenus: FilterMenu[] = [
+    {
+      label: 'Rating',
+      items: [
+        { label: '1 Star' },
+        { label: '2 Stars' },
+        { label: '3 Stars' },
+        { label: '4 Stars' },
+        { label: '5 Stars' }
+      ]
+    },
+    {
+      label: 'States',
+      items: Array.from(new Set(locations.map(loc => loc.state))).map(
+        state => ({ label: state })
+      )
+    }
+  ];
 
   return (
     <div>
@@ -117,7 +134,7 @@ const ShipperReceiverListPage: React.FC = () => {
           <div className="d-flex flex-wrap gap-3">
             <SearchBox
               placeholder="Search locations"
-              onChange={e => handleSearch(e.target.value)}
+              onChange={e => setSearchQuery(e.target.value)}
             />
             <div className="scrollbar overflow-hidden-y">
               <FilterButtonGroup menus={filterMenus} />
