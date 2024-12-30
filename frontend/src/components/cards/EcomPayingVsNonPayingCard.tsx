@@ -8,7 +8,7 @@ const EcomPayingVsNonPayingCard = () => {
       <Card.Body className="d-flex flex-column">
         <div className="d-flex justify-content-between">
           <div>
-            <h5 className="mb-2">Paying vs non paying</h5>
+            <h5 className="mb-2">N/A</h5>
             <h6 className="text-body-tertiary">Last 7 days</h6>
           </div>
         </div>
@@ -18,17 +18,13 @@ const EcomPayingVsNonPayingCard = () => {
         <div className="mt-3">
           <div className="d-flex align-items-center mb-2">
             <div className="bullet-item bg-primary me-2" />
-            <h6 className="text-body fw-semibold flex-1 mb-0">
-              Paying customer
-            </h6>
-            <h6 className="text-body fw-semibold mb-0">30%</h6>
+            <h6 className="text-body fw-semibold flex-1 mb-0">N/A</h6>
+            <h6 className="text-body fw-semibold mb-0">0%</h6>
           </div>
           <div className="d-flex align-items-center">
             <div className="bullet-item bg-primary-subtle me-2" />
-            <h6 className="text-body fw-semibold flex-1 mb-0">
-              Non-paying customer
-            </h6>
-            <h6 className="text-body fw-semibold mb-0">70%</h6>
+            <h6 className="text-body fw-semibold flex-1 mb-0">N/A</h6>
+            <h6 className="text-body fw-semibold mb-0">0%</h6>
           </div>
         </div>
       </Card.Body>

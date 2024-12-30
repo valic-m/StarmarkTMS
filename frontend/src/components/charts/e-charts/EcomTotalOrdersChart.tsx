@@ -54,7 +54,7 @@ const getDefaultOptions = (getThemeColor: (name: string) => string) => ({
     {
       type: 'bar',
       barWidth: '5px',
-      data: [120, 200, 150, 80, 70, 110, 120],
+      data: [0, 0, 0, 0, 0, 0, 0],
       showBackground: true,
       symbol: 'none',
       itemStyle: {

@@ -3,22 +3,9 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { IconProp } from '@fortawesome/fontawesome-svg-core';
 import {
   faBoxesPacking,
-  faCashRegister,
-  faCircle,
   faFileInvoice,
-  faHandPaper,
-  faPause,
-  faRoute,
-  faSquare,
-  faStar,
-  faTruck,
-  faTruckField,
-  faTruckFront,
   faTruckLoading,
-  faTruckMoving,
-  faTruckPickup,
-  faWarehouse,
-  faXmark
+  faWarehouse
 } from '@fortawesome/free-solid-svg-icons';
 
 type StatType = {
@@ -33,22 +20,22 @@ const stats: StatType[] = [
   {
     id: 1,
     icon: faTruckLoading,
-    title: '7 Available Loads',
-    subTitle: 'Awating for Dispatch',
+    title: 'N/A',
+    subTitle: 'N/A',
     color: 'success'
   },
   {
     id: 2,
     icon: faBoxesPacking,
-    title: '15 Loads',
-    subTitle: 'In Transit',
+    title: 'N/A',
+    subTitle: 'N/A',
     color: 'success'
   },
   {
     id: 3,
     icon: faFileInvoice,
-    title: '15 Loads Delivered',
-    subTitle: 'Waiting to be Invoiced',
+    title: 'N/A',
+    subTitle: 'N/A',
     color: 'success'
   }
 ];

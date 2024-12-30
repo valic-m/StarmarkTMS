@@ -92,7 +92,7 @@ const getDefaultOptions = (getThemeColor: (name: string) => string) => ({
   series: [
     {
       type: 'line',
-      data: [150, 100, 300, 200, 250, 180, 250],
+      data: [0, 0, 0, 0, 0, 0, 0],
       showSymbol: false,
       symbol: 'circle',
       lineStyle: {
@@ -110,7 +110,7 @@ const getDefaultOptions = (getThemeColor: (name: string) => string) => ({
     },
     {
       type: 'line',
-      data: [200, 150, 250, 100, 500, 400, 600],
+      data: [0, 0, 0, 0, 0, 0, 0],
       lineStyle: {
         width: 2,
         color: getThemeColor('primary')

@@ -69,7 +69,7 @@ const getDefaultOptions = (getThemeColor: (name: string) => string) => ({
       },
       data: [
         {
-          value: 30
+          value: 0
         }
       ]
     }

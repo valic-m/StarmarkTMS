@@ -27,7 +27,7 @@ const getDefaultOptions = (getThemeColor: (name: string) => string) => ({
   legend: { show: false },
   series: [
     {
-      name: '72%',
+      name: '0%',
       type: 'pie',
       radius: ['100%', '87%'],
       avoidLabelOverlap: false,
@@ -49,9 +49,9 @@ const getDefaultOptions = (getThemeColor: (name: string) => string) => ({
         color: getThemeColor('light-text-emphasis')
       },
       data: [
-        { value: 7200000, name: 'Percentage discount' },
-        { value: 1800000, name: 'Fixed card discount' },
-        { value: 1000000, name: 'Fixed product discount' }
+        { value: 0, name: 'Percentage discount' },
+        { value: 0, name: 'Fixed card discount' },
+        { value: 0, name: 'Fixed product discount' }
       ]
     }
   ],
