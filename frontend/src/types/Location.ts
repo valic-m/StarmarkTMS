@@ -1,29 +1,59 @@
+// src/types/Location.ts
+
 export interface Category {
   id: number;
   name: string;
 }
 
+export interface OperatingHour {
+  day: string;
+  open_time: string;
+  close_time: string;
+}
+
 export interface Location {
-  id: number;
+  // Optional or required depends on your usage:
+  id?: number;
+
+  // Basic info:
   name: string;
-  phone_number: string;
-  email: string;
+  phone_number?: string;
+  email?: string;
+
+  // Address:
   address_line1: string;
   address_line2?: string;
-  city: string;
-  state: string;
-  zip_code: string;
-  shipping_hours_from?: string; // "H:i" format
-  shipping_hours_to?: string; // "H:i" format
-  load_time?: string; // "HH:MM:SS" format
+  city?: string;
+  state?: string;
+  zip_code?: string;
+
+  // Shipping & loading:
+  shipping_hours_from?: string; // e.g. "HH:MM" format
+  shipping_hours_to?: string; // e.g. "HH:MM" format
+  load_time?: string; // e.g. "HH:MM:SS"
+
+  // Flags:
   do_not_load?: boolean;
   no_reefers?: boolean;
-  categories?: number[]; // Array of category IDs
   charges_lumper?: boolean;
+
+  // Additional data:
   lumper_fee?: number;
   rating?: number;
   comments?: string;
   directions?: string;
-  lat: number; // Added latitude
-  lng: number; // Added longitude
+
+  // Plus Code and Website:
+  plus_code?: string;
+  website?: string;
+
+  // Lat & Lng
+  lat?: number;
+  lng?: number;
+
+  // Categories (list of IDs):
+  categories?: number[];
+
+  // Operating hours array
+  operating_hours?: OperatingHour[];
 }

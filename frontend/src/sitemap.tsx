@@ -157,18 +157,18 @@ export const routes: RouteItems[] = [
         ]
       },
       {
-        name: 'shippers & receivers',
+        name: 'Locations',
         icon: 'truck', // Replace with an appropriate icon
         active: true,
         pages: [
           {
-            name: 'add shipper/receiver',
+            name: 'Add Location',
             path: '/client-management/shippers-receivers/add',
             pathName: 'client-management-add-shipper-receiver',
             active: true
           },
           {
-            name: 'shipper/receiver list',
+            name: 'Locations List',
             path: '/client-management/shippers-receivers/list',
             pathName: 'client-management-shipper-receiver-list',
             active: true
