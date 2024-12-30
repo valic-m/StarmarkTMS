@@ -1,5 +1,3 @@
-// src/types/Location.ts
-
 export interface Category {
   id: number;
   name: string;
@@ -55,5 +53,26 @@ export interface Location {
   categories?: number[];
 
   // Operating hours array
+  operating_hours?: OperatingHour[];
+
+  // Appointment requirements:
+  appointment_required?: boolean;
+  fcfs?: boolean;
+}
+
+// Alternative full Location interface:
+export interface FullLocation {
+  id: number;
+  name: string;
+  phone_number?: string;
+  email?: string;
+  address_line1: string;
+  address_line2?: string;
+  city: string;
+  state: string;
+  zip_code: string;
+  categories?: number[];
+  appointment_required?: boolean;
+  fcfs?: boolean;
   operating_hours?: OperatingHour[];
 }

@@ -4,14 +4,14 @@ import React from 'react';
 import { Col, FloatingLabel, Form, Row } from 'react-bootstrap';
 import { Location, OperatingHour } from 'types/Location';
 import ReactSelect from 'components/base/ReactSelect';
-// ^ This is your custom wrapper (doesn't export ActionMeta/OnChangeValue).
 
+// Define Category interface
 interface Category {
   id: number;
   name: string;
 }
 
-// Define a local type for clarity
+// Define a local type for ReactSelect options
 type CategoryOption = {
   value: number;
   label: string;
@@ -40,6 +40,8 @@ interface FormErrors {
   categories?: string[];
   comments?: string[];
   operating_hours?: { [index: number]: string[] };
+  appointment_required?: string[];
+  fcfs?: string[];
   // Allow any other fields without TypeScript errors
   [key: string]: string[] | { [index: number]: string[] } | undefined;
 }
@@ -57,7 +59,7 @@ const LocationForm: React.FC<LocationFormProps> = ({
   categories,
   errors
 }) => {
-  // Handle basic changes for standard inputs (e.g. text, checkbox).
+  // Handle basic changes for standard inputs (e.g., text, checkbox).
   const handleChange = (
     e: React.ChangeEvent<
       HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement
@@ -77,7 +79,7 @@ const LocationForm: React.FC<LocationFormProps> = ({
     }));
   };
 
-  // For operating_hours array, handle changes to open_time/close_time
+  // Handle changes for operating_hours array (open_time/close_time)
   const handleOperatingHoursChange = (
     index: number,
     field: 'open_time' | 'close_time',
@@ -88,7 +90,7 @@ const LocationForm: React.FC<LocationFormProps> = ({
     setFormData(prev => ({ ...prev, operating_hours: updated }));
   };
 
-  // Convert categories => options for ReactSelect
+  // Convert categories to options for ReactSelect
   const categoryOptions: CategoryOption[] = categories.map(cat => ({
     value: cat.id,
     label: cat.name
@@ -99,9 +101,8 @@ const LocationForm: React.FC<LocationFormProps> = ({
     opt => formData.categories?.includes(opt.value)
   );
 
-  // Handle multi-select changes
+  // Handle multi-select changes for categories
   const handleCategoriesSelect = (newValue: any) => {
-    // If it's an array, map to numeric IDs; otherwise, empty array.
     if (Array.isArray(newValue)) {
       const ids = newValue.map((opt: CategoryOption) => opt.value);
       setFormData(prev => ({
@@ -416,6 +417,42 @@ const LocationForm: React.FC<LocationFormProps> = ({
           </Form.Control.Feedback>
         )}
       </FloatingLabel>
+
+      {/* Appointment Required */}
+      <Form.Check
+        type="checkbox"
+        label="Appointment Required"
+        name="appointment_required"
+        checked={formData.appointment_required || false}
+        onChange={handleChange}
+        className="mb-3"
+        isInvalid={!!errors.appointment_required}
+      />
+      {errors.appointment_required && (
+        <div className="invalid-feedback d-block">
+          {Array.isArray(errors.appointment_required)
+            ? errors.appointment_required.join(', ')
+            : 'Invalid input.'}
+        </div>
+      )}
+
+      {/* First Come, First Served (FCFS) */}
+      <Form.Check
+        type="checkbox"
+        label="First Come, First Served (FCFS)"
+        name="fcfs"
+        checked={formData.fcfs || false}
+        onChange={handleChange}
+        className="mb-3"
+        isInvalid={!!errors.fcfs}
+      />
+      {errors.fcfs && (
+        <div className="invalid-feedback d-block">
+          {Array.isArray(errors.fcfs)
+            ? errors.fcfs.join(', ')
+            : 'Invalid input.'}
+        </div>
+      )}
 
       {/* ReactSelect for Categories (multi) */}
       <div className="mb-3">
