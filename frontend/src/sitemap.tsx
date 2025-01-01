@@ -251,7 +251,113 @@ export const routes: RouteItems[] = [
       }
     ]
   },
-
+  {
+    label: 'Fleet',
+    icon: UilCube,
+    pages: [
+      {
+        name: 'Trucks',
+        icon: 'truck', // Replace with an appropriate icon for "load"
+        active: true,
+        pages: [
+          {
+            name: 'Create New Truck',
+            path: '/operations-management/load/create-new-load',
+            pathName: 'operations-create-new-load',
+            active: true
+          },
+          {
+            name: 'Truck List',
+            path: '/operations-management/load/load-list',
+            pathName: 'operations-load-list',
+            active: true
+          }
+        ]
+      },
+      {
+        name: 'Trailers',
+        icon: 'navigation', // Replace with an appropriate icon for "dispatch"
+        active: true,
+        pages: [
+          {
+            name: 'Create New Trailer',
+            path: '/operations-management/dispatch/create-dispatch',
+            pathName: 'operations-create-dispatch',
+            active: true
+          },
+          {
+            name: 'Trailer List',
+            path: '/operations-management/dispatch/active-trips',
+            pathName: 'operations-active-trips',
+            active: true
+          }
+        ]
+      }
+    ]
+  },
+  {
+    label: 'Accounting',
+    icon: UilCube,
+    pages: [
+      {
+        name: 'Settlements',
+        icon: 'truck', // Replace with an appropriate icon for "load"
+        active: true,
+        pages: [
+          {
+            name: 'Create Settlement',
+            path: '/operations-management/load/create-new-load',
+            pathName: 'operations-create-new-load',
+            active: true
+          },
+          {
+            name: 'Settlement History',
+            path: '/operations-management/load/load-list',
+            pathName: 'operations-load-list',
+            active: true
+          }
+        ]
+      },
+      {
+        name: 'Invoices',
+        icon: 'navigation', // Replace with an appropriate icon for "dispatch"
+        active: true,
+        pages: [
+          {
+            name: 'Create New Invoice',
+            path: '/operations-management/dispatch/create-dispatch',
+            pathName: 'operations-create-dispatch',
+            active: true
+          },
+          {
+            name: 'Invoice List',
+            path: '/operations-management/dispatch/active-trips',
+            pathName: 'operations-active-trips',
+            active: true
+          }
+        ]
+      },
+      {
+        name: 'Accounts Receivable',
+        icon: 'navigation', // Replace with an appropriate icon for "dispatch"
+        active: true,
+        pages: [
+          {
+            name: 'Unpaid Invoices',
+            path: '/operations-management/dispatch/create-dispatch',
+            pathName: 'operations-create-dispatch',
+            active: true
+          },
+          {
+            name: 'Paid Invoices',
+            path: '/operations-management/dispatch/active-trips',
+            pathName: 'operations-active-trips',
+            active: true
+          }
+        ]
+      }
+    ]
+  },
   {
     label: 'apps',
     icon: UilCube,

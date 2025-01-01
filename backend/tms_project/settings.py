@@ -47,6 +47,7 @@ INSTALLED_APPS = [
     'backend.dispatch',
     'backend.samsara',
     'backend.contacts',  # Add this line
+    'backend.trucks',  # Add the trucks app here
 
     # Third-party apps
     'rest_framework',
