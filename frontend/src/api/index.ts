@@ -10,7 +10,7 @@ console.log('Exporting baseUrl:', baseUrl);
  * @returns The JSON response from the API.
  */
 interface ApiOptions {
-  method?: 'GET' | 'POST' | 'PUT' | 'DELETE'; // Allowable HTTP methods
+  method?: 'GET' | 'POST' | 'PUT' | 'PATCH' | 'DELETE'; // <-- added 'PATCH' here
   body?: Record<string, unknown> | string; // Allow JSON object or raw string
   headers?: Record<string, string>; // Optional custom headers
 }

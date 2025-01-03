@@ -1,0 +1,253 @@
+// C:\Users\valic\Documents\Github\StarmarkTMS\frontend\src\api\trucks.ts
+
+/**
+ * Truck API - Provides CRUD operations for the Truck resource.
+ *
+ * Assumes you have a central API function in `../api/index.ts`
+ * that handles baseUrl and common fetch logic.
+ */
+
+import api from './index';
+
+/**
+ * Example interface for Truck, mirroring your form/data model.
+ * Adjust fields/types to match your actual usage (or remove if you store it in src/types/truck.ts).
+ */
+export interface Truck {
+  id?: number;
+  name: string;
+  license_plate: string;
+  manufacturer: string;
+  year: number;
+  vin: string;
+  starting_mileage: number;
+  color: string;
+
+  owner_id?: number;
+  carrier_id?: number;
+  is_leased: boolean;
+  leased_to: string;
+  sub_leased: boolean;
+  owner_operated: boolean;
+
+  annual_insurance_cost?: number;
+  insurance_renewal_date?: string;
+  annual_plate_cost?: number;
+
+  dashcam_installed: boolean;
+  apu_installed: boolean;
+  fuel_card: string;
+
+  integration_id?: string;
+
+  is_out_of_service: boolean;
+  out_of_service_reason: string;
+
+  // If you plan to integrate Samsara (or another system) that provides lat/lng,
+  // add them here so TypeScript knows they may exist.
+  lat?: number;
+  lng?: number;
+
+  // Include all your VIN decoding fields if you'd like them typed here as well:
+  suggested_vin?: string;
+  error_code?: string;
+  possible_values?: string;
+  additional_error_text?: string;
+  error_text?: string;
+  vehicle_descriptor?: string;
+  destination_market?: string;
+  decoded_make?: string;
+  manufacturer_name?: string;
+  decoded_model?: string;
+  decoded_model_year?: string;
+  plant_city?: string;
+  series?: string;
+  trim?: string;
+  vehicle_type?: string;
+  plant_country?: string;
+  plant_company_name?: string;
+  plant_state?: string;
+  trim2?: string;
+  series2?: string;
+  note?: string;
+  base_price?: string;
+  non_land_use?: string;
+  body_class?: string;
+  doors?: string;
+  windows?: string;
+  wheel_base_type?: string;
+  track_width_inches?: string;
+  gross_vehicle_weight_rating_from?: string;
+  bed_length_inches?: string;
+  curb_weight_pounds?: string;
+  wheel_base_inches_from?: string;
+  wheel_base_inches_to?: string;
+  gross_combination_weight_rating_from?: string;
+  gross_combination_weight_rating_to?: string;
+  gross_vehicle_weight_rating_to?: string;
+  bed_type?: string;
+  cab_type_decoded?: string;
+  trailer_type_connection?: string;
+  trailer_body_type?: string;
+  trailer_length_feet?: string;
+  other_trailer_info?: string;
+  number_of_wheels?: string;
+  wheel_size_front_inches?: string;
+  wheel_size_rear_inches?: string;
+  entertainment_system?: string;
+  steering_location?: string;
+  number_of_seats?: string;
+  number_of_seat_rows?: string;
+  transmission_style?: string;
+  transmission_speeds?: string;
+  drive_type_decoded?: string;
+  axles?: string;
+  axle_configuration?: string;
+  brake_system_type?: string;
+  brake_system_description?: string;
+  other_battery_info?: string;
+  battery_type?: string;
+  number_of_battery_cells_per_module?: string;
+  battery_current_amps_from?: string;
+  battery_voltage_volts_from?: string;
+  battery_energy_kwh_from?: string;
+  ev_drive_unit?: string;
+  battery_current_amps_to?: string;
+  battery_voltage_volts_to?: string;
+  battery_energy_kwh_to?: string;
+  number_of_battery_modules_per_pack?: string;
+  number_of_battery_packs_per_vehicle?: string;
+  charger_level?: string;
+  charger_power_kw?: string;
+  engine_number_of_cylinders_decoded?: string;
+  displacement_cc?: string;
+  displacement_ci?: string;
+  displacement_l?: string;
+  engine_stroke_cycles?: string;
+  engine_model_decoded?: string;
+  engine_power_kw?: string;
+  fuel_type_primary_decoded?: string;
+  valve_train_design?: string;
+  engine_configuration_decoded?: string;
+  fuel_type_secondary?: string;
+  fuel_delivery_fuel_injection_type?: string;
+  engine_brake_hp_from?: string;
+  cooling_type?: string;
+  engine_brake_hp_to?: string;
+  electrification_level?: string;
+  other_engine_info?: string;
+  turbo?: string;
+  top_speed_mph?: string;
+  engine_manufacturer_decoded?: string;
+  pretensioner?: string;
+  seat_belt_type?: string;
+  other_restraint_system_info?: string;
+  curtain_air_bag_locations?: string;
+  seat_cushion_air_bag_locations?: string;
+  front_air_bag_locations?: string;
+  knee_air_bag_locations?: string;
+  side_air_bag_locations?: string;
+  anti_lock_braking_system_abs?: string;
+  electronic_stability_control_esc?: string;
+  traction_control_decoded?: string;
+  tire_pressure_monitoring_system_tpms_type?: string;
+  active_safety_system_note?: string;
+  auto_reverse_system_for_windows_and_sunroofs?: string;
+  automatic_pedestrian_alerting_sound_for_hybrid_and_ev_only?: string;
+  event_data_recorder_edr?: string;
+  keyless_ignition?: string;
+  sae_automation_level_from?: string;
+  sae_automation_level_to?: string;
+  adaptive_cruise_control_acc?: string;
+  crash_imminent_braking_cib?: string;
+  blind_spot_warning_bsw?: string;
+  forward_collision_warning_fcw?: string;
+  lane_departure_warning_ldw?: string;
+  lane_keeping_assistance_lka?: string;
+  backup_camera_decoded?: string;
+  parking_assist_decoded?: string;
+  bus_length_feet?: string;
+  bus_floor_configuration_type?: string;
+  bus_type?: string;
+  other_bus_info?: string;
+  custom_motorcycle_type?: string;
+  motorcycle_suspension_type?: string;
+  motorcycle_chassis_type?: string;
+  other_motorcycle_info?: string;
+  dynamic_brake_support_dbs?: string;
+  pedestrian_automatic_emergency_braking_paeb?: string;
+  automatic_crash_notification_acn_advanced_automatic_crash_notification_aacn?: string;
+  daytime_running_light_drl?: string;
+  headlamp_light_source?: string;
+  semiautomatic_headlamp_beam_switching?: string;
+  adaptive_driving_beam_adb?: string;
+  rear_cross_traffic_alert?: string;
+  rear_automatic_emergency_braking?: string;
+  blind_spot_intervention_bsi?: string;
+  lane_centering_assistance?: string;
+}
+
+/**
+ * Fetch a list of all trucks from the backend.
+ * (Uses `/api/trucks/` so it matches Django's route.)
+ */
+export async function getTrucks(): Promise<Truck[]> {
+  return await api('/api/trucks/', {
+    method: 'GET'
+  });
+}
+
+/**
+ * Fetch a single truck by ID.
+ */
+export async function getTruckById(truckId: number): Promise<Truck> {
+  return await api(`/api/trucks/${truckId}/`, {
+    method: 'GET'
+  });
+}
+
+/**
+ * Create a new truck.
+ * Accepts a partial Truck object (some fields might be optional).
+ */
+export async function createTruck(truckData: Partial<Truck>): Promise<Truck> {
+  return await api('/api/trucks/', {
+    method: 'POST',
+    body: truckData
+  });
+}
+
+/**
+ * Update an existing truck by ID (PUT).
+ */
+export async function updateTruck(
+  truckId: number,
+  truckData: Partial<Truck>
+): Promise<Truck> {
+  return await api(`/api/trucks/${truckId}/`, {
+    method: 'PUT',
+    body: truckData
+  });
+}
+
+/**
+ * Partially update an existing truck by ID (PATCH).
+ */
+export async function patchTruck(
+  truckId: number,
+  truckData: Partial<Truck>
+): Promise<Truck> {
+  return await api(`/api/trucks/${truckId}/`, {
+    method: 'PATCH',
+    body: truckData
+  });
+}
+
+/**
+ * Delete an existing truck by ID.
+ */
+export async function deleteTruck(truckId: number): Promise<void> {
+  await api(`/api/trucks/${truckId}/`, {
+    method: 'DELETE'
+  });
+}

@@ -11,6 +11,7 @@ import { authRoutes } from './authRoutes'; // Import authentication routes
 import Error404 from 'pages/error/Error404'; // Import Error404 component
 import Default from 'pages/pages/landing/Default'; // Import Default Landing Page
 import Ecommerce from 'pages/dashboard/ecommerce'; // Main landing page
+import { fleetRoutes } from './fleetRoutes'; // Import fleetRoutes
 
 export const appRoutes: RouteObject[] = [
   {
@@ -44,6 +45,7 @@ export const appRoutes: RouteObject[] = [
           ...operationsManagementRoutes,
           ...settingsRoutes,
           ...themeRoutes,
+          ...fleetRoutes,
           {
             path: '*',
             element: <Error404 /> // Catch-all route

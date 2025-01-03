@@ -262,14 +262,14 @@ export const routes: RouteItems[] = [
         pages: [
           {
             name: 'Create New Truck',
-            path: '/operations-management/load/create-new-load',
-            pathName: 'operations-create-new-load',
+            path: '/fleet/trucks/add',
+            pathName: 'add-truck',
             active: true
           },
           {
             name: 'Truck List',
-            path: '/operations-management/load/load-list',
-            pathName: 'operations-load-list',
+            path: '/fleet/trucks/list',
+            pathName: 'truck-list',
             active: true
           }
         ]
@@ -281,14 +281,33 @@ export const routes: RouteItems[] = [
         pages: [
           {
             name: 'Create New Trailer',
-            path: '/operations-management/dispatch/create-dispatch',
-            pathName: 'operations-create-dispatch',
+            path: 'addtrailer',
+            pathName: 'add-trailer',
             active: true
           },
           {
             name: 'Trailer List',
-            path: '/operations-management/dispatch/active-trips',
-            pathName: 'operations-active-trips',
+            path: '/trailerlist',
+            pathName: 'trailer-list',
+            active: true
+          }
+        ]
+      },
+      {
+        name: 'Drivers',
+        icon: 'navigation', // Replace with an appropriate icon for "dispatch"
+        active: true,
+        pages: [
+          {
+            name: 'Create New Driver',
+            path: 'AddDriver',
+            pathName: 'add-driver',
+            active: true
+          },
+          {
+            name: 'Driver List',
+            path: '/DriverList',
+            pathName: 'driver-list',
             active: true
           }
         ]

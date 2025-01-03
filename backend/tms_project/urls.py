@@ -1,3 +1,5 @@
+# C:\Users\valic\Documents\Github\StarmarkTMS\backend\tms_project\urls.py
+
 from django.contrib import admin
 from django.urls import path, include
 from django.contrib.auth import views as auth_views
@@ -16,11 +18,11 @@ urlpatterns = [
     # FMCSA data endpoint
     path('api/fmcsa/', get_fmcsa_data, name='get_fmcsa_data'),
 
-    # Shippers and Receivers API
+    # Shippers/Receivers and Locations API (currently mounted at /api/)
+    path('api/', include('backend.shippers_receivers.urls')),  # Adjust if you prefer a sub-path
 
-    # Locations API
-    # Corrected code
-    path('api/', include('backend.shippers_receivers.urls')),
+    # Fleet (Trucks, Inspections, etc.) - now properly routed under /api/fleet/
+    path('api/trucks/', include('backend.trucks.urls')),
 
     # Login and logout routes
     path('login/', auth_views.LoginView.as_view(template_name='registration/login.html'), name='login'),
@@ -53,5 +55,4 @@ urlpatterns = [
     # OpenAI routes
     path('api/openai/', include('openai_app.urls')),  # Include OpenAI API routes
     path('api/contacts/', include('contacts.urls')),  # Add contacts API
-
 ]
