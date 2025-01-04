@@ -1,0 +1,16 @@
+version: 0.2
+
+phases:
+  install:
+    commands:
+      - pip install --upgrade pip
+      - pip install -r backend/requirements.txt
+      - cd frontend
+      - npm ci
+  build:
+    commands:
+      - npm run build
+      - cd ..
+artifacts:
+  files:
+    - '**/*'
