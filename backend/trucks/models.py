@@ -25,8 +25,8 @@ class Truck(models.Model):
         OperationalCompany,
         on_delete=models.CASCADE,
         related_name="trucks",
-        null=True,  # <--- add this
-        blank=True,  # <--- add this
+        null=True,
+        blank=True,
         help_text="The operational company that owns the truck."
     )
     carrier = models.ForeignKey(
@@ -47,9 +47,15 @@ class Truck(models.Model):
     owner_operated = models.BooleanField(default=True, help_text="Indicates if the truck is owner-operated.")
 
     # Insurance and licensing
-    annual_insurance_cost = models.DecimalField(max_digits=10, decimal_places=2, blank=True, null=True, help_text="Annual insurance cost.")
+    annual_insurance_cost = models.DecimalField(
+        max_digits=10, decimal_places=2, blank=True, null=True,
+        help_text="Annual insurance cost."
+    )
     insurance_renewal_date = models.DateField(blank=True, null=True, help_text="Insurance renewal date.")
-    annual_plate_cost = models.DecimalField(max_digits=10, decimal_places=2, blank=True, null=True, help_text="Annual plate cost.")
+    annual_plate_cost = models.DecimalField(
+        max_digits=10, decimal_places=2, blank=True, null=True,
+        help_text="Annual plate cost."
+    )
 
     # Equipment and features
     dashcam_installed = models.BooleanField(default=False, help_text="Indicates if a dashcam is installed.")

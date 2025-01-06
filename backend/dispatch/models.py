@@ -2,8 +2,7 @@ from django.db import models
 from django.core.exceptions import ValidationError
 from backend.loads.models import Load
 from backend.drivers_operators.models import Driver
-from backend.equipment.models import Truck
-
+from backend.trucks.models import Truck
 
 class Dispatch(models.Model):
     load = models.ForeignKey(Load, on_delete=models.CASCADE)

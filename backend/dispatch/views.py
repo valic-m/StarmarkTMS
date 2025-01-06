@@ -8,7 +8,7 @@ from .models import Dispatch, DispatchStop
 from .serializers import DispatchSerializer, DispatchStopSerializer
 from .utils import update_route_status
 from backend.drivers_operators.models import Driver
-from backend.equipment.models import Truck
+from backend.trucks.models import Truck
 from backend.loads.models import Load
 from backend.loads.forms import LoadForm
 from backend.dispatch.forms import DispatchForm

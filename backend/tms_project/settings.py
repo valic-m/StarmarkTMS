@@ -18,38 +18,37 @@ ALLOWED_HOSTS = config("ALLOWED_HOSTS", default="127.0.0.1,localhost").split(","
 # -----------------------------------------------------------------------------
 SHARED_APPS = (
     'django_tenants',  # Must be first
-
-    # Django core apps that you want in 'public' schema
     'django.contrib.contenttypes',
     'django.contrib.auth',
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'django.contrib.admin',
-
-    'tenants',       # Where you define Tenant model
-    'backend.users', # <--- Move 'backend.users' HERE for Option B
+    'tenants.apps.TenantsConfig',
+    'backend.users',
+    'backend.authentication',
+    'backend.openai_app',
 )
 
 TENANT_APPS = (
     # Only the per-tenant data apps (trucks, loads, etc.)
-    'backend.trucks',
+    'backend.trucks.apps.TrucksConfig',
     'backend.loads',
     'backend.accounting',
     'backend.carriers',
     'backend.companies',
     'backend.customers',
     'backend.drivers_operators',
-    'backend.equipment',
     'backend.repair_shops',
     'backend.shippers_receivers',
-    # Note: 'backend.users' is NOT here, so user model is global.
-
     'backend.vendors',
     'backend.warehouses_crossdocks',
     'backend.dispatch',
     'backend.samsara',
     'backend.contacts',
+    'backend.accounts',
+    'backend.trailers',
+    'backend.settings',
 )
 
 INSTALLED_APPS = list(SHARED_APPS) + list(TENANT_APPS)
@@ -135,7 +134,7 @@ DATABASES = {
         'NAME': 'starmarktms',                         # must match the DB name in RDS
         'USER': 'valic',                               # must match the RDS master or created user
         'PASSWORD': 'Starmark2008$',                   # must match the password in RDS
-        'HOST': 'my-postgres-db.xxxxxx.us-east-1.rds.amazonaws.com',
+        'HOST': 'localhost',
         'PORT': '5432',
     }
 }

@@ -2,8 +2,7 @@ from rest_framework import serializers
 from .models import Dispatch, DispatchStop
 from backend.loads.models import Load
 from backend.drivers_operators.models import Driver
-from backend.equipment.models import Truck
-
+from backend.trucks.models import Truck
 
 class LoadSerializer(serializers.ModelSerializer):
     """Serializer for related Load model in Dispatch"""
