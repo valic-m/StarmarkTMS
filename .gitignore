@@ -28,3 +28,4 @@ yarn-error.log*
 # Coverage directory
 coverage/
 *.pyc
+env/
