@@ -28,4 +28,10 @@ yarn-error.log*
 # Coverage directory
 coverage/
 *.pyc
+<<<<<<< Updated upstream
 env/
+=======
+echo "env/" >> .gitignore
+env/
+backend/env/
+>>>>>>> Stashed changes

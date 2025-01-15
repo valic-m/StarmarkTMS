@@ -587,8 +587,11 @@ class Truck(models.Model):
         help_text="Pedestrian automatic emergency braking (PAEB) from decoding."
     )
     automatic_crash_notification_acn_advanced_automatic_crash_notification_aacn = models.CharField(
-        max_length=100, blank=True, null=True,
-        help_text="ACN/AACN from decoding."
+        db_column='auto_crash_notif_aacn',  # <--- Provide a shorter column name
+        max_length=100,
+        blank=True,
+        null=True,
+        help_text="Pedestrian automatic emergency braking (ACN/AACN)."
     )
     daytime_running_light_drl = models.CharField(
         max_length=50, blank=True, null=True,

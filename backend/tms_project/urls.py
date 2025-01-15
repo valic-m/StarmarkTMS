@@ -2,6 +2,13 @@ from django.contrib import admin
 from django.urls import path, include
 from django.contrib.auth import views as auth_views
 from backend.customers.views import get_fmcsa_data
+from rest_framework_simplejwt.views import TokenObtainPairView, TokenRefreshView
+from django.http import HttpResponse
+
+
+def debug_view(request):
+    return HttpResponse("Hello from starmark (if this tenant is recognized)")
+
 
 urlpatterns = [
     path('admin/', admin.site.urls),
@@ -24,4 +31,11 @@ urlpatterns = [
     path('samsara/', include('samsara.urls')),
     path('api/openai/', include('openai_app.urls')),
     path('api/contacts/', include('contacts.urls')),
+    path('api/token/', TokenObtainPairView.as_view(), name='token_obtain_pair'),  # JWT token obtain
+    path('api/token/refresh/', TokenRefreshView.as_view(), name='token_refresh'),  # JWT token refresh
+    path("debug-tenant/", debug_view),
 ]
+
+# Debugging: print all URLs in urlpatterns
+for url in urlpatterns:
+    print(url)

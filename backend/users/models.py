@@ -43,8 +43,8 @@ class CustomUser(AbstractBaseUser, PermissionsMixin):
             ("dispatcher", "Dispatcher"),
             ("agent", "Agent"),
             ("accountant", "Accountant"),
-            ("safety", "Safety"),  # Added Safety role
-            ("recruiter", "Recruiter"),  # Added Recruiter role
+            ("safety", "Safety"),
+            ("recruiter", "Recruiter"),
         ],
         blank=True,
     )
@@ -52,7 +52,6 @@ class CustomUser(AbstractBaseUser, PermissionsMixin):
     is_staff = models.BooleanField(default=False)
     date_joined = models.DateTimeField(default=timezone.now)
 
-    # Avoid conflicts by setting unique related_name values
     groups = models.ManyToManyField(
         "auth.Group",
         related_name="custom_user_groups",

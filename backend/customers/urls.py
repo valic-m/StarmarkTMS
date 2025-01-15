@@ -11,7 +11,7 @@ app_name = 'customers'
 
 urlpatterns = [
     # API Endpoints for Customer Management
-    path('', CustomerListCreate.as_view(), name='customer_list_create'),  # List & create customers
+    path('customers/', CustomerListCreate.as_view(), name='customer-list-create'),
     path('create/', CustomerCreateView.as_view(), name='create_customer'),  # Create a new customer
     path('<slug:slug>/', CustomerDetailView.as_view(), name='customer_detail'),  # Retrieve customer details by slug
     path('admin/<slug:slug>/', AdminCustomerView.as_view(), name='admin_customer'),  # Admin-only view for a customer
