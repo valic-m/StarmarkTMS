@@ -1,4 +1,5 @@
-# In backend/tenants_app/apps.py
+# backend/tenants_app/apps.py
+
 from django.apps import AppConfig
 
 class TenantsAppConfig(AppConfig):

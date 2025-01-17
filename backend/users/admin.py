@@ -33,9 +33,7 @@ class CustomUserAdmin(UserAdmin):
     search_fields = ("email", "first_name", "last_name")
     ordering = ("email",)
 
-# Safely register the model just once:
 try:
     admin.site.register(CustomUser, CustomUserAdmin)
 except AlreadyRegistered:
-    # If some other admin.py has already registered the same model, ignore
     pass

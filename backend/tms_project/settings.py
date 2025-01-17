@@ -1,7 +1,6 @@
 """
 Django settings for tms_project project.
 """
-
 import os
 from pathlib import Path
 from datetime import timedelta
@@ -24,25 +23,20 @@ CSRF_TRUSTED_ORIGINS = [
 ]
 
 # -----------------------------------------------------------------------------
-# 1) Django-tenants configuration
+# 1) Django-tenants configuration (SINGLE, GLOBAL AUTH)
 # -----------------------------------------------------------------------------
-# Explanation:
-#   - Put your Tenant + Domain models in SHARED_APPS => they exist only in the public schema.
-#   - We also want global 'auth' & 'admin' in the public schema => so add 'django.contrib.auth' +
-#     'django.contrib.admin' in SHARED_APPS too.
-#   - To have local (per-tenant) 'auth' & 'admin', also place them in TENANT_APPS.
-#   - This does mean these apps appear in *both* the public schema and each tenant schema.
-
 SHARED_APPS = (
-    "django_tenants",  # The core django-tenants code
+    "django_tenants",  # django-tenants core
 
-    # Your app that has the Tenant + Domain models:
+    # Tenant + Domain models (public schema only):
     "backend.tenants_app.apps.TenantsAppConfig",
-# The new public_users app:
+
+    # Public user model & additional public-only apps:
     "backend.public_users.apps.PublicUsersConfig",
 
-
+    # Global Django apps:
     "django.contrib.admin",
+    "django.contrib.auth",
     "django.contrib.contenttypes",
     "django.contrib.sessions",
     "django.contrib.messages",
@@ -53,7 +47,7 @@ SHARED_APPS = (
 )
 
 TENANT_APPS = (
-    # Per-tenant data apps — these get created in each tenant schema
+    # Put only tenant-specific apps that need separate tables per schema:
     "backend.trucks.apps.TrucksConfig",
     "backend.loads",
     "backend.accounting",
@@ -71,17 +65,11 @@ TENANT_APPS = (
     "backend.accounts",
     "backend.trailers",
     "backend.settings",
-    "backend.users.apps.UsersConfig",  # your custom user model
+    "backend.users.apps.UsersConfig",
 
     "backend.authentication",
 
-    # Also include auth+admin again, so each tenant has local user tables + local admin:
-    "django.contrib.auth",
-    "django.contrib.admin",
-    "django.contrib.contenttypes",
-    "django.contrib.sessions",
-    "django.contrib.messages",
-    "django.contrib.staticfiles",
+    # We skip django.contrib.auth/admin here, because we want a single global DB
     "backend.tenant_user.apps.TenantUserConfig",
 )
 
@@ -90,12 +78,11 @@ INSTALLED_APPS = list(SHARED_APPS) + [
     app for app in TENANT_APPS if app not in SHARED_APPS
 ]
 
-# The Tenant + Domain models:
 TENANT_MODEL = "tenants_app.Tenant"
 TENANT_DOMAIN_MODEL = "tenants_app.Domain"
 
 # -----------------------------------------------------------------------------
-# 2) REST & other third-party settings
+# 2) Django REST Framework & JWT
 # -----------------------------------------------------------------------------
 REST_FRAMEWORK = {
     "DEFAULT_AUTHENTICATION_CLASSES": (
@@ -133,18 +120,15 @@ CORS_ALLOW_HEADERS = list(default_headers) + [
 # 4) Middleware
 # -----------------------------------------------------------------------------
 MIDDLEWARE = [
-    # Possibly your own dynamic CORS checks
-    "backend.tenants_app.middleware.DynamicCorsMiddleware",
+    "backend.tenants_app.middleware.DynamicCorsMiddleware",  # your custom dynamic CORS
 
-    # django-cors-headers
     "corsheaders.middleware.CorsMiddleware",
-
     "django.middleware.common.CommonMiddleware",
     "django.middleware.security.SecurityMiddleware",
 
     "django.contrib.sessions.middleware.SessionMiddleware",
 
-    # The domain-based tenant middleware:
+    # Domain-based tenant middleware:
     "backend.tenants_app.middleware.DomainTenantMiddleware",
 
     "django.middleware.csrf.CsrfViewMiddleware",
@@ -174,7 +158,7 @@ TEMPLATES = [
 WSGI_APPLICATION = "backend.tms_project.wsgi.application"
 
 # -----------------------------------------------------------------------------
-# 5) Database config (PostgreSQL with django-tenants)
+# 5) Database config
 # -----------------------------------------------------------------------------
 DATABASES = {
     "default": {
@@ -189,9 +173,9 @@ DATABASES = {
 DATABASE_ROUTERS = ["django_tenants.routers.TenantSyncRouter"]
 
 # -----------------------------------------------------------------------------
-# 6) Auth & password settings
+# 6) Auth & Passwords
 # -----------------------------------------------------------------------------
-AUTH_USER_MODEL = "public_users.PublicUser"
+AUTH_USER_MODEL = "public_users.PublicUser"  # Single global user DB in public schema
 
 AUTH_PASSWORD_VALIDATORS = [
     {"NAME": "django.contrib.auth.password_validation.UserAttributeSimilarityValidator"},
@@ -238,3 +222,7 @@ LOGGING = {
         "level": "DEBUG",
     },
 }
+
+# If you decide to use django-tenant-users or some custom user backend, you might do:
+# AUTHENTICATION_BACKENDS = ["tenant_users.permissions.backend.UserBackend"]
+# But for now, you're using default ModelBackend + your global user.
